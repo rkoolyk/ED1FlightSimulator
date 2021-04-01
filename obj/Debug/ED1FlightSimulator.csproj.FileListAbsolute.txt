@@ -1,0 +1,15 @@
+C:\Users\rayra\RiderProjects\ED1FlightSimulator\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.csprojAssemblyReference.cache
+C:\Users\rayra\RiderProjects\ED1FlightSimulator\ED1FlightSimulator\obj\Debug\App.g.cs
+C:\Users\rayra\RiderProjects\ED1FlightSimulator\ED1FlightSimulator\obj\Debug\ED1FlightSimulator_MarkupCompile.cache
+C:\Users\rayra\RiderProjects\ED1FlightSimulator\ED1FlightSimulator\obj\Debug\ED1FlightSimulator_MarkupCompile.lref
+C:\Users\rayra\RiderProjects\ED1FlightSimulator\ED1FlightSimulator\bin\Debug\ED1FlightSimulator.exe.config
+C:\Users\rayra\RiderProjects\ED1FlightSimulator\ED1FlightSimulator\bin\Debug\ED1FlightSimulator.exe
+C:\Users\rayra\RiderProjects\ED1FlightSimulator\ED1FlightSimulator\bin\Debug\ED1FlightSimulator.pdb
+C:\Users\rayra\RiderProjects\ED1FlightSimulator\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.g.resources
+C:\Users\rayra\RiderProjects\ED1FlightSimulator\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.Properties.Resources.resources
+C:\Users\rayra\RiderProjects\ED1FlightSimulator\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.csproj.GenerateResource.cache
+C:\Users\rayra\RiderProjects\ED1FlightSimulator\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.csproj.CoreCompileInputs.cache
+C:\Users\rayra\RiderProjects\ED1FlightSimulator\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.exe
+C:\Users\rayra\RiderProjects\ED1FlightSimulator\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.pdb
+C:\Users\rayra\RiderProjects\ED1FlightSimulator\ED1FlightSimulator\obj\Debug\MainWindow.g.cs
+C:\Users\rayra\RiderProjects\ED1FlightSimulator\ED1FlightSimulator\obj\Debug\MainWindow.baml

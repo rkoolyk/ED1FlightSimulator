@@ -1,0 +1,105 @@
+﻿<Window x:Class="WpfApplication1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApplication1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="385" Width="577.5">
+    
+    <Grid>
+        <Label>
+            <Label.Style>
+                <Style>
+                    <Setter Property="Label.Margin" Value="0" />
+                </Style>
+            </Label.Style>
+        </Label>
+        
+        <Canvas Height="350" Width="525">
+                    
+            <Ellipse
+                Canvas.Top="75"
+                Canvas.Left="162.5"
+                Width="200"
+                Height="200"
+                Fill="DarkSlateGray"
+                Stroke="Black"
+                StrokeThickness="2"
+            
+            />
+            <Ellipse
+                Canvas.Top="125"
+                Canvas.Left="212.5"
+                Width="100"
+                Height="100"
+                Fill="Gray"
+                Stroke="Black"
+                StrokeThickness="25"
+                
+            >
+            </Ellipse>
+            
+            
+            <Polygon Name="ArrowUp"
+                     Points="262.5,90 282.5,115, 242.5,115" 
+                     Stroke="Black" Fill="Black" 
+            />    
+            <Polygon Name="ArrowDown" 
+                     Points="262.5,260 282.5,235, 242.5,235" 
+                     Stroke="Black" Fill="Black"
+            />
+            <Polygon Name="ArrowLeft"
+                Points="177,175 202,155, 202,195" 
+                Stroke="Black" Fill="Black" 
+            />    
+            <Polygon Name="ArrowRight"
+                Points="348,175 323,155, 323,195" 
+                Stroke="Black" Fill="Black" 
+            />       
+        
+            <Rectangle Name="Throttle"
+                Canvas.Left="60"
+                Canvas.Top="50"
+                Fill="Gray" HorizontalAlignment="Left"
+                Height="235" 
+                Stroke="Black" StrokeThickness="3"
+                VerticalAlignment="Top" Width="40"
+                RadiusY="0" RadiusX="0"
+            />
+        
+            <Rectangle Name="Rudder"
+                Canvas.Bottom="20"
+                Canvas.Left="140"
+                Fill="LightBlue" HorizontalAlignment="Left"
+                Height="40" 
+                Stroke="Black" StrokeThickness="3"
+                VerticalAlignment="Top" Width="235"
+                RadiusY="0" RadiusX="0"
+            /> 
+            
+            <Rectangle Name="ThrottleSlider"
+                       Canvas.Left="57.5"
+                Canvas.Top="{Binding Path=BoundTop, Mode=OneWay}"
+                Fill="Black" HorizontalAlignment="Left"
+                Height="45" 
+                Stroke="Black"
+                VerticalAlignment="Top" Width="45"
+                RadiusY="0" RadiusX="0" />
+                       
+            
+            <Rectangle Name="RudderSlider"
+                       Canvas.Bottom="17.5"
+                       Canvas.Left="140"
+                       Fill="Black" HorizontalAlignment="Left"
+                       Height="45" 
+                       Stroke="Black"
+                       VerticalAlignment="Top" Width="45"
+                       RadiusY="0" RadiusX="0"
+            /> 
+            
+        </Canvas>
+        
+    </Grid>
+</Window>
+
