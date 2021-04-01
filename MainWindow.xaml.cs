@@ -5,7 +5,7 @@ using System.Windows.Input;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace WpfApplication1
+namespace ED1FlightSimulator
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
