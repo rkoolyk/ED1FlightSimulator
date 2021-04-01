@@ -16,9 +16,50 @@ namespace WpfApplication1
         {
             DataContext = this;
             InitializeComponent();
+            ThrottleSlider.SetValue(Canvas.TopProperty, BoundTop);
+            RudderSlider.SetValue(Canvas.LeftProperty, BoundLeft);
         }
 
-        public int BoundTop { get; set; }
+        private double _boundTop = 150;
+
+        public double BoundTop
+        {
+            get
+            {
+                return _boundTop;
+            }
+
+            set
+            {
+                if (_boundTop != value)
+                {
+                    _boundTop = value;
+                }
+
+                onPropertyChanged("BoundTop");
+            }
+        }
+        
+        private double _boundLeft = 150;
+
+        public double BoundLeft
+        {
+            get
+            {
+                return _boundLeft;
+            }
+
+            set
+            {
+                if (_boundLeft != value)
+                {
+                    _boundLeft = value;
+                }
+
+                onPropertyChanged("BoundLeft");
+            }
+        }
+
 
         private void ArrowDown_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {

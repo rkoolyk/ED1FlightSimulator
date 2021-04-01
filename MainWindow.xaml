@@ -80,8 +80,7 @@
             
             <Rectangle Name="ThrottleSlider"
                        Canvas.Left="57.5"
-                Canvas.Top="{Binding Path=BoundTop, Mode=OneWay}"
-                Fill="Black" HorizontalAlignment="Left"
+                       Fill="Black" HorizontalAlignment="Left"
                 Height="45" 
                 Stroke="Black"
                 VerticalAlignment="Top" Width="45"
@@ -90,7 +89,6 @@
             
             <Rectangle Name="RudderSlider"
                        Canvas.Bottom="17.5"
-                       Canvas.Left="140"
                        Fill="Black" HorizontalAlignment="Left"
                        Height="45" 
                        Stroke="Black"
