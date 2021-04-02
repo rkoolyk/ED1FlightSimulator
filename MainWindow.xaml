@@ -41,8 +41,7 @@
             </Ellipse>
             
             <Ellipse Name= "CenterPos"
-                Visibility= "Visible"
-                Canvas.Top="150"                          
+                     Canvas.Top="150"                          
                 Canvas.Left="237.5"
                 Width="50"
                 Height="50"
@@ -52,7 +51,6 @@
             </Ellipse>
             
             <Ellipse Name= "UpPos"
-                     Visibility= "Hidden"
                      Canvas.Top="125"
                      Canvas.Left="237.5"
                      Width="50"
@@ -63,7 +61,6 @@
             </Ellipse>
             
             <Ellipse Name= "DownPos"
-                     Visibility= "Hidden"
                      Canvas.Top="175"
                      Canvas.Left="237.5"
                      Width="50"
@@ -74,7 +71,6 @@
             </Ellipse>
             
             <Ellipse Name= "LeftPos"
-                     Visibility="Hidden"
                      Canvas.Top="150"
                      Canvas.Left="212.5"
                      Width="50"
@@ -85,7 +81,6 @@
             </Ellipse>
             
             <Ellipse Name= "RightPos"
-                     Visibility="Hidden"
                      Canvas.Top="150"
                      Canvas.Left="262.5"
                      Width="50"
@@ -96,7 +91,6 @@
             </Ellipse>
             
             <Ellipse Name= "UpRightPos"
-                     Visibility= "Hidden"
                      Canvas.Top="130"
                      Canvas.Left="257.5"
                      Width="50"
@@ -107,7 +101,6 @@
             </Ellipse>
             
             <Ellipse Name= "DownRightPos"
-                     Visibility= "Hidden"
                      Canvas.Top="170"
                      Canvas.Left="257.5"
                      Width="50"
@@ -118,7 +111,6 @@
             </Ellipse>
             
             <Ellipse Name= "UpLeftPos"
-                     Visibility= "Hidden"
                      Canvas.Top="130"
                      Canvas.Left="217.5"
                      Width="50"
@@ -129,7 +121,6 @@
             </Ellipse>
             
             <Ellipse Name= "DownLeftPos"
-                     Visibility= "Hidden"
                      Canvas.Top="170"
                      Canvas.Left="217.5"
                      Width="50"
