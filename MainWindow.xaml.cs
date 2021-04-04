@@ -16,17 +16,21 @@ namespace ED1FlightSimulator
         {
             DataContext = this;
             InitializeComponent();
-            ThrottleSlider.SetValue(Canvas.TopProperty, BoundTop);
-            RudderSlider.SetValue(Canvas.LeftProperty, BoundLeft);
-            CenterPos.SetValue(VisibilityProperty, Center);
-            UpPos.SetValue(VisibilityProperty, Up);
-            DownPos.SetValue(VisibilityProperty, Down);
-            LeftPos.SetValue(VisibilityProperty, Left);
-            RightPos.SetValue(VisibilityProperty, Right);
-            UpRightPos.SetValue(VisibilityProperty, UpRight);
-            UpLeftPos.SetValue(VisibilityProperty, UpLeft);
-            DownLeftPos.SetValue(VisibilityProperty, DownLeft);
-            DownRightPos.SetValue(VisibilityProperty, DownRight);
+            this.HeightText.Text = "0";
+            this.SpeedText.Text = "0";
+            this.DirText.Text = "0";
+            this.Time.Text = "00:00:00";
+            // ThrottleSlider.SetValue(Canvas.TopProperty, BoundTop);
+            // RudderSlider.SetValue(Canvas.LeftProperty, BoundLeft);
+            // CenterPos.SetValue(VisibilityProperty, Center);
+            // UpPos.SetValue(VisibilityProperty, Up);
+            // DownPos.SetValue(VisibilityProperty, Down);
+            // LeftPos.SetValue(VisibilityProperty, Left);
+            // RightPos.SetValue(VisibilityProperty, Right);
+            // UpRightPos.SetValue(VisibilityProperty, UpRight);
+            // UpLeftPos.SetValue(VisibilityProperty, UpLeft);
+            // DownLeftPos.SetValue(VisibilityProperty, DownLeft);
+            // DownRightPos.SetValue(VisibilityProperty, DownRight);
         }
 
         private double _boundTop = 150;
@@ -249,5 +253,19 @@ namespace ED1FlightSimulator
         }
 
 
+        private void LoadCsv_OnClick(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("CSV!!!!!!!!");
+        }
+
+        private void LoadXml_OnClick(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("XML!!!!!!!!");
+        }
+
+        private void PlaySpeed_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MessageBox.Show("SELECTION CHANGED");
+        }
     }
 }

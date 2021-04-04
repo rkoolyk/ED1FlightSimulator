@@ -5,188 +5,114 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ED1FlightSimulator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="385" Width="577.5">
-    
-    <Grid>
-        <Label>
-            <Label.Style>
-                <Style>
-                    <Setter Property="Label.Margin" Value="0" />
-                </Style>
-            </Label.Style>
-        </Label>
+        Title="MainWindow" Height="650" Width="650">
         
-        <Canvas Height="350" Width="525">
-                    
-            <Ellipse 
-                     Visibility="Visible"
-                     Canvas.Top="75"
-                     Canvas.Left="162.5"
-                     Width="200"
-                     Height="200"
-                     Fill="DarkSlateGray"
-                     Stroke="Black"
-                     StrokeThickness="2"
+    <StackPanel>
+          <Grid ShowGridLines="True">
+              <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="1.5*"/>
+              </Grid.ColumnDefinitions>
+              <StackPanel>
+                  <TextBlock Text="JOYSTICK"></TextBlock>
+                  
+                  <Image x:Name="Joystick" HorizontalAlignment="Left" Height="150" 
+                         Margin="55,55,0,55" VerticalAlignment="Top" 
+                         Width="150" Source="C:\Users\rayra\RiderProjects\ED1FlightSimulator\ED1FlightSimulator\joystick.png"/>
+                  <Grid ShowGridLines="True">
+                      <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="*"/>
+                          <ColumnDefinition Width="*"/>
+                      </Grid.ColumnDefinitions>
+                      <StackPanel>
+                          <Grid>
+                              <Grid.ColumnDefinitions>
+                                  <ColumnDefinition Width="*"/>
+                                  <ColumnDefinition Width="*"/>
+                              </Grid.ColumnDefinitions>
+                              <TextBlock Padding="5"
+                                         Text="Height:" FontSize="14"></TextBlock>
+                              <TextBox x:Name="HeightText" IsReadOnly="True"
+                                       FontSize="14" Grid.Column="1"  Margin="0,3" ></TextBox>
+                          </Grid>
+                          <Grid>
+                              <Grid.ColumnDefinitions>
+                                  <ColumnDefinition Width="*"/>
+                                  <ColumnDefinition Width="*"/>
+                              </Grid.ColumnDefinitions>
+                              <TextBlock Padding="5"
+                                         Text="Speed:" FontSize="14"></TextBlock>
+                              <TextBox x:Name="SpeedText" IsReadOnly="True"
+                                       FontSize="14" Grid.Column="1"  Margin="0,3"></TextBox>
+                          </Grid>
+                          <Grid>
+                              <Grid.ColumnDefinitions>
+                                  <ColumnDefinition Width="*"/>
+                                  <ColumnDefinition Width="*"/>
+                              </Grid.ColumnDefinitions>
+                              <TextBlock Padding="5"
+                                         Text="Direction:" FontSize="14"></TextBlock>
+                              <TextBox x:Name="DirText" IsReadOnly="True"
+                                       FontSize="14" Grid.Column="1"  Margin="0,3" ></TextBox>
+                          </Grid>
+                          
+                          
+                      </StackPanel>
+                      <TextBlock Grid.Column="1"
+                                 Text="Flight Measurements"></TextBlock>
+                  </Grid>
+              </StackPanel>
+              
+              <Grid Grid.Column="1" ShowGridLines="True">
+                  <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*"/>
+                      <ColumnDefinition Width="2*"/>
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Text="Data List"></TextBlock>
+                  
+                  <StackPanel Grid.Column="1">
+                      <Grid>
+                          <Grid.ColumnDefinitions>
+                              <ColumnDefinition Width="*"/>
+                              <ColumnDefinition Width="*"/>
+                          </Grid.ColumnDefinitions>
+                      </Grid>
+                      
+                  </StackPanel>
+              </Grid>
+              
+          </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <Button Name="LoadCsv" Click="LoadCsv_OnClick" 
+                        Padding="5" Content="Load CSV File"
+                        Margin="5,10"></Button>
+                <Button Name="LoadXml" Click="LoadXml_OnClick"
+                    Padding="5" Content="Load XML File"
+                        Margin="5,3"></Button>
+            </StackPanel>
+            <StackPanel Grid.Column="2">
+                <TextBlock Text="Play Speed :" Padding="5"></TextBlock>
+                <ComboBox Name="PlaySpeed" SelectionChanged="PlaySpeed_OnSelectionChanged">
+                    <ComboBoxItem>0.5</ComboBoxItem>
+                    <ComboBoxItem>1.0</ComboBoxItem>
+                    <ComboBoxItem>1.5</ComboBoxItem>
+                    <ComboBoxItem>2.0</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
             
-            />
-            <Ellipse
-                Canvas.Top="125"
-                Canvas.Left="212.5"
-                Width="100"
-                Height="100"
-                Fill="Black"
-                Stroke="Black"
-                
-            >
-            </Ellipse>
+            <TextBlock Grid.Column="3" Margin="10,3" Padding="15"
+              x:Name="Time" FontSize="18"/>
             
-            <Ellipse Name= "CenterPos"
-                     Canvas.Top="150"                          
-                Canvas.Left="237.5"
-                Width="50"
-                Height="50"
-                Fill="Gray"
-                Stroke="Gray"
-            >
-            </Ellipse>
-            
-            <Ellipse Name= "UpPos"
-                     Canvas.Top="125"
-                     Canvas.Left="237.5"
-                     Width="50"
-                     Height="50"
-                     Fill="Gray"
-                     Stroke="Gray"
-            >
-            </Ellipse>
-            
-            <Ellipse Name= "DownPos"
-                     Canvas.Top="175"
-                     Canvas.Left="237.5"
-                     Width="50"
-                     Height="50"
-                     Fill="Gray"
-                     Stroke="Gray"
-            >
-            </Ellipse>
-            
-            <Ellipse Name= "LeftPos"
-                     Canvas.Top="150"
-                     Canvas.Left="212.5"
-                     Width="50"
-                     Height="50"
-                     Fill="Gray"
-                     Stroke="Gray"
-            >
-            </Ellipse>
-            
-            <Ellipse Name= "RightPos"
-                     Canvas.Top="150"
-                     Canvas.Left="262.5"
-                     Width="50"
-                     Height="50"
-                     Fill="Gray"
-                     Stroke="Gray"
-            >
-            </Ellipse>
-            
-            <Ellipse Name= "UpRightPos"
-                     Canvas.Top="130"
-                     Canvas.Left="257.5"
-                     Width="50"
-                     Height="50"
-                     Fill="Gray"
-                     Stroke="Gray"
-            >
-            </Ellipse>
-            
-            <Ellipse Name= "DownRightPos"
-                     Canvas.Top="170"
-                     Canvas.Left="257.5"
-                     Width="50"
-                     Height="50"
-                     Fill="Gray"
-                     Stroke="Gray"
-            >
-            </Ellipse>
-            
-            <Ellipse Name= "UpLeftPos"
-                     Canvas.Top="130"
-                     Canvas.Left="217.5"
-                     Width="50"
-                     Height="50"
-                     Fill="Gray"
-                     Stroke="Gray"
-            >
-            </Ellipse>
-            
-            <Ellipse Name= "DownLeftPos"
-                     Canvas.Top="170"
-                     Canvas.Left="217.5"
-                     Width="50"
-                     Height="50"
-                     Fill="Gray"
-                     Stroke="Gray"
-            >
-            </Ellipse>
-            
-            <Polygon Name="ArrowUp"
-                     Points="262.5,90 282.5,115, 244.5,115" 
-                     Stroke="Black" Fill="Black" 
-            />    
-            <Polygon Name="ArrowDown" 
-                     Points="262.5,260 282.5,235, 242.5,235" 
-                     Stroke="Black" Fill="Black"
-            />
-            <Polygon Name="ArrowLeft"
-                Points="177,175 202,155, 202,195" 
-                Stroke="Black" Fill="Black" 
-            />    
-            <Polygon Name="ArrowRight"
-                Points="348,175 323,155, 323,195" 
-                Stroke="Black" Fill="Black" 
-            />      
-            
-            <Rectangle Name="Throttle"
-                Canvas.Left="60"
-                Canvas.Top="50"
-                Fill="Gray" HorizontalAlignment="Left"
-                Height="235" 
-                Stroke="Black" StrokeThickness="3"
-                VerticalAlignment="Top" Width="40"
-                RadiusY="0" RadiusX="0"
-            />
-        
-            <Rectangle Name="Rudder"
-                Canvas.Bottom="20"
-                Canvas.Left="140"
-                Fill="LightBlue" HorizontalAlignment="Left"
-                Height="40" 
-                Stroke="Black" StrokeThickness="3"
-                VerticalAlignment="Top" Width="235"
-                RadiusY="0" RadiusX="0"
-            /> 
-            
-            <Rectangle Name="ThrottleSlider"
-                       Canvas.Left="57.5"
-                       Fill="Black" HorizontalAlignment="Left"
-                Height="45" 
-                Stroke="Black"
-                VerticalAlignment="Top" Width="45"
-                RadiusY="0" RadiusX="0" />
-                       
-            
-            <Rectangle Name="RudderSlider"
-                       Canvas.Bottom="17.5"
-                       Fill="Black" HorizontalAlignment="Left"
-                       Height="45" 
-                       Stroke="Black"
-                       VerticalAlignment="Top" Width="45"
-                       RadiusY="0" RadiusX="0"
-            /> 
-            
-        </Canvas>
-        
-    </Grid>
-</Window>
+        </Grid>
+        <Slider Margin="15,15"/>
+    </StackPanel> 
+          
+  </Window>
 

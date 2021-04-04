@@ -82,5 +82,10 @@
         <SubType>Designer</SubType>
       </Page>
     </ItemGroup>
+    <ItemGroup>
+      <Content Include="joystick.png" />
+      <Content Include="playback_small.xml" />
+      <Content Include="reg_flight.csv" />
+    </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
