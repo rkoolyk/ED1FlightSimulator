@@ -4,6 +4,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Shapes;
 
 namespace ED1FlightSimulator
 {
@@ -20,6 +21,11 @@ namespace ED1FlightSimulator
             this.SpeedText.Text = "0";
             this.DirText.Text = "0";
             this.Time.Text = "00:00:00";
+            this.Elevator.Text = "<- Elevator ->";
+            this.Aileron.Text = "<- Aileron ->";
+            this.Throttle.Text = "<- Throttle ->";
+            this.Rudder.Text = "<- Rudder ->";
+            this.ThrottleSlider.Margin = new Thickness(0, 150, 0, 0);
             // ThrottleSlider.SetValue(Canvas.TopProperty, BoundTop);
             // RudderSlider.SetValue(Canvas.LeftProperty, BoundLeft);
             // CenterPos.SetValue(VisibilityProperty, Center);

@@ -14,17 +14,70 @@
                   <ColumnDefinition Width="1.5*"/>
               </Grid.ColumnDefinitions>
               <StackPanel>
-                  <TextBlock Text="JOYSTICK"></TextBlock>
+                  <StackPanel>
+                      
+                      
+                      <Grid ShowGridLines="True">
+                          <Grid.ColumnDefinitions>
+                              <ColumnDefinition Width="0.7*"/>
+                              <ColumnDefinition Width="*"/>
+                              <ColumnDefinition Width="4.9*"/>
+                              <ColumnDefinition Width="0.7*"/>
+                          </Grid.ColumnDefinitions>
+                          <TextBlock Grid.Column="0" 
+                                     x:Name="Throttle"
+                                     FontSize="16"
+                                     TextAlignment="Center"
+                          ><TextBlock.LayoutTransform>
+                                  <RotateTransform Angle="270"/>
+                              </TextBlock.LayoutTransform>
+                          </TextBlock>
+                          <Rectangle Grid.Column="1" Name="ThrottleRec" Fill="Silver"
+                                     Height="170" 
+                                     Stroke="Black" StrokeThickness="3" Width="30"
+                          ></Rectangle>
+                          <Rectangle Grid.Column="1" Name="ThrottleSlider" Fill="Black"
+                                     Height="35" 
+                                     Width="35"
+                          ></Rectangle>
+                          <StackPanel Grid.Column="2">
+                              <TextBlock Name="Aileron" FontSize="16"
+                                         TextAlignment="Center"
+                              ></TextBlock>
+                              <Image x:Name="Joystick" Height="150"
+                                     Width="150" 
+                                     Source="C:\Users\גוטליב\RiderProjects\ED1FlightSimulator\joystick.png"/> 
+                              <Rectangle Name="RudderRec" Fill="LightSteelBlue"
+                                         Height="30"
+                                         Stroke="Black" StrokeThickness="3" Width="170"
+                              ></Rectangle>
+                      
+                              <TextBlock Name="Rudder" FontSize="16"
+                                         TextAlignment="Center"
+                              ></TextBlock>
+                          </StackPanel>
+                          
+                          <TextBlock Grid.Column="3" 
+                                     x:Name="Elevator"
+                                     FontSize="16"
+                                     TextAlignment="Center"
+                                     ><TextBlock.LayoutTransform>
+                                  <RotateTransform Angle="90"/>
+                              </TextBlock.LayoutTransform>
+                              </TextBlock>
+                      </Grid>
+                      
+                      
                   
-                  <Image x:Name="Joystick" HorizontalAlignment="Left" Height="150" 
-                         Margin="55,55,0,55" VerticalAlignment="Top" 
-                         Width="150" Source="C:\Users\rayra\RiderProjects\ED1FlightSimulator\ED1FlightSimulator\joystick.png"/>
+                      
+                  </StackPanel>
+                 
                   <Grid ShowGridLines="True">
                       <Grid.ColumnDefinitions>
                           <ColumnDefinition Width="*"/>
                           <ColumnDefinition Width="*"/>
                       </Grid.ColumnDefinitions>
-                      <StackPanel>
+                      <StackPanel Margin="0,20">
                           <Grid>
                               <Grid.ColumnDefinitions>
                                   <ColumnDefinition Width="*"/>
@@ -59,7 +112,8 @@
                           
                       </StackPanel>
                       <TextBlock Grid.Column="1"
-                                 Text="Flight Measurements"></TextBlock>
+                                 Text="Flight Measurements"
+                                 Margin="5,20"></TextBlock>
                   </Grid>
               </StackPanel>
               
