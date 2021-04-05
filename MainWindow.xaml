@@ -46,11 +46,19 @@
                               ></TextBlock>
                               <Image x:Name="Joystick" Height="150"
                                      Width="150" 
-                                     Source="C:\Users\גוטליב\RiderProjects\ED1FlightSimulator\joystick.png"/> 
-                              <Rectangle Name="RudderRec" Fill="LightSteelBlue"
-                                         Height="30"
-                                         Stroke="Black" StrokeThickness="3" Width="170"
-                              ></Rectangle>
+                                     Source=" C:\Users\rayra\RiderProjects\ED1FlightSimulator\ED1FlightSimulator\joystick.png"/> 
+                              <Grid>
+                                  <Rectangle Name="RudderRec" Fill="LightSteelBlue"
+                                             Height="30"
+                                             Stroke="Black" StrokeThickness="3" Width="170"
+                                  ></Rectangle>
+                                  <Rectangle Name="RudderSlider" Fill="Black"
+                                             Height="35"
+                                             Width="35"
+                                  ></Rectangle>
+                                  
+                              </Grid>
+                             
                       
                               <TextBlock Name="Rudder" FontSize="16"
                                          TextAlignment="Center"
@@ -111,9 +119,46 @@
                           
                           
                       </StackPanel>
-                      <TextBlock Grid.Column="1"
-                                 Text="Flight Measurements"
-                                 Margin="5,20"></TextBlock>
+                      <StackPanel Grid.Column="1">
+                          <TextBlock
+                                     Text="Flight Indices:"
+                                     Margin="5,20" FontSize="16"></TextBlock>
+                          <Grid>
+                              <Grid.ColumnDefinitions>
+                                  <ColumnDefinition Width="*"/>
+                                  <ColumnDefinition Width="*"/>
+                              </Grid.ColumnDefinitions>
+                              <TextBlock Padding="5"
+                                         Text="Yaw:" FontSize="14"></TextBlock>
+                              <TextBox x:Name="Yaw" IsReadOnly="True"
+                                       FontSize="14" Grid.Column="1"  Margin="0,3" ></TextBox>
+                          </Grid>
+                          <Grid>
+                              <Grid.ColumnDefinitions>
+                                  <ColumnDefinition Width="*"/>
+                                  <ColumnDefinition Width="*"/>
+                              </Grid.ColumnDefinitions>
+                              <TextBlock Padding="5"
+                                         Text="Roll:" FontSize="14"></TextBlock>
+                              <TextBox x:Name="Roll" IsReadOnly="True"
+                                       FontSize="14" Grid.Column="1"  Margin="0,3" ></TextBox>
+                          </Grid>
+                          <Grid>
+                              <Grid.ColumnDefinitions>
+                                  <ColumnDefinition Width="*"/>
+                                  <ColumnDefinition Width="*"/>
+                              </Grid.ColumnDefinitions>
+                              <TextBlock Padding="5"
+                                         Text="Pitch:" FontSize="14"></TextBlock>
+                              <TextBox x:Name="Pitch" IsReadOnly="True"
+                                       FontSize="14" Grid.Column="1"  Margin="0,3" ></TextBox>
+                          </Grid>
+
+
+
+
+                      </StackPanel>
+                      
                   </Grid>
               </StackPanel>
               
