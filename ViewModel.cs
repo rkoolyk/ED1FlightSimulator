@@ -3,13 +3,18 @@ using System.Runtime.CompilerServices;
 
 namespace ED1FlightSimulator
 {
-    public class ViewModel : INotifyPropertyChanged
+    public class ViewModel : IViewModel
     {
-        Model model;
+        private Model model;
 
-        ViewModel(Model m)
+        public ViewModel()
         {
-            this.model = m;
+            this.model = new Model();
+            this.model.PropertyChanged +=
+                delegate(object o, PropertyChangedEventArgs e)
+                {
+                    onPropertyChanged("VM_" + e.PropertyName);
+                };
         }
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged([CallerMemberName] string propertyName = null)
@@ -34,6 +39,19 @@ namespace ED1FlightSimulator
                 // }
                 //
                 // onPropertyChanged("BoundTop");
+            }
+        }
+
+        public float VM_KNOB_X
+        {
+            get { return model.KNOB_X; }
+        }
+
+        public float VM_KNOB_Y
+        {
+            get
+            {
+                return model.KNOB_Y;
             }
         }
     }

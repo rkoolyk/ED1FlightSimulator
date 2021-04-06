@@ -29,3 +29,4 @@ C:\Users\גוטליב\RiderProjects\ED1FlightSimulator\obj\Debug\ED1FlightSimula
 C:\Users\גוטליב\RiderProjects\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.pdb
 C:\Users\rayra\RiderProjects\ED1FlightSimulator\ED1FlightSimulator\obj\Debug\ED1FlightSimulator_Content.g.cs
 C:\Users\גוטליב\RiderProjects\ED1FlightSimulator\obj\Debug\ED1FlightSimulator_Content.g.cs
+C:\Users\גוטליב\RiderProjects\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.csproj.CoreCompileInputs.cache

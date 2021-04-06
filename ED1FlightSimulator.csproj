@@ -54,6 +54,7 @@
             <DependentUpon>App.xaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
+        <Compile Include="IViewModel.cs" />
         <Compile Include="Model.cs" />
         <Compile Include="ViewModel.cs" />
     </ItemGroup>
@@ -85,7 +86,7 @@
       </Page>
     </ItemGroup>
     <ItemGroup>
-      <Content Include="joystick.png" />
+      <Content Include="Joystick\center.jpg" />
       <Content Include="playback_small.xml" />
       <Content Include="reg_flight.csv" />
     </ItemGroup>

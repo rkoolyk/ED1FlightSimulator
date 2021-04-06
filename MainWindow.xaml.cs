@@ -1,9 +1,12 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace ED1FlightSimulator
@@ -13,12 +16,12 @@ namespace ED1FlightSimulator
     /// </summary>
     public partial class MainWindow : INotifyPropertyChanged
     {
-        //private ViewModel vm;
+        private IViewModel vm;
         public MainWindow()
         {
-            //this.vm = vm;
-            DataContext = this;
             InitializeComponent();
+            vm = new ViewModel();
+            DataContext = vm;
             this.HeightText.Text = "0";
             this.SpeedText.Text = "0";
             this.DirText.Text = "0";
@@ -32,6 +35,7 @@ namespace ED1FlightSimulator
             this.Yaw.Text = "0";
             this.Roll.Text = "0";
             this.Pitch.Text = "0";
+            
         }
 
         private double _boundTop = 135;

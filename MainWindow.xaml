@@ -44,9 +44,26 @@
                               <TextBlock Name="Aileron" FontSize="16"
                                          TextAlignment="Center"
                               ></TextBlock>
-                              <Image x:Name="Joystick" Height="150"
+                              
+                              <!-- JOYSTICK WITH CANVAS
+                              <Canvas>
+                                  <Image x:Name="JoystickImg" Height="150"
+                                         Width="150" Source="/Joystick/center.jpg">
+                                  </Image>
+                                  <Image x:Name="KnobImg"
+                                         Canvas.Left="{Binding VM_KNOB_X}" 
+                                         Canvas.Top="{Binding VM_KNOB_Y}" 
+                                         Height="30"
+                                         Width="30" 
+                                         Source="C:\Users\גוטליב\RiderProjects\ED1FlightSimulator\Joystick\center.jpg">
+                                  </Image>
+                              </Canvas>
+                              -->
+                              <Image x:Name="JoystickImg" 
+                                     Height="150"
                                      Width="150" 
-                                     Source=" C:\Users\rayra\RiderProjects\ED1FlightSimulator\ED1FlightSimulator\joystick.png"/> 
+                                     Source="C:\Users\גוטליב\RiderProjects\ED1FlightSimulator\Joystick\center.jpg">
+                              </Image>
                               <Grid>
                                   <Rectangle Name="RudderRec" Fill="LightSteelBlue"
                                              Height="30"
