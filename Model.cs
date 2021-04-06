@@ -5,8 +5,11 @@ namespace ED1FlightSimulator
 {
     public class Model : INotifyPropertyChanged
     {
-        private float knobX = 10;
-        private float knobY = 10;
+        private float knobX = 50;
+        private float knobY = 50;
+        private string heightText = "0";
+        private string speedText = "0";
+        private string directionText = "0";
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -29,18 +32,36 @@ namespace ED1FlightSimulator
             set
             {
                 knobY = value;
-                onPropertyChanged("KNOB_X");
+                onPropertyChanged("KNOB_Y");
             }
         }
-
-        public double GetTop()
+        public string Height_Text
         {
-            return 1;
+            get { return heightText; }
+            set
+            {
+                heightText = value;
+                onPropertyChanged("Height_Text");
+            }
         }
-
-        public void SetTop()
+        public string Speed_Text
         {
-            
+            get { return speedText; }
+            set
+            {
+                speedText = value;
+                onPropertyChanged("Speed_Text");
+            }
         }
+        public string Direction_Text
+        {
+            get { return directionText; }
+            set
+            {
+                directionText = value;
+                onPropertyChanged("Direction_Text");
+            }
+        }
+       
     }
 }

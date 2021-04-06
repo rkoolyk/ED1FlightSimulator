@@ -22,26 +22,7 @@ namespace ED1FlightSimulator
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         
-        private double _boundTop;
-        public double BoundTop
-        {
-            get
-            {
-                return model.GetTop();
-            }
-
-            set
-            {
-                model.SetTop();
-                // if (_boundTop != value)
-                // {
-                //     _boundTop = value;
-                // }
-                //
-                // onPropertyChanged("BoundTop");
-            }
-        }
-
+        
         public float VM_KNOB_X
         {
             get { return model.KNOB_X; }
@@ -52,6 +33,27 @@ namespace ED1FlightSimulator
             get
             {
                 return model.KNOB_Y;
+            }
+        }
+        public string VM_Height_Text
+        {
+            get
+            {
+                return model.Height_Text;
+            }
+        }
+        public string VM_Speed_Text
+        {
+            get
+            {
+                return model.Speed_Text;
+            }
+        }
+        public string VM_Direction_Text
+        {
+            get
+            {
+                return model.Direction_Text;
             }
         }
     }

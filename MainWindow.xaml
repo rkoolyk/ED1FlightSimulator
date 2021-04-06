@@ -45,25 +45,36 @@
                                          TextAlignment="Center"
                               ></TextBlock>
                               
-                              <!-- JOYSTICK WITH CANVAS
-                              <Canvas>
-                                  <Image x:Name="JoystickImg" Height="150"
+                              <Canvas Height="150" Width="150">
+                             
+                               
+                                <Ellipse Height="150" Width="150" Fill="Black"/>   
+                                <Ellipse Height="50" Width="50" Fill="Gray"
+                                         Canvas.Left="{Binding VM_KNOB_X}"
+                                         Canvas.Top="{Binding VM_KNOB_Y}"/>   
+                              
+                                  <!--<Image x:Name="JoystickImg" Height="150"
                                          Width="150" Source="/Joystick/center.jpg">
                                   </Image>
+                                  
                                   <Image x:Name="KnobImg"
                                          Canvas.Left="{Binding VM_KNOB_X}" 
                                          Canvas.Top="{Binding VM_KNOB_Y}" 
                                          Height="30"
                                          Width="30" 
-                                         Source="C:\Users\גוטליב\RiderProjects\ED1FlightSimulator\Joystick\center.jpg">
+                                         Source="../../Joystick/center.jpg">
                                   </Image>
-                              </Canvas>
-                              -->
-                              <Image x:Name="JoystickImg" 
+                                -->
+                                  
+                             
+                                </Canvas>
+                                
+                              
+                              <!--<Image x:Name="JoystickImg" 
                                      Height="150"
                                      Width="150" 
-                                     Source="C:\Users\גוטליב\RiderProjects\ED1FlightSimulator\Joystick\center.jpg">
-                              </Image>
+                                     Source="../../Joystick/center.jpg">
+                              </Image>-->
                               <Grid>
                                   <Rectangle Name="RudderRec" Fill="LightSteelBlue"
                                              Height="30"
@@ -110,8 +121,8 @@
                               </Grid.ColumnDefinitions>
                               <TextBlock Padding="5"
                                          Text="Height:" FontSize="14"></TextBlock>
-                              <TextBox x:Name="HeightText" IsReadOnly="True"
-                                       FontSize="14" Grid.Column="1"  Margin="0,3" ></TextBox>
+                              <TextBlock Text="{Binding VM_Height_Text}" 
+                                       FontSize="14" Grid.Column="1"  Margin="3,6" ></TextBlock>
                           </Grid>
                           <Grid>
                               <Grid.ColumnDefinitions>
@@ -120,8 +131,8 @@
                               </Grid.ColumnDefinitions>
                               <TextBlock Padding="5"
                                          Text="Speed:" FontSize="14"></TextBlock>
-                              <TextBox x:Name="SpeedText" IsReadOnly="True"
-                                       FontSize="14" Grid.Column="1"  Margin="0,3"></TextBox>
+                              <TextBlock Text="{Binding VM_Speed_Text}" 
+                                       FontSize="14" Grid.Column="1"  Margin="3,6" ></TextBlock>
                           </Grid>
                           <Grid>
                               <Grid.ColumnDefinitions>
@@ -130,8 +141,8 @@
                               </Grid.ColumnDefinitions>
                               <TextBlock Padding="5"
                                          Text="Direction:" FontSize="14"></TextBlock>
-                              <TextBox x:Name="DirText" IsReadOnly="True"
-                                       FontSize="14" Grid.Column="1"  Margin="0,3" ></TextBox>
+                              <TextBlock Text="{Binding VM_Direction_Text}" 
+                                       FontSize="14" Grid.Column="1"  Margin="3,6" ></TextBlock>
                           </Grid>
                           
                           

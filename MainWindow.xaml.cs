@@ -22,9 +22,6 @@ namespace ED1FlightSimulator
             InitializeComponent();
             vm = new ViewModel();
             DataContext = vm;
-            this.HeightText.Text = "0";
-            this.SpeedText.Text = "0";
-            this.DirText.Text = "0";
             this.Time.Text = "00:00:00";
             this.Elevator.Text = "<- Elevator ->";
             this.Aileron.Text = "<- Aileron ->";
