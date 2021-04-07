@@ -56,6 +56,59 @@ namespace ED1FlightSimulator
                 return model.Direction_Text;
             }
         }
+        public string VM_Yaw_Text
+        {
+            get
+            {
+                return model.Yaw_Text;
+            }
+        }
+        public string VM_Roll_Text
+        {
+            get
+            {
+                return model.Roll_Text;
+            }
+        }
+        public string VM_Pitch_Text
+        {
+            get
+            {
+                return model.Pitch_Text;
+            }
+        }
+        public string VM_Play_Speed
+        {
+            get
+            {
+                return model.Play_Speed;
+            }
+            set
+            {
+                model.Play_Speed = value;
+            }
+        }
+        public string VM_Time
+        {
+            get
+            {
+                return model.Time;
+            }
+        }
+        public float VM_Throttle
+        {
+            get
+            {
+                return model.Throttle;
+            }
+        }
+        public float VM_Rudder
+        {
+            get
+            {
+                return model.Rudder;
+            }
+        }
     }
     
 }

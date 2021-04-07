@@ -14,7 +14,7 @@ namespace ED1FlightSimulator
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : INotifyPropertyChanged
+    public partial class MainWindow
     {
         private IViewModel vm;
         public MainWindow()
@@ -22,63 +22,12 @@ namespace ED1FlightSimulator
             InitializeComponent();
             vm = new ViewModel();
             DataContext = vm;
-            this.Time.Text = "00:00:00";
             this.Elevator.Text = "<- Elevator ->";
             this.Aileron.Text = "<- Aileron ->";
             this.Throttle.Text = "<- Throttle ->";
             this.Rudder.Text = "<- Rudder ->";
-            this.ThrottleSlider.Margin = new Thickness(0, BoundTop, 0, 0);
-            this.RudderSlider.Margin = new Thickness(BoundLeft, 0, 0, 0);
-            this.Yaw.Text = "0";
-            this.Roll.Text = "0";
-            this.Pitch.Text = "0";
+           
             
-        }
-
-        private double _boundTop = 135;
-
-        public double BoundTop
-        {
-            get
-            {
-                return _boundTop;
-            }
-
-            set
-            {
-                if (_boundTop != value)
-                {
-                    _boundTop = value;
-                }
-
-                onPropertyChanged("BoundTop");
-            }
-        }
-        
-        private double _boundLeft = 135;
-
-        public double BoundLeft
-        {
-            get
-            {
-                return _boundLeft;
-            }
-
-            set
-            {
-                if (_boundLeft != value)
-                {
-                    _boundLeft = value;
-                }
-
-                onPropertyChanged("BoundLeft");
-            }
-        }
-        
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void onPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
 
