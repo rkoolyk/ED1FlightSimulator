@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace ED1FlightSimulator
 {
@@ -107,6 +109,13 @@ namespace ED1FlightSimulator
             get
             {
                 return model.Rudder;
+            }
+        }
+         public List<string> VM_Data_List
+        {
+            get
+            {
+                return model.Data_List;
             }
         }
     }

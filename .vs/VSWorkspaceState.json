@@ -1,10 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\Joystick",
-    "\\obj",
-    "\\Properties"
+    ""
   ],
-  "SelectedNode": "\\MainWindow.xaml",
+  "SelectedNode": "\\Model.cs",
   "PreviewInSolutionExplorer": false
 }

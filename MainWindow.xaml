@@ -185,7 +185,15 @@
                       <ColumnDefinition Width="*"/>
                       <ColumnDefinition Width="2*"/>
                   </Grid.ColumnDefinitions>
-                  <TextBlock Text="Data List"></TextBlock>
+                  <TextBlock Text="Data List:" Padding="5"
+							 ></TextBlock>
+				  <ScrollViewer Height="350">
+					  <ListBox ItemsSource="{Binding VM_Data_List}"
+							   >
+						  
+					  </ListBox>
+
+				  </ScrollViewer>
                   
                   <StackPanel Grid.Column="1">
                       <Grid>
@@ -214,6 +222,43 @@
                     Padding="5" Content="Load XML File"
                         Margin="5,3"></Button>
             </StackPanel>
+			<Canvas Height="40" Grid.Column="1" Margin="29.333,33,44.333,10.333" >
+                <Rectangle Fill="Black" Width="3" Height="15" Canvas.Top="12.5"
+             Canvas.Left="10"     />
+                <Polygon Fill="Black"
+                Points="13,20 26,27.5 26,12.5"></Polygon>
+                <Polygon Fill="Black"
+                     Points="26,20 39,27.5 39,12.5"></Polygon>
+                
+                <Polygon Fill="Black"
+                Points="53,20 66,27.5 66,12.5"></Polygon>
+                <Polygon Fill="Black"
+                     Points="66,20 79,27.5 79,12.5"></Polygon>
+
+                <Polygon Fill="Black"
+                     Points="119,20 106,27.5 106,12.5"></Polygon>
+
+                <Rectangle Fill="Black" Width="5" Height="15" Canvas.Top="12.5"
+                 Canvas.Left="146"     />
+                <Rectangle Fill="Black" Width="5" Height="15" Canvas.Top="12.5"
+                 Canvas.Left="153"     />
+
+                <Rectangle Fill="Black" Width="15" Height="15" Canvas.Top="12.5"
+                 Canvas.Left="193"     />
+
+                <Polygon Fill="Black"
+                     Points="246,20 233,27.5 233,12.5"></Polygon>
+                <Polygon Fill="Black"
+                     Points="259,20 246,27.5 246,12.5"></Polygon>
+
+                <Polygon Fill="Black"
+                     Points="286,20 273,27.5 273,12.5"></Polygon>
+                <Polygon Fill="Black"
+                     Points="299,20 286,27.5 286,12.5"></Polygon>
+                <Rectangle Fill="Black" Width="3" Height="15" Canvas.Top="12.5"
+                 Canvas.Left="299"     />
+
+            </Canvas>
             <StackPanel Grid.Column="2">
                 <TextBlock Text="Play Speed :" Padding="5"></TextBlock>
 				<TextBox Text="{Binding VM_Play_Speed}" 
