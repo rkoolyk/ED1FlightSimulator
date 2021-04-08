@@ -27,8 +27,7 @@ namespace ED1FlightSimulator
         private string time = "00:00:00";
         private float throttle = 0;
         private float rudder = 0;
-        //private List<string> dataList = new List<string>(){"hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "HELLO", "Rachel"};
-        private List<string> dataList = Parser("C:\\Users\\miche\\Desktop\\university\\cpp\\Tzvi-csharp\\Tzvi-csharp\\playback_small.xml");
+        private List<string> dataList = Parser("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\playback_small.xml");
         public event PropertyChangedEventHandler PropertyChanged;
         String AnomalyAlgorithm;
         private void onPropertyChanged([CallerMemberName] string propertyName = null)
@@ -270,12 +269,37 @@ namespace ED1FlightSimulator
             }
             return SAttsList2;
         }
-        
-        public void DrawGraph(String att)
-        {
 
+        [DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
+
+        public static extern IntPtr Create(String CSVfileName, String[] l, int size);
+
+        [DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
+        public static extern float givesFloatTs(IntPtr obj, int line, String att);
+
+        [DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
+        public static extern int getRowSize(IntPtr ts);
+
+        [DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
+        public static extern void findLinReg(IntPtr ts, ref float a, ref float b, String attA, String attB);
+
+        Dictionary<String, List<float>> getDictionary(List<String> SAttsList, IntPtr ts, String path)
+        {
+            Dictionary<String, List<float>> tsDic = new Dictionary<String, List<float>>();
+
+            int size = getRowSize(ts);
+            for (int i = 0; i < SAttsList.Count(); i++)
+            {
+                List<float> f = new List<float>();
+                tsDic.Add(SAttsList[i], f);
+                for (int j = 0; j < size; j++)
+                {
+                    tsDic[SAttsList[i]].Add(givesFloatTs(ts, j, SAttsList[i]));
+                }
+
+            }
+            return tsDic;
         }
-    
-       
+
     }
 }

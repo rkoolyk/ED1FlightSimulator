@@ -201,8 +201,9 @@
                               <ColumnDefinition Width="*"/>
                               <ColumnDefinition Width="*"/>
                           </Grid.ColumnDefinitions>
-                        <oxy:PlotView Model="{Binding VM_Model}" />
-                      </Grid>
+                        <oxy:PlotView x:Name="Plot1" Model="{Binding PlotModel}" Margin="10" Grid.Row="1">
+                        </oxy:PlotView>
+                    </Grid>
                     
                       
                   </StackPanel>

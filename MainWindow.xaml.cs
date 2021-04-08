@@ -21,6 +21,7 @@ namespace ED1FlightSimulator
     public partial class MainWindow
     {
         private IViewModel vm;
+
         public MainWindow()
         {
             InitializeComponent();
