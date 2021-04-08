@@ -10,7 +10,10 @@ using System.Runtime.InteropServices;
 namespace ED1FlightSimulator
 {
     public class Model : INotifyPropertyChanged
-    {   
+    {
+        private bool shouldPlay = false;
+        private int imgNum = 0;
+
         private float knobX = 50;
         private float knobY = 50;
         private string heightText = "0";
@@ -157,65 +160,53 @@ namespace ED1FlightSimulator
             return (1000 / (10 * pSpeed));
         }
 
-        /*
-        public class Attribute
+        public void Previous()
         {
-            public String name { get; set; }
+
         }
-           
-         public static XDocument XDoc;
-
-        //Method for parsing the xml file and finding the attributes
-        public static List<String> Parser(String path)
-         {
-       
-            List<Attribute> AttsList = new List<Attribute>();
-            try
+        public void Rewind()
+        {
+            if (imgNum > 10)
             {
-                //Console.WriteLine("\nNow Loading: {0}\n", UserPath);
-                XDoc = XDocument.Load(@path);
-             }
-            catch (Exception err)
+                imgNum -= 10;
+            } else
             {
-                Console.WriteLine("An Exception has been caught:");
-                Console.WriteLine(err);
-                Environment.Exit(1);
+                imgNum = 0;
             }
-            // Build a LINQ query, and run through the XML building
-            // the PersonObjects
-            var query = from xml in XDoc.Descendants("chunk")
-                    select new Attribute
-                    {
-                        name = (string)xml.Element("name"),
+        }
+        public void Play()
+        {
+            shouldPlay = true;
+        }
 
-                    };
-            AttsList = query.ToList();
-            List<String> SAttsList = new List<String>();
-            int i = 0;
-            for (i = 0; i < AttsList.Count(); i++)
+        public void Pause()
+        {
+            shouldPlay = false;
+        }
+
+        public void Stop()
+        {
+            shouldPlay = false;
+            imgNum = 0;
+
+        }
+
+        public void FastForward()
+        {
+            int numOfLines = 100;
+            if (imgNum < numOfLines + 10)
             {
-                if (SAttsList.Contains(AttsList[i].name))
-                    {
-                        SAttsList.Add(AttsList[i].name);
-                        SAttsList[i] = SAttsList[i] + 2;
-                }
-                else
-                {
-                    SAttsList.Add(AttsList[i].name);
-                }
+                imgNum += 10;
+            } else
+            {
+                imgNum = numOfLines;
+            }
             
-            }
-            List<String> SAttsList2 = new List<String>();
-            int size1 = SAttsList.Count();
+        }
 
-            //removing second half bc we want only first half of list
-            for(int j = 0 ; j < size1/2; j++)
-            {
-                 SAttsList2.Add(SAttsList[j]);
-            }
-            return SAttsList2;
-        } */
-    
-       
+        public void Next()
+        {
+           
+        }
     }
 }

@@ -19,6 +19,14 @@ namespace ED1FlightSimulator
         float VM_Throttle { get;}
         float VM_Rudder { get;}
         List<string> VM_Data_List { get;}
+
+        void Previous();
+        void Rewind();
+        void Play();
+        void Pause();
+        void Stop();
+        void FastForward();
+        void Next();
        
     }
 }

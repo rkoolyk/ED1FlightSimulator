@@ -49,7 +49,37 @@ namespace ED1FlightSimulator
         
         private void Previous_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("SELECTION CHANGED");
+            vm.Previous();
+        }
+
+        private void Rewind_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            vm.Rewind();
+        }
+
+        private void Play_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            vm.Play();
+        }
+
+        private void Pause_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            vm.Pause();
+        }
+
+        private void Stop_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            vm.Stop();
+        }
+
+        private void FastForward_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            vm.FastForward();
+        }
+
+        private void Next_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            vm.Next();
         }
     }
 }
