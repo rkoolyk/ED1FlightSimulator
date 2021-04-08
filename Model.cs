@@ -27,10 +27,12 @@ namespace ED1FlightSimulator
         private string time = "00:00:00";
         private float throttle = 0;
         private float rudder = 0;
-        //private List<string> dataList = Parser("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\playback_small.xml");
+        private string xmlPath = null;
+        private string csvPath = null;
         private List<string> dataList = new List<string>();
         public event PropertyChangedEventHandler PropertyChanged;
         String AnomalyAlgorithm;
+        IntPtr TimeSeries;
         private void onPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -38,12 +40,21 @@ namespace ED1FlightSimulator
 
         public void GetPathCSV(string path)
         {
-
+            csvPath = path;
+            /*if (xmlPath != null)
+            {
+                TimeSeries = Create(csvPath, dataList.ToArray(), Data_List.Count());
+            }*/
         }
 
         public void GetPathXML(string path)
         {
+            xmlPath = path;
             Data_List = Parser(path);
+            /*if (csvPath != null)
+            {
+                TimeSeries = Create(csvPath, dataList.ToArray(), Data_List.Count());
+            }*/
         }
     
 
@@ -282,17 +293,17 @@ namespace ED1FlightSimulator
             return SAttsList2;
         }
 
-        [DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
 
         public static extern IntPtr Create(String CSVfileName, String[] l, int size);
 
-        [DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
         public static extern float givesFloatTs(IntPtr obj, int line, String att);
 
-        [DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
         public static extern int getRowSize(IntPtr ts);
 
-        [DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
         public static extern void findLinReg(IntPtr ts, ref float a, ref float b, String attA, String attB);
 
         Dictionary<String, List<float>> getDictionary(List<String> SAttsList, IntPtr ts, String path)
