@@ -163,6 +163,15 @@ namespace ED1FlightSimulator
             }
         }
 
+        public void GetPathCSV(string path)
+        {
+            model.GetPathCSV(path);
+        }
+        public void GetPathXML(string path)
+        {
+            model.GetPathXML(path);
+        }
+
         /*private void SetUpModel()
         {
             PlotModel.LegendTitle = "Legend";
@@ -202,14 +211,7 @@ namespace ED1FlightSimulator
             }
         }*/
 
-        /*public GetPathCSV(string path)
-        {
-            //return model.GetPathCSV(path);
-        }
-        public GetPathXML(string path)
-        {
-            //return model.GetPathXML(path);
-        }*/
+       
     }
     
 }

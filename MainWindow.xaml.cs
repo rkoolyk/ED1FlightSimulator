@@ -42,12 +42,10 @@ namespace ED1FlightSimulator
 			OpenFileDialog openFileDialog = new OpenFileDialog();
 			if(openFileDialog.ShowDialog() == true) {
                 string sFilenames = "";
-				
-            foreach (string sFilename in openFileDialog.FileNames) {
-            path += sFilename; }
-            
-            
-            Debug.Write(path + "\n");
+                foreach (string sFilename in openFileDialog.FileNames) {
+                    path += sFilename; 
+                }
+                vm.GetPathCSV(path);
             }
            
 
@@ -59,13 +57,10 @@ namespace ED1FlightSimulator
 			OpenFileDialog openFileDialog = new OpenFileDialog();
 			if(openFileDialog.ShowDialog() == true) {
                 string sFilenames = "";
-				
-            foreach (string sFilename in openFileDialog.FileNames) {
-            path += sFilename; 
-            }
-            
-            
-            Debug.Write(path + "\n");
+                foreach (string sFilename in openFileDialog.FileNames) {
+                    path += sFilename; 
+                }
+                vm.GetPathXML(path);
             }
         }
 

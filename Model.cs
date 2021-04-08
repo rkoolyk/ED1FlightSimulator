@@ -27,13 +27,25 @@ namespace ED1FlightSimulator
         private string time = "00:00:00";
         private float throttle = 0;
         private float rudder = 0;
-        private List<string> dataList = Parser("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\playback_small.xml");
+        //private List<string> dataList = Parser("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\playback_small.xml");
+        private List<string> dataList = new List<string>();
         public event PropertyChangedEventHandler PropertyChanged;
         String AnomalyAlgorithm;
         private void onPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public void GetPathCSV(string path)
+        {
+
+        }
+
+        public void GetPathXML(string path)
+        {
+            Data_List = Parser(path);
+        }
+    
 
         public void Previous()
         {
