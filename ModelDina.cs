@@ -16,13 +16,16 @@ public class ModelDina
     [DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
     public static extern int getRowSize(IntPtr ts);
 
+    [DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
+    public static extern void findLinReg(IntPtr ts, ref float a, ref float b, String attA, String attB);
+
     public static XDocument XDoc;
     public static String[] l = new String[100];
     public static IntPtr ts;
     public static Dictionary<String, List<float>> newTsDict = new Dictionary<String, List<float>>();
     public ModelDina()
-	{
-	}
+    {
+    }
     public class Attribute
     {
         public String name { get; set; }
@@ -30,7 +33,7 @@ public class ModelDina
     //Method for parsing the xml file and finding the attributes
     public static List<String> Parser(String path)
     {
-       
+
         List<Attribute> AttsList = new List<Attribute>();
         try
         {
@@ -65,13 +68,13 @@ public class ModelDina
             {
                 SAttsList.Add(AttsList[i].name);
             }
-            
+
         }
         List<String> SAttsList2 = new List<String>();
         int size1 = SAttsList.Count();
 
         //removing second half bc we want only first half of list
-        for(int j = 0 ; j < size1/2; j++)
+        for (int j = 0; j < size1 / 2; j++)
         {
             SAttsList2.Add(SAttsList[j]);
         }
@@ -85,7 +88,7 @@ public class ModelDina
         Console.WriteLine("Please enter the path to your xml attribute file");
         String path1 = Console.ReadLine();
         Console.WriteLine("Please enter the path to your csv file");
-        String path2 = Console.ReadLine(); 
+        String path2 = Console.ReadLine();
         List<String> SAttsList = Parser(path1);
         int k;
         for (k = 0; k < SAttsList.Count(); k++)
@@ -94,9 +97,15 @@ public class ModelDina
         }
         ts = Create(path2, l, k);
         newTsDict = getDictionary(SAttsList, ts, path2);
+        /*float a = 0;
+        float b = 0;
+        findLinReg(ts, ref a, ref b, SAttsList[0], SAttsList[1]);
+        Console.WriteLine(a);
+        Console.WriteLine(b);*/
+
     }
 
-    Dictionary<String, List<float>> getDictionary(List<String> SAttsList,IntPtr ts,String path)
+    Dictionary<String, List<float>> getDictionary(List<String> SAttsList, IntPtr ts, String path)
     {
         Dictionary<String, List<float>> tsDic = new Dictionary<String, List<float>>();
 
@@ -113,4 +122,6 @@ public class ModelDina
         }
         return tsDic;
     }
+
+
 }
