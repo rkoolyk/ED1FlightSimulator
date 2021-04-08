@@ -45,5 +45,11 @@ namespace ED1FlightSimulator
         {
             MessageBox.Show("SELECTION CHANGED");
         }
+
+        
+        private void Previous_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("SELECTION CHANGED");
+        }
     }
 }
