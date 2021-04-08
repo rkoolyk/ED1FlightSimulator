@@ -8,6 +8,10 @@ using System.Runtime.CompilerServices;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.IO;
+using Microsoft.Win32;
+using System.Diagnostics;
+
 
 namespace ED1FlightSimulator
 {
@@ -33,7 +37,19 @@ namespace ED1FlightSimulator
 
         private void LoadCsv_OnClick(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("CSV!!!!!!!!");
+            string path = "";
+			OpenFileDialog openFileDialog = new OpenFileDialog();
+			if(openFileDialog.ShowDialog() == true) {
+                string sFilenames = "";
+				
+            foreach (string sFilename in openFileDialog.FileNames) {
+            path += sFilename; }
+            
+            
+            Debug.Write(path + "\n");
+            }
+           
+
         }
 
         private void LoadXml_OnClick(object sender, RoutedEventArgs e)
