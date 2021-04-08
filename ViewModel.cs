@@ -23,8 +23,43 @@ namespace ED1FlightSimulator
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        
-        
+
+        public void Previous()
+        {
+            model.Previous();
+        }
+
+        public void Rewind()
+        {
+            model.Rewind();
+        }
+
+        public void Play()
+        {
+            model.Play();
+        }
+
+        public void Pause()
+        {
+            model.Pause();
+        }
+
+        public void Stop()
+        {
+            model.Stop();
+        }
+
+        public void FastForward()
+        {
+            model.FastForward();
+        }
+
+        public void Next()
+        {
+            model.Next();
+        }
+
+
         public float VM_KNOB_X
         {
             get { return model.KNOB_X; }
