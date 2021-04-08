@@ -51,10 +51,10 @@ namespace ED1FlightSimulator
         {
             xmlPath = path;
             Data_List = Parser(path);
-            /*if (csvPath != null)
+            if (csvPath != null)
             {
                 TimeSeries = Create(csvPath, dataList.ToArray(), Data_List.Count());
-            }*/
+            }
         }
     
 
