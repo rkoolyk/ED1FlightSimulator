@@ -6,3 +6,6 @@
 /obj/Debug/MainWindow.baml
 /obj/Debug/ED1FlightSimulator_ibodkfqu_wpftmp.csprojAssemblyReference.cache
 /obj/Release/ED1FlightSimulator_pki5y00y_wpftmp.csprojAssemblyReference.cache
+/obj/Debug/*
+/bin/Debug/*
+/obj/Release/*

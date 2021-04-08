@@ -28,7 +28,7 @@ namespace ED1FlightSimulator
         private float throttle = 0;
         private float rudder = 0;
         //private List<string> dataList = new List<string>(){"hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "HELLO", "Rachel"};
-        private List<string> dataList = Parser("C:\\Users\\גוטליב\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\playback_small.xml");
+        private List<string> dataList = Parser("C:\\Users\\miche\\Desktop\\university\\cpp\\Tzvi-csharp\\Tzvi-csharp\\playback_small.xml");
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged([CallerMemberName] string propertyName = null)
         {
