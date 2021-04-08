@@ -163,7 +163,7 @@ namespace ED1FlightSimulator
             }
         }
 
-        private void SetUpModel()
+        /*private void SetUpModel()
         {
             PlotModel.LegendTitle = "Legend";
             PlotModel.LegendOrientation = LegendOrientation.Horizontal;
@@ -200,7 +200,7 @@ namespace ED1FlightSimulator
                 data.ToList().ForEach(d => lineSerie.Points.Add(new DataPoint(DateTimeAxis.ToDouble(d.DateTime), d.Value)));
                 PlotModel.Series.Add(lineSerie);
             }
-        }
+        }*/
 
         /*public GetPathCSV(string path)
         {
