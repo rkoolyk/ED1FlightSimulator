@@ -27,6 +27,9 @@ namespace ED1FlightSimulator
         void Stop();
         void FastForward();
         void Next();
+
+        void GetPathCSV(string path);
+        void GetPathXML(string path);
        
     }
 }

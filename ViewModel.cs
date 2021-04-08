@@ -153,6 +153,16 @@ namespace ED1FlightSimulator
                 return model.Data_List;
             }
         }
+
+
+        public GetPathCSV(string path)
+        {
+            //return model.GetPathCSV(path);
+        }
+        public GetPathXML(string path)
+        {
+            //return model.GetPathXML(path);
+        }
     }
     
 }

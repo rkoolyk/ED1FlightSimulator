@@ -12,6 +12,9 @@ namespace ED1FlightSimulator
 {
     public class Model : INotifyPropertyChanged
     {   
+        private bool shouldPlay = false;
+        private int imgNum = 0;
+
         private float knobX = 50;
         private float knobY = 50;
         private string heightText = "0";
@@ -25,12 +28,62 @@ namespace ED1FlightSimulator
         private float throttle = 0;
         private float rudder = 0;
         //private List<string> dataList = new List<string>(){"hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "HELLO", "Rachel"};
-        private List<string> dataList = Parser("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\playback_small.xml");
+        private List<string> dataList = Parser("C:\\Users\\גוטליב\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\playback_small.xml");
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public void Previous()
+        {
+
+        }
+        public void Rewind()
+        {
+            if (imgNum > 10)
+            {
+                imgNum -= 10;
+            } else
+            {
+                imgNum = 0;
+            }
+        }
+        public void Play()
+        {
+            shouldPlay = true;
+        }
+
+        public void Pause()
+        {
+            shouldPlay = false;
+        }
+
+        public void Stop()
+        {
+            shouldPlay = false;
+            imgNum = 0;
+
+        }
+
+        public void FastForward()
+        {
+            int numOfLines = 100;
+            if (imgNum < numOfLines + 10)
+            {
+                imgNum += 10;
+            } else
+            {
+                imgNum = numOfLines;
+            }
+            
+        }
+
+        public void Next()
+        {
+           
+        }
+    
 
         public float KNOB_X
         {

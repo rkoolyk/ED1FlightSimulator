@@ -54,7 +54,18 @@ namespace ED1FlightSimulator
 
         private void LoadXml_OnClick(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("XML!!!!!!!!");
+            string path = "";
+			OpenFileDialog openFileDialog = new OpenFileDialog();
+			if(openFileDialog.ShowDialog() == true) {
+                string sFilenames = "";
+				
+            foreach (string sFilename in openFileDialog.FileNames) {
+            path += sFilename; 
+            }
+            
+            
+            Debug.Write(path + "\n");
+            }
         }
 
         private void PlaySpeed_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
