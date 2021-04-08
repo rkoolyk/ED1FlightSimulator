@@ -30,6 +30,7 @@ namespace ED1FlightSimulator
         private string xmlPath = null;
         private string csvPath = null;
         private List<string> dataList = new List<string>();
+        private Dictionary<String, List<float>> dictionary;
         public event PropertyChangedEventHandler PropertyChanged;
         String AnomalyAlgorithm;
         IntPtr TimeSeries;
@@ -41,10 +42,11 @@ namespace ED1FlightSimulator
         public void GetPathCSV(string path)
         {
             csvPath = path;
-            /*if (xmlPath != null)
+            if (xmlPath != null)
             {
                 TimeSeries = Create(csvPath, dataList.ToArray(), Data_List.Count());
-            }*/
+                dictionary = getDictionary(dataList, TimeSeries);
+            }
         }
 
         public void GetPathXML(string path)
@@ -54,6 +56,7 @@ namespace ED1FlightSimulator
             if (csvPath != null)
             {
                 TimeSeries = Create(csvPath, dataList.ToArray(), Data_List.Count());
+                dictionary = getDictionary(dataList, TimeSeries);
             }
         }
     
@@ -306,7 +309,7 @@ namespace ED1FlightSimulator
         [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
         public static extern void findLinReg(IntPtr ts, ref float a, ref float b, String attA, String attB);
 
-        Dictionary<String, List<float>> getDictionary(List<String> SAttsList, IntPtr ts, String path)
+        Dictionary<String, List<float>> getDictionary(List<String> SAttsList, IntPtr ts)
         {
             Dictionary<String, List<float>> tsDic = new Dictionary<String, List<float>>();
 
