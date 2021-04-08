@@ -3,8 +3,9 @@ using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using System.Collections;
 using System;
-//using System.Linq;
-//using System.Xml.Linq;
+using System.Linq;
+//using System.Xml;
+using System.Xml.Linq;
 using System.Runtime.InteropServices;
 
 namespace ED1FlightSimulator
@@ -23,8 +24,8 @@ namespace ED1FlightSimulator
         private string time = "00:00:00";
         private float throttle = 0;
         private float rudder = 0;
-        private List<string> dataList = new List<string>(){"hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "HELLO", "Rachel"};
-        //private List<string> dataList = Parser("playback_small.xml");
+        //private List<string> dataList = new List<string>(){"hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "HELLO", "Rachel"};
+        private List<string> dataList = Parser("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\playback_small.xml");
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -157,7 +158,7 @@ namespace ED1FlightSimulator
             return (1000 / (10 * pSpeed));
         }
 
-        /*
+        
         public class Attribute
         {
             public String name { get; set; }
@@ -214,7 +215,7 @@ namespace ED1FlightSimulator
                  SAttsList2.Add(SAttsList[j]);
             }
             return SAttsList2;
-        } */
+        } 
     
        
     }
