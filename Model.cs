@@ -30,6 +30,7 @@ namespace ED1FlightSimulator
         //private List<string> dataList = new List<string>(){"hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "hey", "Roni", "HELLO", "Rachel"};
         private List<string> dataList = Parser("C:\\Users\\miche\\Desktop\\university\\cpp\\Tzvi-csharp\\Tzvi-csharp\\playback_small.xml");
         public event PropertyChangedEventHandler PropertyChanged;
+        String AnomalyAlgorithm;
         private void onPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -268,7 +269,12 @@ namespace ED1FlightSimulator
                  SAttsList2.Add(SAttsList[j]);
             }
             return SAttsList2;
-        } 
+        }
+        
+        public void DrawGraph(String att)
+        {
+
+        }
     
        
     }

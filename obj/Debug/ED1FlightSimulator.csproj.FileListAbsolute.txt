@@ -94,3 +94,10 @@ C:\Users\miche\Source\Repos\rkoolyk\ED1FlightSimulator\obj\Debug\ED1FlightSimula
 C:\Users\miche\Source\Repos\rkoolyk\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.csproj.CoreCompileInputs.cache
 C:\Users\miche\Source\Repos\rkoolyk\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.exe
 C:\Users\miche\Source\Repos\rkoolyk\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.pdb
+C:\Users\miche\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.dll
+C:\Users\miche\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.WindowsForms.dll
+C:\Users\miche\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.Wpf.dll
+C:\Users\miche\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.xml
+C:\Users\miche\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.WindowsForms.xml
+C:\Users\miche\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.Wpf.xml
+C:\Users\miche\Source\Repos\rkoolyk\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.csproj.CopyComplete

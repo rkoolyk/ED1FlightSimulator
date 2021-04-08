@@ -155,14 +155,14 @@ namespace ED1FlightSimulator
         }
 
 
-        public GetPathCSV(string path)
+        /*public GetPathCSV(string path)
         {
             //return model.GetPathCSV(path);
         }
         public GetPathXML(string path)
         {
             //return model.GetPathXML(path);
-        }
+        }*/
     }
     
 }
