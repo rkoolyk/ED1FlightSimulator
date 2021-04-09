@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ED1FlightSimulator" xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="800">
-        
+    
     <StackPanel>
           <Grid ShowGridLines="True">
               <Grid.ColumnDefinitions>
@@ -197,16 +197,14 @@
                   
                   <StackPanel Grid.Column="1">
                       <Grid>
-                          <Grid.ColumnDefinitions>
-                              <ColumnDefinition Width="*"/>
-                              <ColumnDefinition Width="*"/>
-                          </Grid.ColumnDefinitions>
-                        <oxy:PlotView x:Name="Plot1" Model="{Binding PlotModel}" Margin="10" Grid.Row="1">
-                        </oxy:PlotView>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <oxy:PlotView Model="{Binding VM_Main_Graph}" />
                     </Grid>
-                    
-                      
-                  </StackPanel>
+
+                </StackPanel>
                 
               </Grid>
               
