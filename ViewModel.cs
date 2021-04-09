@@ -33,6 +33,8 @@ namespace ED1FlightSimulator
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+     
+
         public void Previous()
         {
             model.Previous();

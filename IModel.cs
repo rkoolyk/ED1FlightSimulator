@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace ED1FlightSimulator
 {
@@ -16,6 +17,6 @@ namespace ED1FlightSimulator
         string Time { get; set; }
         float Throttle { get; set; }
         float Rudder { get; set; }
-        List<string> VM_Data_List { get; set; }
+        List<string> Data_List { get; set; }
     }
 }

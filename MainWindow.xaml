@@ -52,13 +52,15 @@
                               <Canvas Height="150" Width="150">
                              
                                
-                                <Ellipse Height="150" Width="150" Fill="Black"/>   
-                                <Ellipse Height="50" Width="50" Fill="Gray"
+                                <Ellipse Height="150" Width="150" Fill="Black"/>
+
+                             
+                                    <Ellipse Height="50" Width="50" Fill="Gray"
                                          Canvas.Left="{Binding VM_KNOB_X}"
-                                         Canvas.Top="{Binding VM_KNOB_Y}"/>   
-                              
+                                         Canvas.Top="{Binding VM_KNOB_Y}"/>
                                 
-                                </Canvas>
+                                      
+                              </Canvas>
 
 
 

@@ -35,8 +35,7 @@ namespace ED1FlightSimulator
             
         }
 
-
-        private void LoadCsv_OnClick(object sender, RoutedEventArgs e)
+             private void LoadCsv_OnClick(object sender, RoutedEventArgs e)
         {
             string path = "";
 			OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -64,12 +63,6 @@ namespace ED1FlightSimulator
             }
         }
 
-        private void PlaySpeed_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            MessageBox.Show("SELECTION CHANGED");
-        }
-
-        
         private void Previous_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             vm.Previous();

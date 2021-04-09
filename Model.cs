@@ -7,12 +7,14 @@ using System.Linq;
 //using System.Xml;
 using System.Xml.Linq;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
+using System.Threading;
 
 namespace ED1FlightSimulator
 {
-    public class Model : INotifyPropertyChanged
+    public class Model : IModel //INotifyPropertyChanged
     {   
-        private bool shouldPlay = false;
+        private bool shouldPlay = true;
         private int imgNum = 0;
 
         private float knobX = 50;
@@ -34,10 +36,107 @@ namespace ED1FlightSimulator
         public event PropertyChangedEventHandler PropertyChanged;
         String AnomalyAlgorithm;
         IntPtr TimeSeries;
+
+        public void Start()
+        {
+            Thread thread = new Thread(
+                delegate()
+                {
+                    while (shouldPlay == true && imgNum < dictionary["throttle"].Count())
+                    {
+                        MoveThrottle();
+                        MoveRudder();
+                        //MoveAileron();
+                        UpdateHeight();
+                        UpdateSpeed();
+                        UpdateDirection();
+                        UpdateYaw();
+                        UpdateRoll();
+                        UpdatePitch();
+                        Thread.Sleep(100);
+                        imgNum++;
+                    }
+                }
+
+                );
+            thread.Start();
+        }
+
         private void onPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public void MoveThrottle()
+        {
+            //Throttle = 50;
+            List<float> throttleVals = dictionary["throttle"];
+            Throttle = throttleVals[imgNum] * 140;
+            //Console.WriteLine(Throttle);
+                                                       
+        }
+
+        public void MoveRudder()
+        {
+            List<float> rudderVals = dictionary["rudder"];
+            Rudder = rudderVals[imgNum] * 70 + 70;
+            /*for (int i = 0; i < rudderVals.Count(); i++)
+            {
+                Console.WriteLine(rudderVals[i] + "\n");
+            }
+            Rudder = 70;*/
+        }
+
+        public void MoveAileron()
+        {
+            List<float> aileronVals = dictionary["aileron"];
+            /*for (int i = 0; i < aileronVals.Count(); i++)
+            {
+                Console.WriteLine(aileronVals[i] + "\n");
+            }*/
+            KNOB_X = aileronVals[imgNum];
+        }
+
+        public void UpdateHeight()
+        {
+            List<float> heightVals = dictionary["altitude-ft"];
+            Height_Text = heightVals[imgNum].ToString();
+        }
+
+        public void UpdateSpeed()
+        {
+            List<float> speedVals = dictionary["airspeed-kt"];
+            Speed_Text = speedVals[imgNum].ToString();
+        }
+
+        public void UpdateDirection()
+        {
+            List<float> dirVals = dictionary["heading-deg"];
+            Direction_Text = dirVals[imgNum].ToString();
+           
+        }
+
+        public void UpdateYaw()
+        {
+            List<float> yawVals = dictionary["side-slip-deg"];
+            Yaw_Text = yawVals[imgNum].ToString();
+
+        }
+
+        public void UpdateRoll()
+        {
+            List<float> rollVals = dictionary["roll-deg"];
+            Roll_Text = rollVals[imgNum].ToString();
+
+        }
+
+        public void UpdatePitch()
+        {
+            List<float> pitchVals = dictionary["pitch-deg"];
+            Pitch_Text = pitchVals[imgNum].ToString();
+
+        }
+
 
         public void GetPathCSV(string path)
         {
@@ -46,6 +145,9 @@ namespace ED1FlightSimulator
             {
                 TimeSeries = Create(csvPath, dataList.ToArray(), Data_List.Count());
                 dictionary = getDictionary(dataList, TimeSeries);
+                //MoveAileron();
+                Start();
+                
             }
         }
 
@@ -231,10 +333,10 @@ namespace ED1FlightSimulator
             }
         }
 
-        public float SleepTime()
+        public int SleepTime()
         {
             float pSpeed = float.Parse(playSpeed);
-            return (1000 / (10 * pSpeed));
+            return (int) (1000 / (10 * pSpeed));
         }
 
         
@@ -296,17 +398,17 @@ namespace ED1FlightSimulator
             return SAttsList2;
         }
 
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
 
         public static extern IntPtr Create(String CSVfileName, String[] l, int size);
 
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
         public static extern float givesFloatTs(IntPtr obj, int line, String att);
 
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
         public static extern int getRowSize(IntPtr ts);
 
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
         public static extern void findLinReg(IntPtr ts, ref float a, ref float b, String attA, String attB);
 
         Dictionary<String, List<float>> getDictionary(List<String> SAttsList, IntPtr ts)
