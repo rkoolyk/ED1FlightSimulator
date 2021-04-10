@@ -10,14 +10,21 @@ using OxyPlot;
 using OxyPlot.Series;
 using System.Diagnostics;
 using System.Threading;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
 
 namespace ED1FlightSimulator
 {
     public class Model : IModel //INotifyPropertyChanged
     {   
-        private bool shouldPlay = true;
+        private bool shouldPlay = false;
         private int imgNum = 0;
 
+        private UdpClient client = new UdpClient(5400);
+        private StreamReader s;
+        private int firstTimeFlag = 1;
+       
         private float knobX = 50;
         private float knobY = 50;
         private string heightText = "0";
@@ -48,15 +55,64 @@ namespace ED1FlightSimulator
         }
 
         public void Start()
-        {
-            Thread thread = new Thread(
+         {
+
+             try
+             {  
+
+                 //UdpClient client = new UdpClient(5400);
+                 if (firstTimeFlag == 1)
+                {
+                    client.Connect("localhost", 5400);
+                    s = new StreamReader(File.OpenRead(csvPath));
+                }
+                 firstTimeFlag = 0;
+                 //StreamReader s = new StreamReader(File.OpenRead(csvPath));
+                 Thread thread = new Thread(
+                 delegate()
+                 {
+                     //while(true)
+                     //{
+                         while(shouldPlay == true && imgNum < dictionary["throttle"].Count()
+                            && !s.EndOfStream)
+                         {    
+                              var newline = s.ReadLine();
+                              String eol = "\n\r";
+                              Byte[] sendBytes = System.Text.Encoding.ASCII.GetBytes(newline + eol);
+                              client.Send(sendBytes, sendBytes.Length);
+                                                       
+                              MoveThrottle();
+                              MoveRudder();
+                              MoveAileron();
+                              MoveElevator();
+                              UpdateHeight();
+                              UpdateSpeed();
+                              UpdateDirection();
+                              UpdateYaw();
+                              UpdateRoll();
+                              UpdatePitch();
+                              Thread.Sleep(SleepTime());
+                              imgNum++;
+                         } 
+                     //}
+
+                  } );
+                  thread.Start();
+                }
+               
+             catch (Exception e)
+             {
+                 Console.WriteLine(e.ToString());
+             }
+            /*Thread thread = new Thread(
                 delegate()
                 {
                     while (shouldPlay == true && imgNum < dictionary["throttle"].Count())
                     {
                         MoveThrottle();
                         MoveRudder();
-                        //MoveAileron();
+                        MoveAileron();
+                        MoveElevator();
                         UpdateHeight();
                         UpdateSpeed();
                         UpdateDirection();
@@ -69,39 +125,64 @@ namespace ED1FlightSimulator
                 }
 
                 );
-            thread.Start();
+            thread.Start();*/
         }
 
-        
+        public void StartSim()
+        {   
+            shouldPlay = true;
+            Start();
+        }
 
         public void MoveThrottle()
         {
-            //Throttle = 50;
+            
             List<float> throttleVals = dictionary["throttle"];
             Throttle = throttleVals[imgNum] * 140;
-            //Console.WriteLine(Throttle);
-                                                       
+                                                              
         }
 
         public void MoveRudder()
         {
             List<float> rudderVals = dictionary["rudder"];
             Rudder = rudderVals[imgNum] * 70 + 70;
-            /*for (int i = 0; i < rudderVals.Count(); i++)
-            {
-                Console.WriteLine(rudderVals[i] + "\n");
-            }
-            Rudder = 70;*/
+            
         }
 
         public void MoveAileron()
         {
             List<float> aileronVals = dictionary["aileron"];
-            /*for (int i = 0; i < aileronVals.Count(); i++)
+            if (aileronVals[imgNum] * 100 + 50 < 100 && aileronVals[imgNum] * 100 + 50 > 0)
             {
-                Console.WriteLine(aileronVals[i] + "\n");
-            }*/
-            KNOB_X = aileronVals[imgNum];
+                 KNOB_X = aileronVals[imgNum] * 100 + 50;
+            }
+            else if (aileronVals[imgNum] * 100 + 50 > 100)
+            {
+                KNOB_X = 100;
+            }
+            else if (aileronVals[imgNum] * 100 + 50 < 0)
+            {
+                KNOB_X = 0;
+            }
+           
+        }
+
+        public void MoveElevator()
+        {
+            List<float> elevatorVals = dictionary["elevator"];
+            if (elevatorVals[imgNum] * 100 + 50 > 0 && elevatorVals[imgNum] * 100 + 50 < 100)
+            {
+                 KNOB_Y = elevatorVals[imgNum] * 100 + 50;
+            }
+            else if (elevatorVals[imgNum] * 100 + 50 > 100)
+            {
+                KNOB_Y = 100;
+            }
+            else if (elevatorVals[imgNum] * 100 + 50 < 0)
+            {
+                KNOB_Y = 0;
+            }
+           
         }
 
         public void UpdateHeight()
@@ -153,7 +234,7 @@ namespace ED1FlightSimulator
                 TimeSeries = Create(csvPath, dataList.ToArray(), Data_List.Count());
                 dictionary = getDictionary(dataList, TimeSeries);
                 //MoveAileron();
-                Start();
+                //Start();
                 
             }
         }
@@ -175,9 +256,9 @@ namespace ED1FlightSimulator
         }
         public void Rewind()
         {
-            if (imgNum > 10)
+            if (imgNum > 100)
             {
-                imgNum -= 10;
+                imgNum -= 100;
             } else
             {
                 imgNum = 0;
@@ -186,6 +267,7 @@ namespace ED1FlightSimulator
         public void Play()
         {
             shouldPlay = true;
+            Start();
         }
 
         public void Pause()
@@ -194,8 +276,20 @@ namespace ED1FlightSimulator
         }
 
         public void Stop()
-        {
+        {   
+            firstTimeFlag = 1;
             shouldPlay = false;
+            Height_Text = "0";
+            Speed_Text = "0";
+            Direction_Text = "0";
+            Yaw_Text = "0";
+            Roll_Text = "0";
+            Pitch_Text = "0";
+            KNOB_X = 50;
+            KNOB_Y = 50;
+            Throttle = 0;
+            Rudder = 0;
+            Time = "00:00:00";
             imgNum = 0;
 
         }
@@ -297,7 +391,7 @@ namespace ED1FlightSimulator
         {
             get { return playSpeed; }
             set
-            {
+            {   
                 playSpeed = value;
                 onPropertyChanged("Play_Speed");
             }
@@ -341,7 +435,7 @@ namespace ED1FlightSimulator
 
         public int SleepTime()
         {
-            float pSpeed = float.Parse(playSpeed);
+            float pSpeed = float.Parse(Play_Speed);
             return (int) (1000 / (10 * pSpeed));
         }
 

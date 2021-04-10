@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using OxyPlot;
+using System;
 
 namespace ED1FlightSimulator
 {
@@ -25,7 +26,10 @@ namespace ED1FlightSimulator
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-     
+        public void StartSim()
+        {
+            model.StartSim();
+        }
 
         public void Previous()
         {

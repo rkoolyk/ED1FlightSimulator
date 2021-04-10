@@ -18,5 +18,6 @@ namespace ED1FlightSimulator
         float Throttle { get; set; }
         float Rudder { get; set; }
         List<string> Data_List { get; set; }
+        void StartSim();
     }
 }

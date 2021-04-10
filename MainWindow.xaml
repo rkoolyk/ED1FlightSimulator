@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ED1FlightSimulator" xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
+        Title="MainWindow" Height="620" Width="800">
     
     <StackPanel>
           <Grid ShowGridLines="True">
@@ -219,12 +219,16 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel>
+				
                 <Button Name="LoadCsv" Click="LoadCsv_OnClick" 
                         Padding="5" Content="Load CSV File"
                         Margin="5,10"></Button>
                 <Button Name="LoadXml" Click="LoadXml_OnClick"
                     Padding="5" Content="Load XML File"
                         Margin="5,3"></Button>
+				<Button Name="StartSim" Click="StartSim_OnClick"
+					   Padding="5" Content="Start Simulation"
+					   Margin="5,10"></Button>
             </StackPanel>
 			
 
