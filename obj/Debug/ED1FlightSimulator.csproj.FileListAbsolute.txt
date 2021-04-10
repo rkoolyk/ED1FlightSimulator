@@ -115,3 +115,10 @@ C:\Users\doras\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.xml
 C:\Users\doras\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.WindowsForms.xml
 C:\Users\doras\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.Wpf.xml
 C:\Users\doras\Source\Repos\rkoolyk\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.csproj.CopyComplete
+C:\Users\rayra\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.dll
+C:\Users\rayra\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.WindowsForms.dll
+C:\Users\rayra\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.Wpf.dll
+C:\Users\rayra\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.xml
+C:\Users\rayra\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.WindowsForms.xml
+C:\Users\rayra\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.Wpf.xml
+C:\Users\rayra\Source\Repos\rkoolyk\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.csproj.CopyComplete

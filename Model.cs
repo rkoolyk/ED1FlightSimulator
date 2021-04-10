@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.Collections;
 using System;
 using System.Linq;
-//using System.Xml;
 using System.Xml.Linq;
 using System.Runtime.InteropServices;
+using OxyPlot;
+using OxyPlot.Series;
 using System.Diagnostics;
 using System.Threading;
 
@@ -35,7 +36,16 @@ namespace ED1FlightSimulator
         private Dictionary<String, List<float>> dictionary;
         public event PropertyChangedEventHandler PropertyChanged;
         String AnomalyAlgorithm;
-        IntPtr TimeSeries;
+        private IntPtr TimeSeries;
+        private PlotModel mainGraph = null;
+        private PlotModel correlatedGraph = null;
+        private PlotModel regressionGraph = null;
+        private string category = "slats";//starting off with slats to check
+
+        private void onPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public void Start()
         {
@@ -53,7 +63,7 @@ namespace ED1FlightSimulator
                         UpdateYaw();
                         UpdateRoll();
                         UpdatePitch();
-                        Thread.Sleep(100);
+                        Thread.Sleep(SleepTime());
                         imgNum++;
                     }
                 }
@@ -62,10 +72,7 @@ namespace ED1FlightSimulator
             thread.Start();
         }
 
-        private void onPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        
 
         public void MoveThrottle()
         {
@@ -161,7 +168,6 @@ namespace ED1FlightSimulator
                 dictionary = getDictionary(dataList, TimeSeries);
             }
         }
-    
 
         public void Previous()
         {
@@ -204,14 +210,14 @@ namespace ED1FlightSimulator
             {
                 imgNum = numOfLines;
             }
-            
+
         }
 
         public void Next()
         {
-           
+
         }
-    
+
 
         public float KNOB_X
         {
@@ -314,7 +320,7 @@ namespace ED1FlightSimulator
                 onPropertyChanged("Throttle");
             }
         }
-         public float Rudder
+        public float Rudder
         {
             get { return rudder; }
             set
@@ -327,7 +333,7 @@ namespace ED1FlightSimulator
         {
             get { return dataList; }
             set
-            {  
+            {
                 dataList = value;
                 onPropertyChanged("Data_List");
             }
@@ -339,24 +345,44 @@ namespace ED1FlightSimulator
             return (int) (1000 / (10 * pSpeed));
         }
 
-        
+        public string Category
+        {
+            get { return category; }
+            set
+            {
+                category = value;
+                onPropertyChanged("Category");
+                PlotModel tmp = new PlotModel { };
+                LineSeries line = new LineSeries { Title = category, MarkerType = MarkerType.Circle };
+                List<float> data = dictionary[category];
+                int i = 0;
+                foreach (float f in data)
+                {
+                    line.Points.Add(new DataPoint(i, f));
+                    i++;
+                }
+                tmp.Series.Add(line);
+                Main_Graph = tmp;
+            }
+        }
+
         public class Attribute
         {
             public String name { get; set; }
         }
-           
-         public static XDocument XDoc;
+
+        public static XDocument XDoc;
 
         //Method for parsing the xml file and finding the attributes
         public static List<String> Parser(String path)
-         {
-       
+        {
+
             List<Attribute> AttsList = new List<Attribute>();
             try
             {
                 //Console.WriteLine("\nNow Loading: {0}\n", UserPath);
                 XDoc = XDocument.Load(@path);
-             }
+            }
             catch (Exception err)
             {
                 Console.WriteLine("An Exception has been caught:");
@@ -366,34 +392,34 @@ namespace ED1FlightSimulator
             // Build a LINQ query, and run through the XML building
             // the PersonObjects
             var query = from xml in XDoc.Descendants("chunk")
-                    select new Attribute
-                    {
-                        name = (string)xml.Element("name"),
+                        select new Attribute
+                        {
+                            name = (string)xml.Element("name"),
 
-                    };
+                        };
             AttsList = query.ToList();
             List<String> SAttsList = new List<String>();
             int i = 0;
             for (i = 0; i < AttsList.Count(); i++)
             {
                 if (SAttsList.Contains(AttsList[i].name))
-                    {
-                        SAttsList.Add(AttsList[i].name);
-                        SAttsList[i] = SAttsList[i] + 2;
+                {
+                    SAttsList.Add(AttsList[i].name);
+                    SAttsList[i] = SAttsList[i] + 2;
                 }
                 else
                 {
                     SAttsList.Add(AttsList[i].name);
                 }
-            
+
             }
             List<String> SAttsList2 = new List<String>();
             int size1 = SAttsList.Count();
 
             //removing second half bc we want only first half of list
-            for(int j = 0 ; j < size1/2; j++)
+            for (int j = 0; j < size1 / 2; j++)
             {
-                 SAttsList2.Add(SAttsList[j]);
+                SAttsList2.Add(SAttsList[j]);
             }
             return SAttsList2;
         }
@@ -427,6 +453,20 @@ namespace ED1FlightSimulator
 
             }
             return tsDic;
+        }
+
+        public PlotModel Main_Graph
+        {
+            get
+            {
+                return mainGraph;
+            }
+            set
+            {
+                mainGraph = value;
+                mainGraph.InvalidatePlot(true);
+                onPropertyChanged("Main_Graph");
+            }
         }
 
     }

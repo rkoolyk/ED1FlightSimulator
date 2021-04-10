@@ -2,7 +2,6 @@
 using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using OxyPlot;
-using OxyPlot.Axes;
 
 namespace ED1FlightSimulator
 {
@@ -18,16 +17,9 @@ namespace ED1FlightSimulator
                 {
                     onPropertyChanged("VM_" + e.PropertyName);
                 };
-            PlotModel = new PlotModel();
-        }
-        public PlotModel PlotModel
-        {
-            get { return plotModel; }
-            set { plotModel = value; onPropertyChanged("PlotModel"); }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private PlotModel plotModel;
         private void onPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -172,48 +164,12 @@ namespace ED1FlightSimulator
         public void GetPathXML(string path)
         {
             model.GetPathXML(path);
-        }
+        }      
 
-        /*private void SetUpModel()
+        public PlotModel VM_Main_Graph
         {
-            PlotModel.LegendTitle = "Legend";
-            PlotModel.LegendOrientation = LegendOrientation.Horizontal;
-            PlotModel.LegendPlacement = LegendPlacement.Outside;
-            PlotModel.LegendPosition = LegendPosition.TopRight;
-            PlotModel.LegendBackground = OxyColor.FromAColor(200, OxyColors.White);
-            PlotModel.LegendBorder = OxyColors.Black;
-
-            var dateAxis = new DateTimeAxis { Position = AxisPosition.Bottom, StringFormat = "dd/MM/yy HH:mm", MajorGridlineStyle = LineStyle.Solid, MinorGridlineStyle = LineStyle.Dot, IntervalLength = 80 };
-            PlotModel.Axes.Add(dateAxis);
-            var valueAxis = new LinearAxis { Position = AxisPosition.Left, Minimum = 0, MajorGridlineStyle = LineStyle.Solid, MinorGridlineStyle = LineStyle.Dot, Title = "Value" };
-            PlotModel.Axes.Add(valueAxis);
+            get { return model.Main_Graph; }
         }
-
-        private void LoadData()
-        {
-            List<float> dataRecords = Data.GetData();
-
-            var dataPerDetector = measurements.GroupBy(m => m.DetectorId).ToList();
-
-            foreach (var data in dataPerDetector)
-            {
-                var lineSerie = new LineSeries
-                {
-                    StrokeThickness = 2,
-                    MarkerSize = 3,
-                    MarkerStroke = colors[data.Key],
-                    MarkerType = markerTypes[data.Key],
-                    CanTrackerInterpolatePoints = false,
-                    Title = string.Format("Detector {0}", data.Key),
-                    Smooth = false,
-                };
-
-                data.ToList().ForEach(d => lineSerie.Points.Add(new DataPoint(DateTimeAxis.ToDouble(d.DateTime), d.Value)));
-                PlotModel.Series.Add(lineSerie);
-            }
-        }*/
-
-       
     }
     
 }
