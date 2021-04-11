@@ -6,6 +6,7 @@ namespace ED1FlightSimulator
 {
     interface IViewModel : INotifyPropertyChanged
     {
+        
         float VM_KNOB_X { get; }
         float VM_KNOB_Y { get; }
         string VM_Height_Text { get;}
@@ -33,6 +34,7 @@ namespace ED1FlightSimulator
 
         void GetPathCSV(string path);
         void GetPathXML(string path);
+        void StartSim();
        
     }
 }

@@ -36,22 +36,18 @@ namespace ED1FlightSimulator
 
         }
 
-
         private void LoadCsv_OnClick(object sender, RoutedEventArgs e)
         {
             string path = "";
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true)
-            {
-                string sFilenames = "";
-                foreach (string sFilename in openFileDialog.FileNames)
-                {
-                    path += sFilename;
-                }
-                vm.GetPathCSV(path);
+		    OpenFileDialog openFileDialog = new OpenFileDialog();
+		    if(openFileDialog.ShowDialog() == true) {
+                 string sFilenames = "";
+                 foreach (string sFilename in openFileDialog.FileNames) {
+                 path += sFilename; 
+                 }
+                 vm.GetPathCSV(path);
             }
-
-
+          
         }
 
         private void LoadXml_OnClick(object sender, RoutedEventArgs e)
@@ -69,11 +65,10 @@ namespace ED1FlightSimulator
             }
         }
 
-        private void PlaySpeed_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void StartSim_OnClick(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("SELECTION CHANGED");
+            vm.StartSim();
         }
-
 
         private void Previous_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {

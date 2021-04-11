@@ -78,6 +78,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="IModel.cs" />
     <Compile Include="IViewModel.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="ViewModel.cs" />

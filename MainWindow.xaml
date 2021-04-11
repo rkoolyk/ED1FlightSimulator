@@ -7,8 +7,8 @@
         xmlns:DV="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"  
         xmlns:DVC="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
-
+        Title="MainWindow" Height="620" Width="800">
+    
     <StackPanel>
         <Grid ShowGridLines="True">
             <Grid.ColumnDefinitions>
@@ -51,17 +51,19 @@
                             <TextBlock Name="Aileron" FontSize="16"
                                          TextAlignment="Center"
                               ></TextBlock>
-
-                            <Canvas Height="150" Width="150">
-
-
+                              
+                              <Canvas Height="150" Width="150">
+                             
+                               
                                 <Ellipse Height="150" Width="150" Fill="Black"/>
-                                <Ellipse Height="50" Width="50" Fill="Gray"
+
+                             
+                                    <Ellipse Height="50" Width="50" Fill="Gray"
                                          Canvas.Left="{Binding VM_KNOB_X}"
                                          Canvas.Top="{Binding VM_KNOB_Y}"/>
-
-
-                            </Canvas>
+                                
+                                      
+                              </Canvas>
 
 
 
@@ -229,12 +231,16 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel>
+				
                 <Button Name="LoadCsv" Click="LoadCsv_OnClick" 
                         Padding="5" Content="Load CSV File"
                         Margin="5,10"></Button>
                 <Button Name="LoadXml" Click="LoadXml_OnClick"
                     Padding="5" Content="Load XML File"
                         Margin="5,3"></Button>
+				<Button Name="StartSim" Click="StartSim_OnClick"
+					   Padding="5" Content="Start Simulation"
+					   Margin="5,10"></Button>
             </StackPanel>
 
 

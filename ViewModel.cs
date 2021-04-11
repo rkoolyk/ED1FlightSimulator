@@ -26,6 +26,11 @@ namespace ED1FlightSimulator
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public void StartSim()
+        {
+            model.StartSim();
+        }
+
         public void Previous()
         {
             model.Previous();

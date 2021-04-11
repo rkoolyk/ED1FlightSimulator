@@ -65,6 +65,7 @@ C:\Users\rayra\source\repos\rkoolyk\ED1FlightSimulator\obj\Debug\ED1FlightSimula
 C:\Users\doras\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\ED1FlightSimulator.exe.config
 C:\Users\doras\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\ED1FlightSimulator.exe
 C:\Users\doras\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\ED1FlightSimulator.pdb
+C:\Users\doras\Source\Repos\rkoolyk\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.csprojAssemblyReference.cache
 C:\Users\doras\Source\Repos\rkoolyk\ED1FlightSimulator\obj\Debug\MainWindow.g.cs
 C:\Users\doras\Source\Repos\rkoolyk\ED1FlightSimulator\obj\Debug\App.g.cs
 C:\Users\doras\Source\Repos\rkoolyk\ED1FlightSimulator\obj\Debug\ED1FlightSimulator_Content.g.cs
@@ -114,7 +115,10 @@ C:\Users\doras\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.xml
 C:\Users\doras\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.WindowsForms.xml
 C:\Users\doras\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.Wpf.xml
 C:\Users\doras\Source\Repos\rkoolyk\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.csproj.CopyComplete
-C:\Users\doras\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\System.Windows.Controls.DataVisualization.Toolkit.dll
-C:\Users\doras\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\System.Windows.Controls.Input.Toolkit.dll
-C:\Users\doras\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\System.Windows.Controls.Layout.Toolkit.dll
-C:\Users\doras\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\WPFToolkit.dll
+C:\Users\rayra\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.dll
+C:\Users\rayra\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.WindowsForms.dll
+C:\Users\rayra\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.Wpf.dll
+C:\Users\rayra\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.xml
+C:\Users\rayra\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.WindowsForms.xml
+C:\Users\rayra\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.Wpf.xml
+C:\Users\rayra\Source\Repos\rkoolyk\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.csproj.CopyComplete
