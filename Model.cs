@@ -40,17 +40,39 @@ namespace ED1FlightSimulator
         private string xmlPath = null;
         private string csvPath = null;
         private List<string> dataList = new List<string>();
+        private List<KeyValuePair<float, float>> mainGraphValues = null;
+        private List<KeyValuePair<float, float>> correlatedGraph = null;
+        private List<KeyValuePair<float, float>> regressionGraph = null;
+        private string category = "slats";
         private Dictionary<String, List<float>> dictionary;
         public event PropertyChangedEventHandler PropertyChanged;
         String AnomalyAlgorithm;
         private IntPtr TimeSeries;
-        private List<KeyValuePair<float, float>> mainGraphValues = null;
-        private List<KeyValuePair<float, float>> correlatedGraph = null;
-        private List<KeyValuePair<float, float>> regressionGraph = null;
-        private string category = null;
         private void onPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public Model()
+        {
+            mainGraphValues = new List<KeyValuePair<float, float>>();
+            mainGraphValues.Add(new KeyValuePair<float, float>(1, 60));
+            mainGraphValues.Add(new KeyValuePair<float, float>(7, 15));
+            mainGraphValues.Add(new KeyValuePair<float, float>(8, 23));
+            mainGraphValues.Add(new KeyValuePair<float, float>(40, 50));
+            mainGraphValues.Add(new KeyValuePair<float, float>(3, 80));
+            mainGraphValues.Add(new KeyValuePair<float, float>(11, 15));
+            mainGraphValues.Add(new KeyValuePair<float, float>(5, 20));
+            mainGraphValues.Add(new KeyValuePair<float, float>(26, 31));
+            mainGraphValues.Add(new KeyValuePair<float, float>(9, 70));
+            mainGraphValues.Add(new KeyValuePair<float, float>(17, 4));
+            mainGraphValues.Add(new KeyValuePair<float, float>(6, 12));
+            mainGraphValues.Add(new KeyValuePair<float, float>(15, 19));
+            mainGraphValues.Add(new KeyValuePair<float, float>(43, 14));
+            mainGraphValues.Add(new KeyValuePair<float, float>(35, 18));
+            mainGraphValues.Add(new KeyValuePair<float, float>(24, 41));
+            mainGraphValues.Add(new KeyValuePair<float, float>(28, 500));
+            onPropertyChanged("Main_Graph_Values");
         }
 
         public void Start()
@@ -246,26 +268,9 @@ namespace ED1FlightSimulator
             {
                 TimeSeries = Create(csvPath, dataList.ToArray(), Data_List.Count());
                 dictionary = getDictionary(dataList, TimeSeries);
-                mainGraphValues = new List<KeyValuePair<float, float>>();
-                mainGraphValues.Add(new KeyValuePair<float, float>(1, 60));
-                mainGraphValues.Add(new KeyValuePair<float, float>(7, 15));
-                mainGraphValues.Add(new KeyValuePair<float, float>(8, 23));
-                mainGraphValues.Add(new KeyValuePair<float, float>(40, 50));
-                mainGraphValues.Add(new KeyValuePair<float, float>(3, 80));
-                mainGraphValues.Add(new KeyValuePair<float, float>(11, 15));
-                mainGraphValues.Add(new KeyValuePair<float, float>(5, 20));
-                mainGraphValues.Add(new KeyValuePair<float, float>(26, 31));
-                mainGraphValues.Add(new KeyValuePair<float, float>(9, 70));
-                mainGraphValues.Add(new KeyValuePair<float, float>(17, 4));
-                mainGraphValues.Add(new KeyValuePair<float, float>(6, 12));
-                mainGraphValues.Add(new KeyValuePair<float, float>(15, 19));
-                mainGraphValues.Add(new KeyValuePair<float, float>(43, 14));
-                mainGraphValues.Add(new KeyValuePair<float, float>(35, 18));
-                mainGraphValues.Add(new KeyValuePair<float, float>(24, 41));
-                mainGraphValues.Add(new KeyValuePair<float, float>(28, 500));
-                onPropertyChanged("Main_Graph_Values");
+                Category = "aileron";
+                Console.WriteLine("Changed category");
                 Category = "slats";
-
             }
         }
 
@@ -464,9 +469,9 @@ namespace ED1FlightSimulator
             set
             {
                 category = value;
-                onPropertyChanged("Category");
                 
-               /* List<float> data = dictionary[category];
+                
+               List<float> data = dictionary[category];
                 int i = 0;
                 List<KeyValuePair<float, float>> dataPairs = new List<KeyValuePair<float, float>>();
                 foreach (float f in data)
@@ -474,7 +479,21 @@ namespace ED1FlightSimulator
                     dataPairs.Add(new KeyValuePair<float, float>(i, f));
                     i++;
                 }
-                Main_Graph_Values = dataPairs;*/
+                Main_Graph_Values = dataPairs;
+                onPropertyChanged();
+            }
+        }
+
+        public List<KeyValuePair<float, float>> Main_Graph_Values
+        {
+            get
+            {
+                return mainGraphValues;
+            }
+            set
+            {
+                mainGraphValues = value;
+                onPropertyChanged("Main_Graph_Values");
             }
         }
 
@@ -567,18 +586,7 @@ namespace ED1FlightSimulator
             return tsDic;
         }
 
-        public List<KeyValuePair<float, float>> Main_Graph_Values
-        {
-            get
-            {
-                return mainGraphValues;
-            }
-            set
-            {
-                mainGraphValues = value;
-                onPropertyChanged("Main_Graph_Values");
-            }
-        }
+       
 
     }
 }

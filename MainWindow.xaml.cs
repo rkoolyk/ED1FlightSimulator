@@ -31,9 +31,8 @@ namespace ED1FlightSimulator
             this.Aileron.Text = "<- Aileron ->";
             this.Throttle.Text = "<- Throttle ->";
             this.Rudder.Text = "<- Rudder ->";
-            Main_Graph.DataContext = vm.VM_Main_Graph_Values;
-
-
+            this.MainGraph.DataContext = vm.VM_Main_Graph_Values;
+            this.Correlated_Graph.DataContext = vm.VM_Main_Graph_Values;
         }
 
         private void LoadCsv_OnClick(object sender, RoutedEventArgs e)

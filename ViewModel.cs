@@ -21,7 +21,7 @@ namespace ED1FlightSimulator
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private void onPropertyChanged([CallerMemberName] string propertyName = null)
+        private void onPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -160,6 +160,34 @@ namespace ED1FlightSimulator
                 return model.Data_List;
             }
         }
+        public List<KeyValuePair<float, float>> VM_Main_Graph_Values
+        {
+            get
+            {
+                Console.WriteLine("Trying to get main values from viewodel");
+                /*List<KeyValuePair<float, float>> tmp = model.Main_Graph_Values;
+                Console.WriteLine("Writing pairs now");
+                foreach (KeyValuePair<float, float> pairs in tmp)
+                {
+                     Console.WriteLine(pairs);
+                }
+                */
+                return model.Main_Graph_Values;
+            }
+        }
+
+        public string VM_Category
+        {
+            get
+            {
+                //Console.WriteLine("Category is " + model.Category);
+                return model.Category;
+            }
+            set
+            {
+                model.Category = value;
+            }
+        }
 
         public void GetPathCSV(string path)
         {
@@ -170,26 +198,7 @@ namespace ED1FlightSimulator
             model.GetPathXML(path);
         }      
 
-        public List<KeyValuePair<float, float>> VM_Main_Graph_Values
-        {
-            get {
-                Console.WriteLine("Values are " + model.Main_Graph_Values);
-                return model.Main_Graph_Values; 
-            }
-        }
-
-        public string VM_Category
-        {
-            get
-            {
-                Console.WriteLine("Caterogy is " + model.Category);
-                return model.Category;
-            }
-            set
-            {
-                model.Category = value;
-            }
-        }
+       
     }
     
 }
