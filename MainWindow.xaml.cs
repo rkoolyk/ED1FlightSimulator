@@ -31,34 +31,39 @@ namespace ED1FlightSimulator
             this.Aileron.Text = "<- Aileron ->";
             this.Throttle.Text = "<- Throttle ->";
             this.Rudder.Text = "<- Rudder ->";
-           
-            
+            Main_Graph.DataContext = vm.VM_Main_Graph_Values;
+
+
         }
 
 
         private void LoadCsv_OnClick(object sender, RoutedEventArgs e)
         {
             string path = "";
-			OpenFileDialog openFileDialog = new OpenFileDialog();
-			if(openFileDialog.ShowDialog() == true) {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
                 string sFilenames = "";
-                foreach (string sFilename in openFileDialog.FileNames) {
-                    path += sFilename; 
+                foreach (string sFilename in openFileDialog.FileNames)
+                {
+                    path += sFilename;
                 }
                 vm.GetPathCSV(path);
             }
-           
+
 
         }
 
         private void LoadXml_OnClick(object sender, RoutedEventArgs e)
         {
             string path = "";
-			OpenFileDialog openFileDialog = new OpenFileDialog();
-			if(openFileDialog.ShowDialog() == true) {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
                 string sFilenames = "";
-                foreach (string sFilename in openFileDialog.FileNames) {
-                    path += sFilename; 
+                foreach (string sFilename in openFileDialog.FileNames)
+                {
+                    path += sFilename;
                 }
                 vm.GetPathXML(path);
             }
@@ -69,7 +74,7 @@ namespace ED1FlightSimulator
             MessageBox.Show("SELECTION CHANGED");
         }
 
-        
+
         private void Previous_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             vm.Previous();

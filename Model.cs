@@ -35,10 +35,10 @@ namespace ED1FlightSimulator
         public event PropertyChangedEventHandler PropertyChanged;
         String AnomalyAlgorithm;
         private IntPtr TimeSeries;
-        private PlotModel mainGraph = null;
-        private PlotModel correlatedGraph = null;
-        private PlotModel regressionGraph = null;
-        private string category = "slats";//starting off with slats to check
+        private List<KeyValuePair<float, float>> mainGraphValues = null;
+        private List<KeyValuePair<float, float>> correlatedGraph = null;
+        private List<KeyValuePair<float, float>> regressionGraph = null;
+        private string category = null;
         private void onPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -62,6 +62,26 @@ namespace ED1FlightSimulator
             {
                 TimeSeries = Create(csvPath, dataList.ToArray(), Data_List.Count());
                 dictionary = getDictionary(dataList, TimeSeries);
+                mainGraphValues = new List<KeyValuePair<float, float>>();
+                mainGraphValues.Add(new KeyValuePair<float, float>(1, 60));
+                mainGraphValues.Add(new KeyValuePair<float, float>(7, 15));
+                mainGraphValues.Add(new KeyValuePair<float, float>(8, 23));
+                mainGraphValues.Add(new KeyValuePair<float, float>(40, 50));
+                mainGraphValues.Add(new KeyValuePair<float, float>(3, 80));
+                mainGraphValues.Add(new KeyValuePair<float, float>(11, 15));
+                mainGraphValues.Add(new KeyValuePair<float, float>(5, 20));
+                mainGraphValues.Add(new KeyValuePair<float, float>(26, 31));
+                mainGraphValues.Add(new KeyValuePair<float, float>(9, 70));
+                mainGraphValues.Add(new KeyValuePair<float, float>(17, 4));
+                mainGraphValues.Add(new KeyValuePair<float, float>(6, 12));
+                mainGraphValues.Add(new KeyValuePair<float, float>(15, 19));
+                mainGraphValues.Add(new KeyValuePair<float, float>(43, 14));
+                mainGraphValues.Add(new KeyValuePair<float, float>(35, 18));
+                mainGraphValues.Add(new KeyValuePair<float, float>(24, 41));
+                mainGraphValues.Add(new KeyValuePair<float, float>(28, 500));
+                onPropertyChanged("Main_Graph_Values");
+                Category = "slats";
+
             }
         }
 
@@ -248,17 +268,16 @@ namespace ED1FlightSimulator
             {
                 category = value;
                 onPropertyChanged("Category");
-                PlotModel tmp = new PlotModel { };
-                LineSeries line = new LineSeries { Title = category, MarkerType = MarkerType.Circle };
-                List<float> data = dictionary[category];
+                
+               /* List<float> data = dictionary[category];
                 int i = 0;
+                List<KeyValuePair<float, float>> dataPairs = new List<KeyValuePair<float, float>>();
                 foreach (float f in data)
                 {
-                    line.Points.Add(new DataPoint(i, f));
+                    dataPairs.Add(new KeyValuePair<float, float>(i, f));
                     i++;
                 }
-                tmp.Series.Add(line);
-                Main_Graph = tmp;
+                Main_Graph_Values = dataPairs;*/
             }
         }
 
@@ -351,17 +370,16 @@ namespace ED1FlightSimulator
             return tsDic;
         }
 
-        public PlotModel Main_Graph
+        public List<KeyValuePair<float, float>> Main_Graph_Values
         {
             get
             {
-                return mainGraph;
+                return mainGraphValues;
             }
             set
             {
-                mainGraph = value;
-                mainGraph.InvalidatePlot(true);
-                onPropertyChanged("Main_Graph");
+                mainGraphValues = value;
+                onPropertyChanged("Main_Graph_Values");
             }
         }
 

@@ -20,6 +20,9 @@ namespace ED1FlightSimulator
         float VM_Rudder { get;}
         List<string> VM_Data_List { get;}
 
+        List<KeyValuePair<float, float>> VM_Main_Graph_Values { get; }
+        string VM_Category { get; set; }
+
         void Previous();
         void Rewind();
         void Play();

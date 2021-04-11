@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using OxyPlot;
+using System;
 
 namespace ED1FlightSimulator
 {
@@ -164,9 +165,25 @@ namespace ED1FlightSimulator
             model.GetPathXML(path);
         }      
 
-        public PlotModel VM_Main_Graph
+        public List<KeyValuePair<float, float>> VM_Main_Graph_Values
         {
-            get { return model.Main_Graph; }
+            get {
+                Console.WriteLine("Values are " + model.Main_Graph_Values);
+                return model.Main_Graph_Values; 
+            }
+        }
+
+        public string VM_Category
+        {
+            get
+            {
+                Console.WriteLine("Caterogy is " + model.Category);
+                return model.Category;
+            }
+            set
+            {
+                model.Category = value;
+            }
         }
     }
     
