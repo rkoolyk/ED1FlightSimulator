@@ -3,7 +3,8 @@
     "",
     "\\bin",
     "\\Joystick",
-    "\\obj"
+    "\\obj",
+    "\\packages"
   ],
   "SelectedNode": "\\Model.cs",
   "PreviewInSolutionExplorer": false
