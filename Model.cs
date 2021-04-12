@@ -6,8 +6,6 @@ using System;
 using System.Linq;
 using System.Xml.Linq;
 using System.Runtime.InteropServices;
-using OxyPlot;
-using OxyPlot.Series;
 using System.Diagnostics;
 using System.Threading;
 using System.Net;
@@ -828,29 +826,6 @@ namespace ED1FlightSimulator
             return SAttsList2;
         }
 
-        //[DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
-
-       // public static extern IntPtr Create(String CSVfileName, String[] l, int size);
-
-       /* [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
-        public static extern float givesFloatTs(IntPtr obj, int line, String att);
-
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
-        public static extern int getRowSize(IntPtr ts);*/
-
-        /*[DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Algo1-Dll.dll")]
-        public static extern void findLinReg(IntPtr ts, ref float a, ref float b, String attA, String attB);*/
-
-        /*[DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Algo1-Dll.dll")]
-        public static extern void MostCorrelatedFeature(IntPtr sad, [MarshalAs(UnmanagedType.LPStr)] String CSVfileName, [MarshalAs(UnmanagedType.LPArray)] String[] l, int size, [MarshalAs(UnmanagedType.LPStr)] String att, StringBuilder s);
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Algo1-Dll.dll")]
-        public static extern IntPtr CreateSAD();*/
-
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Algo1-Dll.dll")]
-        public static extern void getTimeStepsAlgo1(IntPtr sad, [MarshalAs(UnmanagedType.LPStr)] String CSVfileName, [MarshalAs(UnmanagedType.LPArray)] String[] l, int size, [MarshalAs(UnmanagedType.LPStr)] String oneWay, [MarshalAs(UnmanagedType.LPStr)] String otherWay, StringBuilder arr);
-       
-
-
         Dictionary<String, List<float>> getDictionary(List<String> SAttsList, IntPtr ts)
         {
             Dictionary<String, List<float>> tsDic = new Dictionary<String, List<float>>();
@@ -868,21 +843,8 @@ namespace ED1FlightSimulator
                 {
                     tsDic[SAttsList[i]].Add(givesFloatTs(ts, j, SAttsList[i]));
                 }
-
             }
             return tsDic;
-        }
-
-        /*private class AlgoString{
-            const String path;
-             public AlgoString(String newpath){
-                path = newpath;
-        }
-        }*/
-       
-
-        }
-
-        
-
+        }     
     }
+}
