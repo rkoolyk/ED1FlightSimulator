@@ -198,7 +198,12 @@ namespace ED1FlightSimulator
         public void GetPathXML(string path)
         {
             model.GetPathXML(path);
-        }      
+        } 
+        
+        public void GetPathAlgo(string path)
+        {
+            model.GetPathAlgo(path);
+        }
 
        /* public PlotModel VM_Main_Graph
         {

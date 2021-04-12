@@ -362,24 +362,10 @@
                            ></TextBlock>
               <TextBox Text="{Binding VM_Play_Speed}" 
 					/>
-              <TextBlock Name="LoadDll"  
-                    Background="lightSteelBlue"
-                    FontSize ="12.5"
-                    Padding="5" Text="Choose Algorithm:"
-                    FontStyle="Italic"
-                    FontWeight="UltraBold"
-                    Margin="5,8"
-                      ></TextBlock>
-              <ComboBox  >
-                <ComboBoxItem
-                  FontWeight="UltraBold"
-                  Content =" Circle Anomaly Algorithm " >
-                </ComboBoxItem>
-                <ComboBoxItem
-                  FontWeight="UltraBold"
-                  Content =" Line Anomaly Algorithm " >
-                </ComboBoxItem>
-              </ComboBox> 
+                <Button Name="LoadAlgo" Click="LoadAlgo_OnClick"
+                        Padding="5" Content="Load Algorithm"
+                        FontWeight="UltraBold"
+                        Margin="5,3"></Button>
             </StackPanel>
 
             <TextBlock Grid.Column="3" Margin="10,3" Padding="15"
