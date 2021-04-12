@@ -86,17 +86,28 @@ namespace ED1FlightSimulator
         //private String AlgoPath;
         private IntPtr TimeSeries;
         private IntPtr AnomalyDetector;
+
+        System.Timers.Timer graphTimer;
+
         private void onPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        /*public Model()
+        public Model()
         {
-
+           graphTimer = new System.Timers.Timer(150);
+           graphTimer.Elapsed += OnTimedEvent;
+           graphTimer.AutoReset = true;
+           graphTimer.Enabled = true;
             
+        }
 
-        }*/
+        private void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {   
+            Debug.WriteLine("GOT HERE\n");
+            UpdateGraphs();
+        }
 
         public void Start()
          {      
@@ -154,7 +165,8 @@ namespace ED1FlightSimulator
                               UpdateYaw();
                               UpdateRoll();
                               UpdatePitch();
-                              UpdateGraphs();
+                              //UpdateGraphs();
+                              
                               Thread.Sleep(SleepTime());
                               t.Interval = SleepTime();
                               ImgNum++;
@@ -838,7 +850,7 @@ namespace ED1FlightSimulator
         [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Algo1-Dll.dll")]
         public static extern IntPtr CreateSAD();*/
 
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Algo1-Dll.dll")]
+        [DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Algo1-Dll.dll")]
         public static extern void getTimeStepsAlgo1(IntPtr sad, [MarshalAs(UnmanagedType.LPStr)] String CSVfileName, [MarshalAs(UnmanagedType.LPArray)] String[] l, int size, [MarshalAs(UnmanagedType.LPStr)] String oneWay, [MarshalAs(UnmanagedType.LPStr)] String otherWay, StringBuilder arr);
        
 
