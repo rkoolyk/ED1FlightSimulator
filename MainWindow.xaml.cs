@@ -23,7 +23,9 @@ namespace ED1FlightSimulator
     public partial class MainWindow
     {
         private IViewModel vm;
-        public ObservableCollection<KeyValuePair<float, float>> trial;
+        private ObservableCollection<KeyValuePair<float, float>> main;
+        private ObservableCollection<KeyValuePair<float, float>> correlated;
+
 
 
         public MainWindow()
@@ -31,13 +33,14 @@ namespace ED1FlightSimulator
             InitializeComponent();
             vm = new ViewModel();
             DataContext = vm;
-            trial = new ObservableCollection<KeyValuePair<float, float>>();
+            main = new ObservableCollection<KeyValuePair<float, float>>();
+            correlated = new ObservableCollection<KeyValuePair<float, float>>();
             this.Elevator.Text = "<- Elevator ->";
             this.Aileron.Text = "<- Aileron ->";
             this.Throttle.Text = "<- Throttle ->";
             this.Rudder.Text = "<- Rudder ->";
-            this.MainGraph.DataContext = trial;
-            this.CorrelatedGraph.DataContext = vm.VM_Correlated_Graph_Values;
+            this.MainGraph.DataContext = main;
+            this.CorrelatedGraph.DataContext = correlated;
                     
             
         }
@@ -56,12 +59,18 @@ namespace ED1FlightSimulator
         private void FeatureChoice_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             vm.VM_Category = (string)((ListBox)sender).SelectedItem;
-            trial.Clear();
-            List<KeyValuePair<float, float>> tmp = vm.VM_Main_Graph_Values;
-            foreach (KeyValuePair<float, float> pairs in tmp)
-            {
-                trial.Add(pairs);
-            }
+             main.Clear();
+             List<KeyValuePair<float, float>> tmp = vm.VM_Main_Graph_Values;
+             foreach (KeyValuePair<float, float> pairs in tmp)
+             {
+                 main.Add(pairs);
+             }
+             correlated.Clear();
+             tmp = vm.VM_Correlated_Graph_Values;
+             foreach (KeyValuePair<float, float> pairs in tmp)
+             {
+                 correlated.Add(pairs);
+             }
         }
 
 	    private void LoadCsv_OnClick(object sender, RoutedEventArgs e)

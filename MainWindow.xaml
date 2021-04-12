@@ -8,20 +8,20 @@
         xmlns:DVC="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
 		xmlns:uc="clr-namespace:ED1FlightSimulator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="620" Width="1000">
+        Title="MainWindow" Height="620" Width="850">
 
     <StackPanel>
-        <Grid ShowGridLines="True">
+        <Grid >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="1.9*"/>
             </Grid.ColumnDefinitions>
             <StackPanel>
                 <StackPanel>
 
 
 
-                    <Grid ShowGridLines="True">
+                    <Grid >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.7*"/>
                             <ColumnDefinition Width="*"/>
@@ -110,7 +110,7 @@
 
                 </StackPanel>
 
-                <Grid ShowGridLines="True">
+                <Grid >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -125,8 +125,8 @@
                                          FontFamily="Century Gothic"
                                          FontStretch="UltraExpanded"
                                          FontStyle="Italic"
-                                         FontWeight="UltraBold"
-                                         Text="Height:" FontSize="16"></TextBlock>
+                                         FontWeight="Bold"
+                                         Text="Height:" FontSize="14"></TextBlock>
                             <TextBlock Text="{Binding VM_Height_Text}" 
                                        FontSize="14" Grid.Column="1"  Margin="3,6" ></TextBlock>
                         </Grid>
@@ -139,8 +139,8 @@
                                          FontFamily="Century Gothic"
                                          FontStretch="UltraExpanded"
                                          FontStyle="Italic"
-                                         FontWeight="UltraBold"
-                                         Text="Speed:" FontSize="16"></TextBlock>
+                                         FontWeight="Bold"
+                                         Text="Speed:" FontSize="14"></TextBlock>
                             <TextBlock Text="{Binding VM_Speed_Text}" 
                                        FontSize="14" Grid.Column="1"  Margin="3,6" ></TextBlock>
                         </Grid>
@@ -153,8 +153,8 @@
                                          FontFamily="Century Gothic"
                                          FontStretch="UltraExpanded"
                                          FontStyle="Italic"
-                                         FontWeight="UltraBold"
-                                         Text="Direction:" FontSize="16"></TextBlock>
+                                         FontWeight="Bold"
+                                         Text="Direction:" FontSize="14"></TextBlock>
                             <TextBlock Text="{Binding VM_Direction_Text}" 
                                        FontSize="14" Grid.Column="1"  Margin="3,6" ></TextBlock>
 
@@ -166,9 +166,9 @@
                                      FontFamily="Century Gothic"
                                      FontStretch="UltraExpanded"
                                      FontStyle="Oblique"
-                                     FontWeight="UltraBold"
+                                     FontWeight="Bold"
                                      Text="Flight Indices:"
-                                     Margin="5,20" FontSize="20"></TextBlock>
+                                     Margin="5,20" FontSize="16"></TextBlock>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -178,8 +178,8 @@
                                          FontFamily="Century Gothic"
                                          FontStretch="UltraExpanded"
                                          FontStyle="Italic"
-                                         FontWeight="UltraBold"
-                                         Text="Yaw:" FontSize="16"></TextBlock>
+                                         FontWeight="Bold"
+                                         Text="Yaw:" FontSize="14"></TextBlock>
                             <TextBlock Text="{Binding VM_Yaw_Text}"
                                        FontSize="14" Grid.Column="1"  Margin="0,6" ></TextBlock>
                         </Grid>
@@ -192,8 +192,8 @@
                                          FontFamily="Century Gothic"
                                          FontStretch="UltraExpanded"
                                          FontStyle="Italic"
-                                         FontWeight="UltraBold"
-                                         Text="Roll:" FontSize="16"></TextBlock>
+                                         FontWeight="Bold"
+                                         Text="Roll:" FontSize="14"></TextBlock>
                             <TextBlock Text="{Binding VM_Roll_Text}"
                                        FontSize="14" Grid.Column="1"  Margin="0,6" ></TextBlock>
                         </Grid>
@@ -206,8 +206,8 @@
                                          FontFamily="Century Gothic"
                                          FontStretch="UltraExpanded"
                                          FontStyle="Italic"
-                                         FontWeight="UltraBold"
-                                         Text="Pitch:" FontSize="15"></TextBlock>
+                                         FontWeight="Bold"
+                                         Text="Pitch:" FontSize="14"></TextBlock>
                             <TextBlock Text="{Binding VM_Pitch_Text}"
                                        FontSize="14" Grid.Column="1"  Margin="0,6" ></TextBlock>
                         </Grid>
@@ -220,10 +220,10 @@
                 </Grid>
             </StackPanel>
 
-            <Grid Grid.Column="1" ShowGridLines="True">
+            <Grid Grid.Column="1" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2.3*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Data List:" Padding="5"
 							 ></TextBlock>
@@ -264,6 +264,35 @@
                             <DVC:LineSeries Width="auto" Height="auto" ItemsSource = "{Binding}" IndependentValuePath = "Key" DependentValuePath = "Value" IsSelectionEnabled="True" RenderTransformOrigin="0.522,-0.172" Margin="0,-28,-10,-12"/>
                         </DVC:Chart>
                     </Grid>
+
+
+					<!--REGRESSION LINE TRIAL-->
+					<Canvas Width="30" Height="65">
+						
+					</Canvas>
+
+					<DVC:Chart Grid.Column="1" x:Name="Regression_Graph" VerticalAlignment="Top" 
+							   RenderTransformOrigin="0.524,0.249"
+						       BorderBrush="Transparent" BorderThickness="0">
+						
+						<DVC:Chart.LegendStyle>
+							<Style TargetType="Control">
+								<Setter Property="Width" Value="0"/>
+								<Setter Property="Height" Value="0"/>
+								</Style>
+						</DVC:Chart.LegendStyle>
+						<DVC:LineSeries Title="Regression Line"  Width="auto" Height="auto"
+										ItemsSource = "{Binding VM_Points}"
+										IndependentValuePath = "Key" DependentValuePath = "Value"
+										IsSelectionEnabled="True" RenderTransformOrigin="0.522,-0.172" >
+				</DVC:LineSeries>
+					</DVC:Chart>
+
+					
+					
+					
+					
+					
                 </StackPanel>
 
             </Grid>
@@ -296,7 +325,7 @@
 
 
 
-            <Canvas Height="40" Grid.Column="1" Margin="29.333,33,44.333,10.333" Background="lightSteelBlue" >
+            <Canvas Height="40" Grid.Column="1" >
 
 
 
@@ -367,7 +396,7 @@
                 <Button Name="LoadAlgo" Click="LoadAlgo_OnClick"
                         Padding="5" Content="Load Algorithm"
                         FontWeight="UltraBold"
-                        Margin="5,3"></Button>
+                        Margin="5,20"></Button>
             </StackPanel>
 
             <TextBlock Grid.Column="3" Margin="10,3" Padding="15"

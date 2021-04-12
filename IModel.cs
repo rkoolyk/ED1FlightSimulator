@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace ED1FlightSimulator
 {
@@ -22,6 +23,9 @@ namespace ED1FlightSimulator
         List<KeyValuePair<float, float>> Main_Graph_Values { get; set; }
         string Correlated_Category { get; set; }
         List<KeyValuePair<float, float>> Correlated_Graph_Values { get; set; }
+
+        List<KeyValuePair<float,float>> Points { get; set;}
+
         void StartSim();
     }
 }

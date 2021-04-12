@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Collections.Generic;
 using System.Collections;
+using System.Collections.ObjectModel;
 
 namespace ED1FlightSimulator
 {
@@ -21,13 +22,15 @@ namespace ED1FlightSimulator
         float VM_Rudder { get;}
         List<string> VM_Data_List { get;}
 
+        List<KeyValuePair<float,float>> VM_Points { get;}
+
         int VM_ImgNum { get; set; }
         int VM_Max_Val { get; }
 
         List<KeyValuePair<float, float>> VM_Main_Graph_Values { get; }
         string VM_Category { get; set; }
         List<KeyValuePair<float, float>> VM_Correlated_Graph_Values { get; }
-        string VM_Correlated_Category { get; set; }
+        string VM_Correlated_Category { get; }
 
         void Previous();
         void Rewind();
