@@ -16,6 +16,9 @@ using System.IO;
 using System.Windows;
 using System.Timers;
 using System.Text;
+using System.Windows.Controls.DataVisualization;
+using System.Windows.Controls.DataVisualization.Charting;
+using System.Collections.ObjectModel;
 
 namespace ED1FlightSimulator
 {
@@ -46,7 +49,6 @@ namespace ED1FlightSimulator
         private float rudder = 0;
         private string xmlPath = null;
         private string csvPath = null;
-        private string algorithmPath = null;
         private List<string> dataList = new List<string>();
         private List<KeyValuePair<float, float>> mainGraphValues = null;
         private List<KeyValuePair<float, float>> correlatedGraphValues = null;
@@ -83,9 +85,27 @@ namespace ED1FlightSimulator
             mainGraphValues.Add(new KeyValuePair<float, float>(43, 14));
             mainGraphValues.Add(new KeyValuePair<float, float>(35, 18));
             mainGraphValues.Add(new KeyValuePair<float, float>(24, 41));
-            mainGraphValues.Add(new KeyValuePair<float, float>(28, 500));
+            mainGraphValues.Add(new KeyValuePair<float, float>(28, 60));
             onPropertyChanged("Main_Graph_Values");
-            
+            correlatedGraphValues = new List<KeyValuePair<float, float>>();
+            correlatedGraphValues.Add(new KeyValuePair<float, float>(1, 60));
+            correlatedGraphValues.Add(new KeyValuePair<float, float>(7, 15));
+            correlatedGraphValues.Add(new KeyValuePair<float, float>(8, 23));
+            correlatedGraphValues.Add(new KeyValuePair<float, float>(40, 50));
+            correlatedGraphValues.Add(new KeyValuePair<float, float>(3, 80));
+            correlatedGraphValues.Add(new KeyValuePair<float, float>(11, 15));
+            correlatedGraphValues.Add(new KeyValuePair<float, float>(5, 20));
+            correlatedGraphValues.Add(new KeyValuePair<float, float>(26, 31));
+            correlatedGraphValues.Add(new KeyValuePair<float, float>(9, 70));
+            correlatedGraphValues.Add(new KeyValuePair<float, float>(17, 4));
+            correlatedGraphValues.Add(new KeyValuePair<float, float>(6, 12));
+            correlatedGraphValues.Add(new KeyValuePair<float, float>(15, 19));
+            correlatedGraphValues.Add(new KeyValuePair<float, float>(43, 14));
+            correlatedGraphValues.Add(new KeyValuePair<float, float>(35, 18));
+            correlatedGraphValues.Add(new KeyValuePair<float, float>(24, 41));
+            correlatedGraphValues.Add(new KeyValuePair<float, float>(28, 60));
+            onPropertyChanged("Correlated_Graph_Values");
+
         }
 
         public void Start()

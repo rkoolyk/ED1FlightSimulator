@@ -3,12 +3,15 @@ using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using OxyPlot;
 using System;
+using System.Collections.ObjectModel;
 
 namespace ED1FlightSimulator
 {
     public class ViewModel : IViewModel
     {
-        private Model model;
+        public Model model;
+        public ObservableCollection<KeyValuePair<float, float>> trial = new ObservableCollection<KeyValuePair<float, float>>();
+
 
         public ViewModel()
         {
@@ -175,6 +178,13 @@ namespace ED1FlightSimulator
                 }
                 */
                 return model.Main_Graph_Values;
+                /*List<KeyValuePair<float, float>> tmp = model.Main_Graph_Values;
+               Console.WriteLine("Writing pairs now");
+               foreach (KeyValuePair<float, float> pairs in tmp)
+               {
+                    Console.WriteLine(pairs);
+               }
+               */
             }
         }
 
@@ -182,7 +192,6 @@ namespace ED1FlightSimulator
         {
             get
             {
-                Console.WriteLine("Category is " + model.Category);
                 return model.Category;
             }
             set
