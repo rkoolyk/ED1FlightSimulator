@@ -1,9 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.Generic;
-using OxyPlot;
-using System;
-using System.Collections.ObjectModel;
 
 namespace ED1FlightSimulator
 {
@@ -21,32 +18,12 @@ namespace ED1FlightSimulator
                 };
            
         }
-      
-
-         private OxyPlot.PlotModel plotModel;
-         public OxyPlot.PlotModel VM_PlotModel
-         {
-             get
-             {
-                return plotModel;
-             }
-             set
-             {
-                plotModel = value;
-                onPropertyChanged("VM_PlotModel");
-             }
-         }
-
-
-
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-       
 
         public void StartSim()
         {
