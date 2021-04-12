@@ -44,6 +44,8 @@ namespace ED1FlightSimulator
              public delegate void getTimeSteps(IntPtr sad, [MarshalAs(UnmanagedType.LPStr)] String CSVfileName, [MarshalAs(UnmanagedType.LPArray)] String[] l, int size, [MarshalAs(UnmanagedType.LPStr)]  String oneWay, [MarshalAs(UnmanagedType.LPStr)] String otherWay, StringBuilder arr);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
              public delegate IntPtr CreateSAD();
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr Create(String CSVfileName, String[] l, int size);
         private bool shouldPlay = false;
         private int imgNum = 0;
 
@@ -72,6 +74,7 @@ namespace ED1FlightSimulator
         private float rudder = 0;
         private string xmlPath = null;
         private string csvPath = null;
+        private string timeSeriesPath = null;
         private List<string> dataList = new List<string>();
         private List<KeyValuePair<float, float>> mainGraphValues = new List<KeyValuePair<float, float>>();
         private List<KeyValuePair<float, float>> correlatedGraphValues = new List<KeyValuePair<float, float>>();
@@ -82,21 +85,12 @@ namespace ED1FlightSimulator
         private Dictionary<int, string> dictFile = new Dictionary<int, string>();
         public event PropertyChangedEventHandler PropertyChanged;
         String AnomalyAlgorithm = " ";
-        //AlgoString alg;
-        //private String AlgoPath;
         private IntPtr TimeSeries;
         private IntPtr AnomalyDetector;
         private void onPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        /*public Model()
-        {
-
-            
-
-        }*/
 
         public void Start()
          {      
@@ -349,16 +343,29 @@ namespace ED1FlightSimulator
             Correlated_Graph_Values = dataPairs;
         }
 
+        public void CreateTimeseries()
+        {
+            String path = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
+            path = Directory.GetParent(path).FullName;
+            path = Directory.GetParent(path).FullName;
+            path += "\\Dll-fg.dll";    
+            IntPtr pDll = NativeMethods.LoadLibrary(@path);
+            IntPtr pAddressOfFunctionToCall = NativeMethods.GetProcAddress(pDll, "Create");
+            Create Create =(Create)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(Create));
+            TimeSeries = Create(csvPath, dataList.ToArray(), Data_List.Count());
+            dictionary = getDictionary(dataList, TimeSeries);
+            GetFileDictionary();
+            Max_Val = dictionary["throttle"].Count();
+
+        }
+
 
         public void GetPathCSV(string path)
         {
             csvPath = path;
             if (xmlPath != null)
             {
-                TimeSeries = Create(csvPath, dataList.ToArray(), Data_List.Count());
-                dictionary = getDictionary(dataList, TimeSeries);
-                GetFileDictionary();
-                Max_Val = dictionary["throttle"].Count();
+                CreateTimeseries();
                 
             }
         }
@@ -369,12 +376,9 @@ namespace ED1FlightSimulator
             Data_List = Parser(path);
             if (csvPath != null)
             {
-                TimeSeries = Create(csvPath, dataList.ToArray(), Data_List.Count());
-                dictionary = getDictionary(dataList, TimeSeries);
-                GetFileDictionary();
-                Max_Val = dictionary["throttle"].Count();
+                CreateTimeseries();
             }
-            }
+        }
 
        public void GetPathAlgoDefault()
         {
@@ -820,14 +824,14 @@ namespace ED1FlightSimulator
             return SAttsList2;
         }
 
-        [DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
+        //[DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
 
-        public static extern IntPtr Create(String CSVfileName, String[] l, int size);
+       // public static extern IntPtr Create(String CSVfileName, String[] l, int size);
 
-        [DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
         public static extern float givesFloatTs(IntPtr obj, int line, String att);
 
-        [DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
         public static extern int getRowSize(IntPtr ts);
 
         /*[DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Algo1-Dll.dll")]
