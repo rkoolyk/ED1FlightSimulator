@@ -102,6 +102,21 @@ namespace ED1FlightSimulator
             }
         }
 
+        private void LoadAlgo_OnClick(object sender, RoutedEventArgs e)
+        {
+            string path = "";
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string sFilenames = "";
+                foreach (string sFilename in openFileDialog.FileNames)
+                {
+                    path += sFilename;
+                }
+                vm.GetPathAlgo(path);
+            }
+        }
+
         private void StartSim_OnClick(object sender, RoutedEventArgs e)
         {
             vm.StartSim();

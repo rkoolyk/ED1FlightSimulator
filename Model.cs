@@ -20,20 +20,43 @@ using System.Windows.Controls.DataVisualization;
 using System.Windows.Controls.DataVisualization.Charting;
 using System.Collections.ObjectModel;
 
+static class NativeMethods
+{
+    [DllImport("kernel32.dll")]
+    public static extern IntPtr LoadLibrary(string dllToLoad);
+
+    [DllImport("kernel32.dll")]
+    public static extern IntPtr GetProcAddress(IntPtr hModule, string procedureName);
+
+    [DllImport("kernel32.dll")]
+    public static extern bool FreeLibrary(IntPtr hModule);
+}
+
 namespace ED1FlightSimulator
 {
     public class Model : IModel //INotifyPropertyChanged
     {   
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+             public delegate void findLinReg(IntPtr ts,ref float a,ref float b, String attA, String attB);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+             public delegate void MostCorrelatedFeature(IntPtr sad, [MarshalAs(UnmanagedType.LPStr)] String CSVfileName, [MarshalAs(UnmanagedType.LPArray)] String[] l, int size, [MarshalAs(UnmanagedType.LPStr)] String att, StringBuilder s);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+             public delegate void getTimeSteps(IntPtr sad, [MarshalAs(UnmanagedType.LPStr)] String CSVfileName, [MarshalAs(UnmanagedType.LPArray)] String[] l, int size, [MarshalAs(UnmanagedType.LPStr)]  String oneWay, [MarshalAs(UnmanagedType.LPStr)] String otherWay, StringBuilder arr);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+             public delegate IntPtr CreateSAD();
         private bool shouldPlay = false;
         private int imgNum = 0;
 
+        private List<KeyValuePair<float,float>> points = 
+            new List<KeyValuePair<float, float>>();
+        
         private UdpClient client = new UdpClient(5400);
         //private StreamReader s;
         private int firstTimeFlag = 1;
 
         private Stopwatch stopwatch;
         private System.Timers.Timer t;
-       
+        
         private int maxVal = 1000;
         private float knobX = 50;
         private float knobY = 50;
@@ -59,6 +82,8 @@ namespace ED1FlightSimulator
         private Dictionary<int, string> dictFile = new Dictionary<int, string>();
         public event PropertyChangedEventHandler PropertyChanged;
         String AnomalyAlgorithm;
+        //AlgoString alg;
+        private String AlgoPath;
         private IntPtr TimeSeries;
         private IntPtr AnomalyDetector;
         private void onPropertyChanged([CallerMemberName] string propertyName = null)
@@ -68,8 +93,8 @@ namespace ED1FlightSimulator
 
         public Model()
         {
-            AnomalyDetector = CreateSAD();
-            /*mainGraphValues = new List<KeyValuePair<float, float>>();
+
+            mainGraphValues = new List<KeyValuePair<float, float>>();
             mainGraphValues.Add(new KeyValuePair<float, float>(1, 60));
             mainGraphValues.Add(new KeyValuePair<float, float>(7, 15));
             mainGraphValues.Add(new KeyValuePair<float, float>(8, 23));
@@ -109,7 +134,14 @@ namespace ED1FlightSimulator
         }
 
         public void Start()
-         {
+         {      
+             IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
+
+             IntPtr pAddressOfFunctionToCall4 = NativeMethods.GetProcAddress(pDll, "CreateSAD");
+ 
+             CreateSAD CreateSAD =(CreateSAD)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall4, typeof(CreateSAD));
+
+             AnomalyDetector = CreateSAD();
 
              try
              {  
@@ -185,6 +217,19 @@ namespace ED1FlightSimulator
             shouldPlay = true;
             Start();
         }
+
+        public void drawRegression()
+        {
+            float a, b;
+            
+        }
+
+
+
+
+
+
+
 
         public void MoveThrottle()
         {
@@ -344,6 +389,31 @@ namespace ED1FlightSimulator
                 GetFileDictionary();
                 Max_Val = dictionary["throttle"].Count();
             }
+        }
+
+        public void GetPathAlgo(string path)
+        {
+             //alg = new StringAlgo(path);
+            AnomalyAlgorithm = path;
+            IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
+            //oh dear, error handling here
+            //if (pDll == IntPtr.Zero)
+
+            IntPtr pAddressOfFunctionToCall1 = NativeMethods.GetProcAddress(pDll, "findLinReg");
+            IntPtr pAddressOfFunctionToCall2 = NativeMethods.GetProcAddress(pDll, "MostCorrelatedFeature");
+            IntPtr pAddressOfFunctionToCall3 = NativeMethods.GetProcAddress(pDll, "getTimeSteps");
+            IntPtr pAddressOfFunctionToCall4 = NativeMethods.GetProcAddress(pDll, "CreateSAD");
+            //oh dear, error handling here
+            //if(pAddressOfFunctionToCall == IntPtr.Zero)
+
+
+            findLinReg findLinReg =(findLinReg)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall1, typeof(findLinReg));
+           
+            MostCorrelatedFeature MostCorrelatedFeature =(MostCorrelatedFeature)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall2, typeof(MostCorrelatedFeature));
+            
+            getTimeSteps getTimeSteps =(getTimeSteps)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall3, typeof(getTimeSteps));
+
+            CreateSAD CreateSAD =(CreateSAD)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall4, typeof(CreateSAD));
         }
 
         public void GetFileDictionary()
@@ -582,6 +652,16 @@ namespace ED1FlightSimulator
             return (int) (1000 / (10 * pSpeed));
         }
 
+        public List<KeyValuePair<float,float>> Points
+        {
+            get { return points;}
+            set
+            {
+                points = value;
+                onPropertyChanged("Points");
+            }
+        }
+
         public string Category
         {
             get { return category; }
@@ -598,7 +678,13 @@ namespace ED1FlightSimulator
                     dataPairs.Add(new KeyValuePair<float, float>(i, f));
                     i++;
                 }
-                mainGraphValues = dataPairs;
+                IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
+
+                IntPtr pAddressOfFunctionToCall2 = NativeMethods.GetProcAddress(pDll, "MostCorrelatedFeature");
+ 
+                MostCorrelatedFeature MostCorrelatedFeature =(MostCorrelatedFeature)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall2, typeof(MostCorrelatedFeature));
+
+                Main_Graph_Values = dataPairs;
                 StringBuilder s = new StringBuilder();
                 MostCorrelatedFeature(AnomalyDetector, csvPath, dataList.ToArray(), dataList.Count, category, s);
                 Correlated_Category = s.ToString();
@@ -714,27 +800,27 @@ namespace ED1FlightSimulator
             return SAttsList2;
         }
 
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\rayra\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
 
         public static extern IntPtr Create(String CSVfileName, String[] l, int size);
 
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\rayra\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
         public static extern float givesFloatTs(IntPtr obj, int line, String att);
 
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\rayra\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
         public static extern int getRowSize(IntPtr ts);
 
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
-        public static extern void findLinReg(IntPtr ts, ref float a, ref float b, String attA, String attB);
+        /*[DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
+        public static extern void findLinReg(IntPtr ts, ref float a, ref float b, String attA, String attB);*/
 
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Algo1-Dll.dll")]
+        /*[DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Algo1-Dll.dll")]
         public static extern void MostCorrelatedFeature(IntPtr sad, [MarshalAs(UnmanagedType.LPStr)] String CSVfileName, [MarshalAs(UnmanagedType.LPArray)] String[] l, int size, [MarshalAs(UnmanagedType.LPStr)] String att, StringBuilder s);
         [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Algo1-Dll.dll")]
-        public static extern IntPtr CreateSAD();
+        public static extern IntPtr CreateSAD();*/
 
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Algo1-Dll.dll")]
+        [DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Algo1-Dll.dll")]
         public static extern void getTimeStepsAlgo1(IntPtr sad, [MarshalAs(UnmanagedType.LPStr)] String CSVfileName, [MarshalAs(UnmanagedType.LPArray)] String[] l, int size, [MarshalAs(UnmanagedType.LPStr)] String oneWay, [MarshalAs(UnmanagedType.LPStr)] String otherWay, StringBuilder arr);
-
+        */
 
 
         Dictionary<String, List<float>> getDictionary(List<String> SAttsList, IntPtr ts)
@@ -755,6 +841,12 @@ namespace ED1FlightSimulator
             return tsDic;
         }
 
+        /*private class AlgoString{
+            const String path;
+             public AlgoString(String newpath){
+                path = newpath;
+        }
+        }*/
        
 
     }
