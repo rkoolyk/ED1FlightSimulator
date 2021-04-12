@@ -33,8 +33,8 @@ namespace ED1FlightSimulator
             this.Rudder.Text = "<- Rudder ->";
             this.MainGraph.DataContext = vm.VM_Main_Graph_Values;
             this.Correlated_Graph.DataContext = vm.VM_Main_Graph_Values;
-
-
+                    
+            
         }
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -45,6 +45,12 @@ namespace ED1FlightSimulator
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             vm.VM_Play_Speed = ((TextBox)sender).Text;
+            
+        }
+
+        private void FeatureChoice_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            vm.VM_Category = (string)((ListBox)sender).SelectedItem;
         }
 
 	    private void LoadCsv_OnClick(object sender, RoutedEventArgs e)

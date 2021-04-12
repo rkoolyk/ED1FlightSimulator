@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:ED1FlightSimulator"
         xmlns:DV="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"  
         xmlns:DVC="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+		xmlns:uc="clr-namespace:ED1FlightSimulator"
         mc:Ignorable="d"
         Title="MainWindow" Height="620" Width="1000">
 
@@ -18,6 +19,7 @@
             <StackPanel>
                 <StackPanel>
 
+					
 
                     <Grid ShowGridLines="True">
                         <Grid.ColumnDefinitions>
@@ -26,7 +28,7 @@
                             <ColumnDefinition Width="4.9*"/>
                             <ColumnDefinition Width="0.7*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" 
+                        <TextBlock Grid.Column="0"  
                                      x:Name="Throttle"
                                      FontSize="16"
                                      TextAlignment="Center"
@@ -195,13 +197,14 @@
 							 ></TextBlock>
                 <ScrollViewer Height="350">
                     <ListBox ItemsSource="{Binding VM_Data_List}"
-							   >
+							  SelectionChanged="FeatureChoice_SelectionChanged" >
 
                     </ListBox>
 
                 </ScrollViewer>
 
                 <StackPanel Grid.Column="1">
+					<TextBlock Text="{Binding VM_Category}"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>

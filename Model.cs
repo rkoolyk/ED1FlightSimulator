@@ -261,8 +261,6 @@ namespace ED1FlightSimulator
                 dictionary = getDictionary(dataList, TimeSeries);
                 GetFileDictionary();
                 Max_Val = dictionary["throttle"].Count();
-                //MoveAileron();
-                //Start();
                 
             }
         }
@@ -296,7 +294,7 @@ namespace ED1FlightSimulator
 
         public void Previous()
         {
-
+            ImgNum = 0;
         }
         public void Rewind()
         {
@@ -345,20 +343,20 @@ namespace ED1FlightSimulator
 
         public void FastForward()
         {
-            int numOfLines = 100;
-            if (ImgNum < numOfLines + 10)
+            //int numOfLines = 100;
+            if (ImgNum < Max_Val + 100)
             {
-                ImgNum += 10;
+                ImgNum += 100;
             } else
             {
-                ImgNum = numOfLines;
+                ImgNum = Max_Val;
             }
 
         }
 
         public void Next()
         {
-
+            ImgNum = Max_Val;
         }
 
         public int Max_Val
@@ -502,8 +500,20 @@ namespace ED1FlightSimulator
         }
 
         public int SleepTime()
-        {
-            float pSpeed = float.Parse(Play_Speed);
+        {   
+            float pSpeed;
+            if (Play_Speed == "")
+            {
+                pSpeed = 1;
+            }
+            else{
+                pSpeed = float.Parse(Play_Speed);
+                
+                if (float.Parse(Play_Speed) < 0.25)
+                {
+                    pSpeed = 0.25F;
+                }
+            }
             return (int) (1000 / (10 * pSpeed));
         }
 
@@ -599,17 +609,17 @@ namespace ED1FlightSimulator
             return SAttsList2;
         }
 
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
 
         public static extern IntPtr Create(String CSVfileName, String[] l, int size);
 
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
         public static extern float givesFloatTs(IntPtr obj, int line, String att);
 
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
         public static extern int getRowSize(IntPtr ts);
 
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
         public static extern void findLinReg(IntPtr ts, ref float a, ref float b, String attA, String attB);
 
         //[DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
