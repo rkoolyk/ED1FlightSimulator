@@ -126,3 +126,7 @@ C:\Users\doras\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\System.Windows.
 C:\Users\doras\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\System.Windows.Controls.Input.Toolkit.dll
 C:\Users\doras\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\System.Windows.Controls.Layout.Toolkit.dll
 C:\Users\doras\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\WPFToolkit.dll
+C:\Users\rayra\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\System.Windows.Controls.DataVisualization.Toolkit.dll
+C:\Users\rayra\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\System.Windows.Controls.Input.Toolkit.dll
+C:\Users\rayra\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\System.Windows.Controls.Layout.Toolkit.dll
+C:\Users\rayra\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\WPFToolkit.dll

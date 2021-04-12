@@ -200,10 +200,10 @@ namespace ED1FlightSimulator
             model.GetPathXML(path);
         }      
 
-        public PlotModel VM_Main_Graph
+       /* public PlotModel VM_Main_Graph
         {
             get { return model.Main_Graph; }
-        }
+        }*/
 
         public int VM_ImgNum
         {
