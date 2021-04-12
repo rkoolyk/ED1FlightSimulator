@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Collections.Generic;
 using System.Collections;
+using System.Collections.ObjectModel;
 
 namespace ED1FlightSimulator
 {
@@ -29,7 +30,7 @@ namespace ED1FlightSimulator
         List<KeyValuePair<float, float>> VM_Main_Graph_Values { get; }
         string VM_Category { get; set; }
         List<KeyValuePair<float, float>> VM_Correlated_Graph_Values { get; }
-        string VM_Correlated_Category { get; set; }
+        string VM_Correlated_Category { get; }
 
         void Previous();
         void Rewind();
