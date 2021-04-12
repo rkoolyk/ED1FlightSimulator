@@ -43,6 +43,8 @@ namespace ED1FlightSimulator
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             vm.VM_Play_Speed = ((TextBox)sender).Text;
+            this.MainGraph.DataContext = vm.VM_Main_Graph_Values;
+            this.Correlated_Graph.DataContext = vm.VM_Main_Graph_Values;
         }
 
 	    private void LoadCsv_OnClick(object sender, RoutedEventArgs e)
@@ -62,11 +64,13 @@ namespace ED1FlightSimulator
         private void LoadXml_OnClick(object sender, RoutedEventArgs e)
         {
             string path = "";
-			OpenFileDialog openFileDialog = new OpenFileDialog();
-			if(openFileDialog.ShowDialog() == true) {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
                 string sFilenames = "";
-                foreach (string sFilename in openFileDialog.FileNames) {
-                    path += sFilename; 
+                foreach (string sFilename in openFileDialog.FileNames)
+                {
+                    path += sFilename;
                 }
                 vm.GetPathXML(path);
             }

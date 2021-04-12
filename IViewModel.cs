@@ -24,6 +24,9 @@ namespace ED1FlightSimulator
         int VM_ImgNum { get; set; }
         int VM_Max_Val { get; }
 
+        List<KeyValuePair<float, float>> VM_Main_Graph_Values { get; }
+        string VM_Category { get; set; }
+
         void Previous();
         void Rewind();
         void Play();

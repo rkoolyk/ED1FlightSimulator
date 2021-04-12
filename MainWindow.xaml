@@ -3,214 +3,235 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ED1FlightSimulator" xmlns:oxy="http://oxyplot.org/wpf"
+        xmlns:local="clr-namespace:ED1FlightSimulator"
+        xmlns:DV="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"  
+        xmlns:DVC="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         mc:Ignorable="d"
         Title="MainWindow" Height="620" Width="800">
-    
+
     <StackPanel>
-          <Grid ShowGridLines="True">
-              <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="*"/>
-                  <ColumnDefinition Width="1.5*"/>
-              </Grid.ColumnDefinitions>
-              <StackPanel>
-                  <StackPanel>
-                      
-                      
-                      <Grid ShowGridLines="True">
-                          <Grid.ColumnDefinitions>
-                              <ColumnDefinition Width="0.7*"/>
-                              <ColumnDefinition Width="*"/>
-                              <ColumnDefinition Width="4.9*"/>
-                              <ColumnDefinition Width="0.7*"/>
-                          </Grid.ColumnDefinitions>
-                          <TextBlock Grid.Column="0" 
+        <Grid ShowGridLines="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="1.5*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <StackPanel>
+
+
+                    <Grid ShowGridLines="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.7*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="4.9*"/>
+                            <ColumnDefinition Width="0.7*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" 
                                      x:Name="Throttle"
                                      FontSize="16"
                                      TextAlignment="Center"
-                          ><TextBlock.LayoutTransform>
-                                  <RotateTransform Angle="270"/>
-                              </TextBlock.LayoutTransform>
-                          </TextBlock>
-						  <Canvas Height="170" Width="35"  Grid.Column="1">
-							  <Rectangle Name="ThrottleRec" Fill="Silver"
+                          >
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="270"/>
+                            </TextBlock.LayoutTransform>
+                        </TextBlock>
+                        <Canvas Height="170" Width="35"  Grid.Column="1">
+                            <Rectangle Name="ThrottleRec" Fill="Silver"
                                      Height="170"
                                      Stroke="Black" StrokeThickness="3" Width="30"
                           ></Rectangle>
-							  <Rectangle Grid.Column="1" Name="ThrottleSlider" Fill="Black"
+                            <Rectangle Grid.Column="1" Name="ThrottleSlider" Fill="Black"
 										 Canvas.Bottom="{Binding VM_Throttle}"
 										 Height="30"
 										 Width="30"
                           ></Rectangle>
-						  </Canvas>
-                          
-                          <StackPanel Grid.Column="2">
-                              <TextBlock Name="Aileron" FontSize="16"
+                        </Canvas>
+
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Name="Aileron" FontSize="16"
                                          TextAlignment="Center"
                               ></TextBlock>
-                              
-                              <Canvas Height="150" Width="150">
-                             
-                               
+
+                            <Canvas Height="150" Width="150">
+
+
                                 <Ellipse Height="150" Width="150" Fill="Black"/>
 
-                             
-                                    <Ellipse Height="50" Width="50" Fill="Gray"
+
+                                <Ellipse Height="50" Width="50" Fill="Gray"
                                          Canvas.Left="{Binding VM_KNOB_X}"
                                          Canvas.Top="{Binding VM_KNOB_Y}"/>
-                                
-                                      
-                              </Canvas>
+
+
+                            </Canvas>
 
 
 
-							  <Canvas Height="35" Width="170" Margin="0,10">
-								  <Rectangle Name="RudderRec" Fill="LightSteelBlue"
+                            <Canvas Height="35" Width="170" Margin="0,10">
+                                <Rectangle Name="RudderRec" Fill="LightSteelBlue"
                                              Height="30"
                                              Stroke="Black" StrokeThickness="3" Width="170"
                                   ></Rectangle>
-								  <Rectangle Name="RudderSlider" Fill="Black"
+                                <Rectangle Name="RudderSlider" Fill="Black"
                                              Height="30"
                                              Width="30"
 											 Canvas.Left="{Binding VM_Rudder}"
                                   ></Rectangle>
-							  </Canvas>
-                                  
-                                  
-                              
-                             
-                      
-                              <TextBlock Name="Rudder" FontSize="16"
+                            </Canvas>
+
+
+
+
+
+                            <TextBlock Name="Rudder" FontSize="16"
                                          TextAlignment="Center"
                               ></TextBlock>
-                          </StackPanel>
-                          
-                          <TextBlock Grid.Column="3" 
+                        </StackPanel>
+
+                        <TextBlock Grid.Column="3" 
                                      x:Name="Elevator"
                                      FontSize="16"
                                      TextAlignment="Center"
-                                     ><TextBlock.LayoutTransform>
-                                  <RotateTransform Angle="90"/>
-                              </TextBlock.LayoutTransform>
-                              </TextBlock>
-                      </Grid>
-                      
-                      
-                  
-                      
-                  </StackPanel>
-                 
-                  <Grid ShowGridLines="True">
-                      <Grid.ColumnDefinitions>
-                          <ColumnDefinition Width="*"/>
-                          <ColumnDefinition Width="*"/>
-                      </Grid.ColumnDefinitions>
-                      <StackPanel Margin="0,20">
-                          <Grid>
-                              <Grid.ColumnDefinitions>
-                                  <ColumnDefinition Width="*"/>
-                                  <ColumnDefinition Width="*"/>
-                              </Grid.ColumnDefinitions>
-                              <TextBlock Padding="5"
+                                     >
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="90"/>
+                            </TextBlock.LayoutTransform>
+                        </TextBlock>
+                    </Grid>
+
+
+
+
+                </StackPanel>
+
+                <Grid ShowGridLines="True">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Margin="0,20">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Padding="5"
                                          Text="Height:" FontSize="14"></TextBlock>
-                              <TextBlock Text="{Binding VM_Height_Text}" 
+                            <TextBlock Text="{Binding VM_Height_Text}" 
                                        FontSize="14" Grid.Column="1"  Margin="3,6" ></TextBlock>
-                          </Grid>
-                          <Grid>
-                              <Grid.ColumnDefinitions>
-                                  <ColumnDefinition Width="*"/>
-                                  <ColumnDefinition Width="*"/>
-                              </Grid.ColumnDefinitions>
-                              <TextBlock Padding="5"
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Padding="5"
                                          Text="Speed:" FontSize="14"></TextBlock>
-                              <TextBlock Text="{Binding VM_Speed_Text}" 
+                            <TextBlock Text="{Binding VM_Speed_Text}" 
                                        FontSize="14" Grid.Column="1"  Margin="3,6" ></TextBlock>
-                          </Grid>
-                          <Grid>
-                              <Grid.ColumnDefinitions>
-                                  <ColumnDefinition Width="*"/>
-                                  <ColumnDefinition Width="*"/>
-                              </Grid.ColumnDefinitions>
-                              <TextBlock Padding="5"
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Padding="5"
                                          Text="Direction:" FontSize="14"></TextBlock>
-                              <TextBlock Text="{Binding VM_Direction_Text}" 
+                            <TextBlock Text="{Binding VM_Direction_Text}" 
                                        FontSize="14" Grid.Column="1"  Margin="3,6" ></TextBlock>
-                          </Grid>
-                          
-                          
-                      </StackPanel>
-                      <StackPanel Grid.Column="1">
-                          <TextBlock
+                        </Grid>
+
+
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock
                                      Text="Flight Indices:"
                                      Margin="5,20" FontSize="16"></TextBlock>
-                          <Grid>
-                              <Grid.ColumnDefinitions>
-                                  <ColumnDefinition Width="*"/>
-                                  <ColumnDefinition Width="*"/>
-                              </Grid.ColumnDefinitions>
-                              <TextBlock Padding="5"
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Padding="5"
                                          Text="Yaw:" FontSize="14"></TextBlock>
-							  <TextBlock Text="{Binding VM_Yaw_Text}"
+                            <TextBlock Text="{Binding VM_Yaw_Text}"
                                        FontSize="14" Grid.Column="1"  Margin="0,6" ></TextBlock>
-                          </Grid>
-                          <Grid>
-                              <Grid.ColumnDefinitions>
-                                  <ColumnDefinition Width="*"/>
-                                  <ColumnDefinition Width="*"/>
-                              </Grid.ColumnDefinitions>
-                              <TextBlock Padding="5"
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Padding="5"
                                          Text="Roll:" FontSize="14"></TextBlock>
-							  <TextBlock Text="{Binding VM_Roll_Text}"
+                            <TextBlock Text="{Binding VM_Roll_Text}"
                                        FontSize="14" Grid.Column="1"  Margin="0,6" ></TextBlock>
-                          </Grid>
-                          <Grid>
-                              <Grid.ColumnDefinitions>
-                                  <ColumnDefinition Width="*"/>
-                                  <ColumnDefinition Width="*"/>
-                              </Grid.ColumnDefinitions>
-                              <TextBlock Padding="5"
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Padding="5"
                                          Text="Pitch:" FontSize="14"></TextBlock>
-							  <TextBlock Text="{Binding VM_Pitch_Text}"
+                            <TextBlock Text="{Binding VM_Pitch_Text}"
                                        FontSize="14" Grid.Column="1"  Margin="0,6" ></TextBlock>
-                          </Grid>
+                        </Grid>
 
 
 
 
-                      </StackPanel>
-                      
-                  </Grid>
-              </StackPanel>
-              
-              <Grid Grid.Column="1" ShowGridLines="True">
-                  <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="*"/>
-                      <ColumnDefinition Width="2*"/>
-                  </Grid.ColumnDefinitions>
-                  <TextBlock Text="Data List:" Padding="5"
+                    </StackPanel>
+
+                </Grid>
+            </StackPanel>
+
+            <Grid Grid.Column="1" ShowGridLines="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Data List:" Padding="5"
 							 ></TextBlock>
-				  <ScrollViewer Height="350">
-					  <ListBox ItemsSource="{Binding VM_Data_List}"
+                <ScrollViewer Height="350">
+                    <ListBox ItemsSource="{Binding VM_Data_List}"
 							   >
-						  
-					  </ListBox>
 
-				  </ScrollViewer>
-                  
-                  <StackPanel Grid.Column="1">
-                      <Grid>
+                    </ListBox>
+
+                </ScrollViewer>
+
+                <StackPanel Grid.Column="1">
+                    <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <oxy:PlotView Model="{Binding VM_Main_Graph}" />
-                    </Grid>
+                        <DVC:Chart x:Name="MainGraph"  Title="{Binding VM_Category}" VerticalAlignment="Top" RenderTransformOrigin="0.524,0.249" Margin="2,6,133.333,-119.333" Height="244" BorderBrush="Transparent" BorderThickness="0" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                            <DVC:Chart.LegendStyle>
+                                <Style TargetType="Control">
+                                    <Setter Property="Width" Value="0"/>
+                                    <Setter Property="Height" Value="0"/>
+                                </Style>
+                            </DVC:Chart.LegendStyle>
+                            <DVC:LineSeries Width="auto" Height="auto" ItemsSource = "{Binding}" IndependentValuePath = "Key" DependentValuePath = "Value" IsSelectionEnabled="True" RenderTransformOrigin="0.522,-0.172" Margin="0,-28,-10,-12"/>
+                        </DVC:Chart>
 
+                        <DVC:Chart Grid.Column="1" x:Name="Correlated_Graph" VerticalAlignment="Top" RenderTransformOrigin="0.524,0.249" Margin="2.333,6,10.333,-119.333" Height="244" BorderBrush="Transparent" BorderThickness="0">
+                            <DVC:Chart.LegendStyle>
+                                <Style TargetType="Control">
+                                    <Setter Property="Width" Value="0"/>
+                                    <Setter Property="Height" Value="0"/>
+                                </Style>
+                            </DVC:Chart.LegendStyle>
+                            <DVC:LineSeries Title="Correlated Feature"  Width="auto" Height="auto" ItemsSource = "{Binding}" IndependentValuePath = "Key" DependentValuePath = "Value" IsSelectionEnabled="True" RenderTransformOrigin="0.522,-0.172" Margin="0,-28,-10,-12"/>
+                        </DVC:Chart>
+                    </Grid>
                 </StackPanel>
-                
-              </Grid>
-              
-          </Grid>
+
+            </Grid>
+
+        </Grid>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -219,23 +240,23 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel>
-				
+
                 <Button Name="LoadCsv" Click="LoadCsv_OnClick" 
                         Padding="5" Content="Load CSV File"
                         Margin="5,10"></Button>
                 <Button Name="LoadXml" Click="LoadXml_OnClick"
                     Padding="5" Content="Load XML File"
                         Margin="5,3"></Button>
-				<Button Name="StartSim" Click="StartSim_OnClick"
+                <Button Name="StartSim" Click="StartSim_OnClick"
 					   Padding="5" Content="Start Simulation"
 					   Margin="5,10"></Button>
             </StackPanel>
-			
 
-            
-                    
+
+
+
             <Canvas Height="40" Grid.Column="1" Margin="29.333,33,44.333,10.333" >
-               
+
                 <Rectangle Fill="Black" Width="3" Height="15" Canvas.Top="12.5"
              Canvas.Left="10"     />
                 <Polygon Fill="Black"
@@ -244,10 +265,10 @@
                      Points="26,20 39,27.5 39,12.5"></Polygon>
                 <Rectangle Fill="Transparent" Width="29" Height="15" Canvas.Top="12.5"
                 Canvas.Left="10"   Name="Previous"  MouseLeftButtonUp="Previous_MouseLeftButtonUp"/>
-               
 
 
-                
+
+
                 <Polygon Fill="Black"
                 Points="53,20 66,27.5 66,12.5"></Polygon>
                 <Polygon Fill="Black"
@@ -255,13 +276,13 @@
                 <Rectangle Fill="Transparent" Width="26" Height="15" Canvas.Top="12.5"
                 Canvas.Left="53" Name="Rewind"   MouseLeftButtonUp="Rewind_MouseLeftButtonUp" />
 
-                
+
                 <Polygon Fill="Black"
                      Points="119,20 106,27.5 106,12.5"></Polygon>
                 <Rectangle Fill="Transparent" Width="13" Height="15" Canvas.Top="12.5"
                 Canvas.Left="106"   Name="Play"  MouseLeftButtonUp="Play_MouseLeftButtonUp"/>
 
-                
+
                 <Rectangle Fill="Black" Width="5" Height="15" Canvas.Top="12.5"
                  Canvas.Left="146"     />
                 <Rectangle Fill="Black" Width="5" Height="15" Canvas.Top="12.5"
@@ -272,7 +293,7 @@
                 <Rectangle Fill="Black" Width="15" Height="15" Canvas.Top="12.5"
                  Canvas.Left="193"   Name="Stop"  MouseLeftButtonUp="Stop_MouseLeftButtonUp"/>
 
-                
+
                 <Polygon Fill="Black"
                      Points="246,20 233,27.5 233,12.5"></Polygon>
                 <Polygon Fill="Black"
@@ -280,7 +301,7 @@
                 <Rectangle Fill="Transparent" Width="26" Height="15" Canvas.Top="12.5"
                 Canvas.Left="233" Name="FastForward" MouseLeftButtonUp="FastForward_MouseLeftButtonUp"/>
 
-               
+
                 <Polygon Fill="Black"
                      Points="286,20 273,27.5 273,12.5"></Polygon>
                 <Polygon Fill="Black"
@@ -296,7 +317,7 @@
 				<TextBox x:Name="PlaySpeedText" Text="{Binding VM_Play_Speed}" TextChanged ="TextBox_TextChanged" 
 					/>
             </StackPanel>
-            
+
             <TextBlock Grid.Column="3" Margin="10,3" Padding="15"
              Text ="{Binding VM_Time}" FontSize="18"/>
           
