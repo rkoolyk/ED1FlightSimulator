@@ -213,7 +213,7 @@ namespace ED1FlightSimulator
         public void drawRegression()
         {
             float a, b;
-            string 
+            
         }
 
 
@@ -746,14 +746,14 @@ namespace ED1FlightSimulator
             return SAttsList2;
         }
 
-        [DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\rayra\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
 
         public static extern IntPtr Create(String CSVfileName, String[] l, int size);
 
-        [DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\rayra\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
         public static extern float givesFloatTs(IntPtr obj, int line, String att);
 
-        [DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\rayra\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
         public static extern int getRowSize(IntPtr ts);
 
         /*[DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
@@ -764,7 +764,7 @@ namespace ED1FlightSimulator
         [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Algo1-Dll.dll")]
         public static extern IntPtr CreateSAD();
 
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Algo1-Dll.dll")]
+        [DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Algo1-Dll.dll")]
         public static extern void getTimeStepsAlgo1(IntPtr sad, [MarshalAs(UnmanagedType.LPStr)] String CSVfileName, [MarshalAs(UnmanagedType.LPArray)] String[] l, int size, [MarshalAs(UnmanagedType.LPStr)] String oneWay, [MarshalAs(UnmanagedType.LPStr)] String otherWay, StringBuilder arr);
 
 
