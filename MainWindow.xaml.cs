@@ -32,7 +32,7 @@ namespace ED1FlightSimulator
             this.Throttle.Text = "<- Throttle ->";
             this.Rudder.Text = "<- Rudder ->";
             this.MainGraph.DataContext = vm.VM_Main_Graph_Values;
-            this.Correlated_Graph.DataContext = vm.VM_Main_Graph_Values;
+            this.Correlated_Graph.DataContext = vm.VM_Correlated_Graph_Values;
                     
             
         }

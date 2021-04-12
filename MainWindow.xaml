@@ -204,12 +204,14 @@
                 </ScrollViewer>
 
                 <StackPanel Grid.Column="1">
-					<TextBlock Text="{Binding VM_Category}"/>
+					
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
+                        <TextBlock Padding="15" Text="{Binding VM_Category}"/>
+                        <TextBlock Padding="15" Text="{Binding VM_Correlated_Category}" Grid.Column="1"/>
                         <DVC:Chart x:Name="MainGraph"  Title="{Binding VM_Category}" VerticalAlignment="Top" RenderTransformOrigin="0.524,0.249" Margin="2,6,9.667,-119.333" Height="244" BorderBrush="Transparent" BorderThickness="0">
                             <DVC:Chart.LegendStyle>
                                 <Style TargetType="Control">
@@ -219,7 +221,7 @@
                             </DVC:Chart.LegendStyle>
                             <DVC:LineSeries Width="auto" Height="auto" ItemsSource = "{Binding}" IndependentValuePath = "Key" DependentValuePath = "Value" IsSelectionEnabled="True" RenderTransformOrigin="0.522,-0.172" Margin="0,-28,-10,-12"/>
                         </DVC:Chart>
-
+                        
                         <DVC:Chart Grid.Column="1" x:Name="Correlated_Graph" VerticalAlignment="Top" RenderTransformOrigin="0.524,0.249" Margin="2.333,6,10.333,-119.333" Height="244" BorderBrush="Transparent" BorderThickness="0">
                             <DVC:Chart.LegendStyle>
                                 <Style TargetType="Control">
