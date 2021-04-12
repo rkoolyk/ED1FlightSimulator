@@ -20,6 +20,8 @@ namespace ED1FlightSimulator
         List<string> Data_List { get; set; }
         string Category { get; set; }
         List<KeyValuePair<float, float>> Main_Graph_Values { get; set; }
+        string Correlated_Category { get; set; }
+        List<KeyValuePair<float, float>> Correlated_Graph_Values { get; set; }
         void StartSim();
     }
 }
