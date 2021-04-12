@@ -46,6 +46,7 @@ namespace ED1FlightSimulator
         private float rudder = 0;
         private string xmlPath = null;
         private string csvPath = null;
+        private string algorithmPath = null;
         private List<string> dataList = new List<string>();
         private List<KeyValuePair<float, float>> mainGraphValues = null;
         private List<KeyValuePair<float, float>> correlatedGraphValues = null;
@@ -551,7 +552,7 @@ namespace ED1FlightSimulator
 
                 
                 List<KeyValuePair<float, float>> dataPairs = new List<KeyValuePair<float, float>>();
-                if (correlatedCategory != "")
+                if (correlatedCategory != " ")
                 {
                     List<float> data = dictionary[correlatedCategory];
                     int i = 0;
