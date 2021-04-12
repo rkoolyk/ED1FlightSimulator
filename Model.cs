@@ -305,6 +305,7 @@ namespace ED1FlightSimulator
                 i++;
             }
             Main_Graph_Values = dataPairs;
+            dataPairs = new List<KeyValuePair<float, float>>();
             if (correlatedCategory == " ")
             {
                 for (i = 0; i < 30; i++)
@@ -319,7 +320,7 @@ namespace ED1FlightSimulator
                 dataPairs = new List<KeyValuePair<float, float>>();
                 foreach (float f in data)
                 {
-                    if (i >= imgNum - 10 && i <= imgNum)
+                    if (i >= imgNum - 30 && i <= imgNum)
                     {
                         dataPairs.Add(new KeyValuePair<float, float>(i, f));
                     }

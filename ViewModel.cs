@@ -209,18 +209,7 @@ namespace ED1FlightSimulator
         }
         public List<KeyValuePair<float, float>> VM_Correlated_Graph_Values
         {
-            get
-            {
-                Console.WriteLine("Trying to get correlated values from viewodel");
-                /*List<KeyValuePair<float, float>> tmp = model.Main_Graph_Values;
-                Console.WriteLine("Writing pairs now");
-                foreach (KeyValuePair<float, float> pairs in tmp)
-                {
-                     Console.WriteLine(pairs);
-                }
-                */
-                return model.Correlated_Graph_Values;
-            }
+            get { return model.Correlated_Graph_Values; }
         }
 
         public string VM_Correlated_Category
