@@ -13,6 +13,8 @@ using System.Threading;
 using System.Net;
 using System.Net.Sockets;
 using System.IO;
+using System.Windows;
+using System.Timers;
 
 namespace ED1FlightSimulator
 {
@@ -22,9 +24,13 @@ namespace ED1FlightSimulator
         private int imgNum = 0;
 
         private UdpClient client = new UdpClient(5400);
-        private StreamReader s;
+        //private StreamReader s;
         private int firstTimeFlag = 1;
+
+        private Stopwatch stopwatch;
+        private System.Timers.Timer t;
        
+        private int maxVal = 1000;
         private float knobX = 50;
         private float knobY = 50;
         private string heightText = "0";
@@ -40,17 +46,40 @@ namespace ED1FlightSimulator
         private string xmlPath = null;
         private string csvPath = null;
         private List<string> dataList = new List<string>();
-        private Dictionary<String, List<float>> dictionary;
-        public event PropertyChangedEventHandler PropertyChanged;
-        String AnomalyAlgorithm;
-        private IntPtr TimeSeries;
         private List<KeyValuePair<float, float>> mainGraphValues = null;
         private List<KeyValuePair<float, float>> correlatedGraph = null;
         private List<KeyValuePair<float, float>> regressionGraph = null;
-        private string category = null;
+        private string category = "slats";
+        private Dictionary<String, List<float>> dictionary;
+        private Dictionary<int, string> dictFile = new Dictionary<int, string>();
+        public event PropertyChangedEventHandler PropertyChanged;
+        String AnomalyAlgorithm;
+        private IntPtr TimeSeries;
         private void onPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public Model()
+        {
+            mainGraphValues = new List<KeyValuePair<float, float>>();
+            mainGraphValues.Add(new KeyValuePair<float, float>(1, 60));
+            mainGraphValues.Add(new KeyValuePair<float, float>(7, 15));
+            mainGraphValues.Add(new KeyValuePair<float, float>(8, 23));
+            mainGraphValues.Add(new KeyValuePair<float, float>(40, 50));
+            mainGraphValues.Add(new KeyValuePair<float, float>(3, 80));
+            mainGraphValues.Add(new KeyValuePair<float, float>(11, 15));
+            mainGraphValues.Add(new KeyValuePair<float, float>(5, 20));
+            mainGraphValues.Add(new KeyValuePair<float, float>(26, 31));
+            mainGraphValues.Add(new KeyValuePair<float, float>(9, 70));
+            mainGraphValues.Add(new KeyValuePair<float, float>(17, 4));
+            mainGraphValues.Add(new KeyValuePair<float, float>(6, 12));
+            mainGraphValues.Add(new KeyValuePair<float, float>(15, 19));
+            mainGraphValues.Add(new KeyValuePair<float, float>(43, 14));
+            mainGraphValues.Add(new KeyValuePair<float, float>(35, 18));
+            mainGraphValues.Add(new KeyValuePair<float, float>(24, 41));
+            mainGraphValues.Add(new KeyValuePair<float, float>(28, 500));
+            onPropertyChanged("Main_Graph_Values");
         }
 
         public void Start()
@@ -61,10 +90,18 @@ namespace ED1FlightSimulator
 
                  //UdpClient client = new UdpClient(5400);
                  if (firstTimeFlag == 1)
-                {
+                 {
                     client.Connect("localhost", 5400);
-                    s = new StreamReader(File.OpenRead(csvPath));
-                }
+                    //s = new StreamReader(File.OpenRead(csvPath));
+
+                    stopwatch = new Stopwatch();
+                    t = new System.Timers.Timer(SleepTime());
+                    t.Elapsed += OnTimerElapsed;
+                 }
+
+                    stopwatch.Start();
+                    t.Start();
+                 
                  firstTimeFlag = 0;
                  //StreamReader s = new StreamReader(File.OpenRead(csvPath));
                  Thread thread = new Thread(
@@ -72,11 +109,11 @@ namespace ED1FlightSimulator
                  {
                      //while(true)
                      //{
-                         while(shouldPlay == true && imgNum < dictionary["throttle"].Count()
-                            && !s.EndOfStream)
+                         while(shouldPlay == true && ImgNum < dictionary["throttle"].Count())
                          {    
-                              var newline = s.ReadLine();
-                              String eol = "\n\r";
+                              //var newline = s.ReadLine();
+                              string newline = dictFile[ImgNum];
+                              String eol = "\r\n";
                               Byte[] sendBytes = System.Text.Encoding.ASCII.GetBytes(newline + eol);
                               client.Send(sendBytes, sendBytes.Length);
                                                        
@@ -91,8 +128,13 @@ namespace ED1FlightSimulator
                               UpdateRoll();
                               UpdatePitch();
                               Thread.Sleep(SleepTime());
-                              imgNum++;
-                         } 
+                              t.Interval = SleepTime();
+                              ImgNum++;
+
+                              } 
+                         stopwatch.Stop();
+                         t.Stop();
+                         
                      //}
 
                   } );
@@ -103,28 +145,12 @@ namespace ED1FlightSimulator
              {
                  Console.WriteLine(e.ToString());
              }
-            /*Thread thread = new Thread(
-                delegate()
-                {
-                    while (shouldPlay == true && imgNum < dictionary["throttle"].Count())
-                    {
-                        MoveThrottle();
-                        MoveRudder();
-                        MoveAileron();
-                        MoveElevator();
-                        UpdateHeight();
-                        UpdateSpeed();
-                        UpdateDirection();
-                        UpdateYaw();
-                        UpdateRoll();
-                        UpdatePitch();
-                        Thread.Sleep(SleepTime());
-                        imgNum++;
-                    }
-                }
+            
+        }
 
-                );
-            thread.Start();*/
+        private void OnTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            //Application.Current.Dispatcher.Invoke(() => Time = stopwatch.Elapsed.ToString(@"hh\:mm\:ss"));
         }
 
         public void StartSim()
@@ -137,29 +163,29 @@ namespace ED1FlightSimulator
         {
             
             List<float> throttleVals = dictionary["throttle"];
-            Throttle = throttleVals[imgNum] * 140;
+            Throttle = throttleVals[ImgNum] * 140;
                                                               
         }
 
         public void MoveRudder()
         {
             List<float> rudderVals = dictionary["rudder"];
-            Rudder = rudderVals[imgNum] * 70 + 70;
+            Rudder = rudderVals[ImgNum] * 70 + 70;
             
         }
 
         public void MoveAileron()
         {
             List<float> aileronVals = dictionary["aileron"];
-            if (aileronVals[imgNum] * 100 + 50 < 100 && aileronVals[imgNum] * 100 + 50 > 0)
+            if (aileronVals[ImgNum] * 100 + 50 < 100 && aileronVals[ImgNum] * 100 + 50 > 0)
             {
-                 KNOB_X = aileronVals[imgNum] * 100 + 50;
+                 KNOB_X = aileronVals[ImgNum] * 100 + 50;
             }
-            else if (aileronVals[imgNum] * 100 + 50 > 100)
+            else if (aileronVals[ImgNum] * 100 + 50 > 100)
             {
                 KNOB_X = 100;
             }
-            else if (aileronVals[imgNum] * 100 + 50 < 0)
+            else if (aileronVals[ImgNum] * 100 + 50 < 0)
             {
                 KNOB_X = 0;
             }
@@ -169,15 +195,15 @@ namespace ED1FlightSimulator
         public void MoveElevator()
         {
             List<float> elevatorVals = dictionary["elevator"];
-            if (elevatorVals[imgNum] * 100 + 50 > 0 && elevatorVals[imgNum] * 100 + 50 < 100)
+            if (elevatorVals[ImgNum] * 100 + 50 > 0 && elevatorVals[ImgNum] * 100 + 50 < 100)
             {
-                 KNOB_Y = elevatorVals[imgNum] * 100 + 50;
+                 KNOB_Y = elevatorVals[ImgNum] * 100 + 50;
             }
-            else if (elevatorVals[imgNum] * 100 + 50 > 100)
+            else if (elevatorVals[ImgNum] * 100 + 50 > 100)
             {
                 KNOB_Y = 100;
             }
-            else if (elevatorVals[imgNum] * 100 + 50 < 0)
+            else if (elevatorVals[ImgNum] * 100 + 50 < 0)
             {
                 KNOB_Y = 0;
             }
@@ -187,40 +213,40 @@ namespace ED1FlightSimulator
         public void UpdateHeight()
         {
             List<float> heightVals = dictionary["altitude-ft"];
-            Height_Text = heightVals[imgNum].ToString();
+            Height_Text = heightVals[ImgNum].ToString();
         }
 
         public void UpdateSpeed()
         {
             List<float> speedVals = dictionary["airspeed-kt"];
-            Speed_Text = speedVals[imgNum].ToString();
+            Speed_Text = speedVals[ImgNum].ToString();
         }
 
         public void UpdateDirection()
         {
             List<float> dirVals = dictionary["heading-deg"];
-            Direction_Text = dirVals[imgNum].ToString();
+            Direction_Text = dirVals[ImgNum].ToString();
            
         }
 
         public void UpdateYaw()
         {
             List<float> yawVals = dictionary["side-slip-deg"];
-            Yaw_Text = yawVals[imgNum].ToString();
+            Yaw_Text = yawVals[ImgNum].ToString();
 
         }
 
         public void UpdateRoll()
         {
             List<float> rollVals = dictionary["roll-deg"];
-            Roll_Text = rollVals[imgNum].ToString();
+            Roll_Text = rollVals[ImgNum].ToString();
 
         }
 
         public void UpdatePitch()
         {
             List<float> pitchVals = dictionary["pitch-deg"];
-            Pitch_Text = pitchVals[imgNum].ToString();
+            Pitch_Text = pitchVals[ImgNum].ToString();
 
         }
 
@@ -232,8 +258,8 @@ namespace ED1FlightSimulator
             {
                 TimeSeries = Create(csvPath, dataList.ToArray(), Data_List.Count());
                 dictionary = getDictionary(dataList, TimeSeries);
-                //MoveAileron();
-                //Start();
+                GetFileDictionary();
+                Max_Val = dictionary["throttle"].Count();
                 
             }
         }
@@ -246,41 +272,38 @@ namespace ED1FlightSimulator
             {
                 TimeSeries = Create(csvPath, dataList.ToArray(), Data_List.Count());
                 dictionary = getDictionary(dataList, TimeSeries);
-                mainGraphValues = new List<KeyValuePair<float, float>>();
-                mainGraphValues.Add(new KeyValuePair<float, float>(1, 60));
-                mainGraphValues.Add(new KeyValuePair<float, float>(7, 15));
-                mainGraphValues.Add(new KeyValuePair<float, float>(8, 23));
-                mainGraphValues.Add(new KeyValuePair<float, float>(40, 50));
-                mainGraphValues.Add(new KeyValuePair<float, float>(3, 80));
-                mainGraphValues.Add(new KeyValuePair<float, float>(11, 15));
-                mainGraphValues.Add(new KeyValuePair<float, float>(5, 20));
-                mainGraphValues.Add(new KeyValuePair<float, float>(26, 31));
-                mainGraphValues.Add(new KeyValuePair<float, float>(9, 70));
-                mainGraphValues.Add(new KeyValuePair<float, float>(17, 4));
-                mainGraphValues.Add(new KeyValuePair<float, float>(6, 12));
-                mainGraphValues.Add(new KeyValuePair<float, float>(15, 19));
-                mainGraphValues.Add(new KeyValuePair<float, float>(43, 14));
-                mainGraphValues.Add(new KeyValuePair<float, float>(35, 18));
-                mainGraphValues.Add(new KeyValuePair<float, float>(24, 41));
-                mainGraphValues.Add(new KeyValuePair<float, float>(28, 500));
-                onPropertyChanged("Main_Graph_Values");
-                Category = "slats";
+                GetFileDictionary();
+                Max_Val = dictionary["throttle"].Count();
 
             }
         }
 
+        public void GetFileDictionary()
+        {
+         
+            string[] linesArray = System.IO.File.ReadAllLines(csvPath);
+            for (int i = 0; i < linesArray.Length; i++)
+            {
+                dictFile.Add(i, linesArray[i]);
+                Category = "aileron";
+                Console.WriteLine("Changed category");
+                Category = "slats";
+            }
+
+        }
+
         public void Previous()
         {
-
+            ImgNum = 0;
         }
         public void Rewind()
         {
-            if (imgNum > 100)
+            if (ImgNum > 100)
             {
-                imgNum -= 100;
+                ImgNum -= 100;
             } else
             {
-                imgNum = 0;
+                ImgNum = 0;
             }
         }
         public void Play()
@@ -292,6 +315,9 @@ namespace ED1FlightSimulator
         public void Pause()
         {
             shouldPlay = false;
+            stopwatch.Stop();
+            t.Stop();
+
         }
 
         public void Stop()
@@ -309,28 +335,49 @@ namespace ED1FlightSimulator
             Throttle = 0;
             Rudder = 0;
             Time = "00:00:00";
-            imgNum = 0;
+            stopwatch.Stop();
+            t.Stop();
+            ImgNum = 0;
 
         }
 
         public void FastForward()
         {
-            int numOfLines = 100;
-            if (imgNum < numOfLines + 10)
+            //int numOfLines = 100;
+            if (ImgNum < Max_Val + 100)
             {
-                imgNum += 10;
+                ImgNum += 100;
             } else
             {
-                imgNum = numOfLines;
+                ImgNum = Max_Val;
             }
 
         }
 
         public void Next()
         {
-
+            ImgNum = Max_Val;
         }
 
+        public int Max_Val
+        {
+            get { return maxVal; }
+            set
+            {
+                maxVal = value;
+                onPropertyChanged("Max_Val");
+            }
+        }
+
+        public int ImgNum
+        {
+            get { return imgNum; }
+            set
+            {
+                imgNum = value;
+                onPropertyChanged("ImgNum");
+            }
+        }
 
         public float KNOB_X
         {
@@ -453,8 +500,20 @@ namespace ED1FlightSimulator
         }
 
         public int SleepTime()
-        {
-            float pSpeed = float.Parse(Play_Speed);
+        {   
+            float pSpeed;
+            if (Play_Speed == "")
+            {
+                pSpeed = 1;
+            }
+            else{
+                pSpeed = float.Parse(Play_Speed);
+                
+                if (float.Parse(Play_Speed) < 0.25)
+                {
+                    pSpeed = 0.25F;
+                }
+            }
             return (int) (1000 / (10 * pSpeed));
         }
 
@@ -464,9 +523,9 @@ namespace ED1FlightSimulator
             set
             {
                 category = value;
-                onPropertyChanged("Category");
                 
-               /* List<float> data = dictionary[category];
+                
+               List<float> data = dictionary[category];
                 int i = 0;
                 List<KeyValuePair<float, float>> dataPairs = new List<KeyValuePair<float, float>>();
                 foreach (float f in data)
@@ -474,7 +533,21 @@ namespace ED1FlightSimulator
                     dataPairs.Add(new KeyValuePair<float, float>(i, f));
                     i++;
                 }
-                Main_Graph_Values = dataPairs;*/
+                Main_Graph_Values = dataPairs;
+                onPropertyChanged();
+            }
+        }
+
+        public List<KeyValuePair<float, float>> Main_Graph_Values
+        {
+            get
+            {
+                return mainGraphValues;
+            }
+            set
+            {
+                mainGraphValues = value;
+                onPropertyChanged("Main_Graph_Values");
             }
         }
 
@@ -536,17 +609,17 @@ namespace ED1FlightSimulator
             return SAttsList2;
         }
 
-        [DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
 
         public static extern IntPtr Create(String CSVfileName, String[] l, int size);
 
-        [DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
         public static extern float givesFloatTs(IntPtr obj, int line, String att);
 
-        [DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
         public static extern int getRowSize(IntPtr ts);
 
-        [DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
         public static extern void findLinReg(IntPtr ts, ref float a, ref float b, String attA, String attB);
 
         Dictionary<String, List<float>> getDictionary(List<String> SAttsList, IntPtr ts)
@@ -567,18 +640,7 @@ namespace ED1FlightSimulator
             return tsDic;
         }
 
-        public List<KeyValuePair<float, float>> Main_Graph_Values
-        {
-            get
-            {
-                return mainGraphValues;
-            }
-            set
-            {
-                mainGraphValues = value;
-                onPropertyChanged("Main_Graph_Values");
-            }
-        }
+       
 
     }
 }

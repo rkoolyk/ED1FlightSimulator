@@ -6,9 +6,10 @@
         xmlns:local="clr-namespace:ED1FlightSimulator"
         xmlns:DV="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"  
         xmlns:DVC="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+		xmlns:uc="clr-namespace:ED1FlightSimulator"
         mc:Ignorable="d"
         Title="MainWindow" Height="620" Width="800">
-    
+
     <StackPanel>
         <Grid ShowGridLines="True">
             <Grid.ColumnDefinitions>
@@ -18,6 +19,7 @@
             <StackPanel>
                 <StackPanel>
 
+					
 
                     <Grid ShowGridLines="True">
                         <Grid.ColumnDefinitions>
@@ -26,7 +28,7 @@
                             <ColumnDefinition Width="4.9*"/>
                             <ColumnDefinition Width="0.7*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" 
+                        <TextBlock Grid.Column="0"  
                                      x:Name="Throttle"
                                      FontSize="16"
                                      FontStyle="italic"
@@ -53,19 +55,19 @@
                                        FontStyle="italic"
                                          TextAlignment="Center"
                               ></TextBlock>
-                              
-                              <Canvas Height="150" Width="150">
-                             
-                               
+
+                            <Canvas Height="150" Width="150">
+
+
                                 <Ellipse Height="150" Width="150" Fill="Black"/>
 
-                             
-                                    <Ellipse Height="50" Width="50" Fill="Gray"
+
+                                <Ellipse Height="50" Width="50" Fill="Gray"
                                          Canvas.Left="{Binding VM_KNOB_X}"
                                          Canvas.Top="{Binding VM_KNOB_Y}"/>
-                                
-                                      
-                              </Canvas>
+
+
+                            </Canvas>
 
 
 
@@ -227,29 +229,39 @@
 							 ></TextBlock>
                 <ScrollViewer Height="350">
                     <ListBox ItemsSource="{Binding VM_Data_List}"
-							   >
+							  SelectionChanged="FeatureChoice_SelectionChanged" >
 
                     </ListBox>
 
                 </ScrollViewer>
 
                 <StackPanel Grid.Column="1">
+					<TextBlock Text="{Binding VM_Category}"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <DVC:Chart x:Name="Main_Graph" VerticalAlignment="Top" RenderTransformOrigin="0.524,0.249" Margin="2,6,133.333,-119.333" Height="244" BorderBrush="Transparent" BorderThickness="0" Background="LightSteelBlue" Grid.ColumnSpan="2">
+                        <DVC:Chart x:Name="MainGraph"  Title="{Binding VM_Category}" VerticalAlignment="Top" RenderTransformOrigin="0.524,0.249" Margin="2,6,133.333,-119.333" Height="244" BorderBrush="Transparent" BorderThickness="0" Grid.ColumnSpan="2" Grid.RowSpan="2">
                             <DVC:Chart.LegendStyle>
                                 <Style TargetType="Control">
                                     <Setter Property="Width" Value="0"/>
                                     <Setter Property="Height" Value="0"/>
                                 </Style>
                             </DVC:Chart.LegendStyle>
-                            <DVC:LineSeries Title="{Binding VM_Category}"  Width="auto" Height="auto" ItemsSource = "{Binding}" IndependentValuePath = "Key" DependentValuePath = "Value" IsSelectionEnabled="True" RenderTransformOrigin="0.522,-0.172" Margin="0,-28,-10,-12"/>
+                            <DVC:LineSeries Width="auto" Height="auto" ItemsSource = "{Binding}" IndependentValuePath = "Key" DependentValuePath = "Value" IsSelectionEnabled="True" RenderTransformOrigin="0.522,-0.172" Margin="0,-28,-10,-12"/>
+                        </DVC:Chart>
+
+                        <DVC:Chart Grid.Column="1" x:Name="Correlated_Graph" VerticalAlignment="Top" RenderTransformOrigin="0.524,0.249" Margin="2.333,6,10.333,-119.333" Height="244" BorderBrush="Transparent" BorderThickness="0">
+                            <DVC:Chart.LegendStyle>
+                                <Style TargetType="Control">
+                                    <Setter Property="Width" Value="0"/>
+                                    <Setter Property="Height" Value="0"/>
+                                </Style>
+                            </DVC:Chart.LegendStyle>
+                            <DVC:LineSeries Title="Correlated Feature"  Width="auto" Height="auto" ItemsSource = "{Binding}" IndependentValuePath = "Key" DependentValuePath = "Value" IsSelectionEnabled="True" RenderTransformOrigin="0.522,-0.172" Margin="0,-28,-10,-12"/>
                         </DVC:Chart>
                     </Grid>
-
                 </StackPanel>
 
             </Grid>
@@ -263,7 +275,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel>
-				
+
                 <Button Name="LoadCsv" Click="LoadCsv_OnClick" 
                         Padding="5" Content="Load CSV File"
                         FontWeight="UltraBold"
@@ -373,9 +385,10 @@
             <TextBlock Grid.Column="3" Margin="10,3" Padding="15"
              Text ="{Binding VM_Time}" FontSize="18"/>
           
+            
         </Grid>
-        <Slider Margin="15,15"/>
-    </StackPanel>
-
-</Window>
+        <Slider x:Name="TimeSlider" Margin="15,15" Value="{Binding VM_ImgNum, Mode=TwoWay}" Maximum="{Binding VM_Max_Val}" Minimum="0"/>
+    </StackPanel> 
+          
+  </Window>
 

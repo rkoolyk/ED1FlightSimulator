@@ -11,7 +11,7 @@ using System.Windows.Shapes;
 using System.IO;
 using Microsoft.Win32;
 using System.Diagnostics;
-
+using System.Windows.Threading;
 
 namespace ED1FlightSimulator
 {
@@ -31,12 +31,29 @@ namespace ED1FlightSimulator
             this.Aileron.Text = "<- Aileron ->";
             this.Throttle.Text = "<- Throttle ->";
             this.Rudder.Text = "<- Rudder ->";
-            Main_Graph.DataContext = vm.VM_Main_Graph_Values;
-
-
+            this.MainGraph.DataContext = vm.VM_Main_Graph_Values;
+            this.Correlated_Graph.DataContext = vm.VM_Main_Graph_Values;
+                    
+            
         }
 
-        private void LoadCsv_OnClick(object sender, RoutedEventArgs e)
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            vm.VM_ImgNum = (int)((Slider)sender).Value;
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            vm.VM_Play_Speed = ((TextBox)sender).Text;
+            
+        }
+
+        private void FeatureChoice_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            vm.VM_Category = (string)((ListBox)sender).SelectedItem;
+        }
+
+	    private void LoadCsv_OnClick(object sender, RoutedEventArgs e)
         {
             string path = "";
 		    OpenFileDialog openFileDialog = new OpenFileDialog();
