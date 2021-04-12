@@ -28,6 +28,8 @@ namespace ED1FlightSimulator
 
         List<KeyValuePair<float, float>> VM_Main_Graph_Values { get; }
         string VM_Category { get; set; }
+        List<KeyValuePair<float, float>> VM_Correlated_Graph_Values { get; }
+        string VM_Correlated_Category { get; set; }
 
         void Previous();
         void Rewind();
@@ -39,6 +41,7 @@ namespace ED1FlightSimulator
 
         void GetPathCSV(string path);
         void GetPathXML(string path);
+        void GetPathAlgo(string path);
         void StartSim();
        
     }

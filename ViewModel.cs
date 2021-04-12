@@ -3,12 +3,15 @@ using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using OxyPlot;
 using System;
+using System.Collections.ObjectModel;
 
 namespace ED1FlightSimulator
 {
     public class ViewModel : IViewModel
     {
-        private Model model;
+        public Model model;
+        public ObservableCollection<KeyValuePair<float, float>> trial = new ObservableCollection<KeyValuePair<float, float>>();
+
 
         public ViewModel()
         {
@@ -194,6 +197,13 @@ namespace ED1FlightSimulator
                 }
                 */
                 return model.Main_Graph_Values;
+                /*List<KeyValuePair<float, float>> tmp = model.Main_Graph_Values;
+               Console.WriteLine("Writing pairs now");
+               foreach (KeyValuePair<float, float> pairs in tmp)
+               {
+                    Console.WriteLine(pairs);
+               }
+               */
             }
         }
 
@@ -209,12 +219,39 @@ namespace ED1FlightSimulator
         {
             get
             {
-                //Console.WriteLine("Category is " + model.Category);
                 return model.Category;
             }
             set
             {
                 model.Category = value;
+            }
+        }
+        public List<KeyValuePair<float, float>> VM_Correlated_Graph_Values
+        {
+            get
+            {
+                Console.WriteLine("Trying to get correlated values from viewodel");
+                /*List<KeyValuePair<float, float>> tmp = model.Main_Graph_Values;
+                Console.WriteLine("Writing pairs now");
+                foreach (KeyValuePair<float, float> pairs in tmp)
+                {
+                     Console.WriteLine(pairs);
+                }
+                */
+                return model.Correlated_Graph_Values;
+            }
+        }
+
+        public string VM_Correlated_Category
+        {
+            get
+            {
+                Console.WriteLine("Category is " + model.Correlated_Category);
+                return model.Correlated_Category;
+            }
+            set
+            {
+                model.Correlated_Category = value;
             }
         }
 
@@ -225,12 +262,12 @@ namespace ED1FlightSimulator
         public void GetPathXML(string path)
         {
             model.GetPathXML(path);
-        }      
-
-       /* public PlotModel VM_Main_Graph
+        } 
+        
+        public void GetPathAlgo(string path)
         {
-            get { return model.Main_Graph; }
-        }*/
+            model.GetPathAlgo(path);
+        }
 
         public int VM_ImgNum
         {
