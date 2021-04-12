@@ -76,8 +76,8 @@ namespace ED1FlightSimulator
         private List<KeyValuePair<float, float>> mainGraphValues = new List<KeyValuePair<float, float>>();
         private List<KeyValuePair<float, float>> correlatedGraphValues = new List<KeyValuePair<float, float>>();
         private List<KeyValuePair<float, float>> regressionGraph = null;
-        private string category = "aileron";
-        private string correlatedCategory = "aileron";
+        private string category = " ";
+        private string correlatedCategory = " ";
         private Dictionary<String, List<float>> dictionary;
         private Dictionary<int, string> dictFile = new Dictionary<int, string>();
         public event PropertyChangedEventHandler PropertyChanged;
@@ -91,47 +91,12 @@ namespace ED1FlightSimulator
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public Model()
+        /*public Model()
         {
 
-            mainGraphValues = new List<KeyValuePair<float, float>>();
-            mainGraphValues.Add(new KeyValuePair<float, float>(1, 60));
-            mainGraphValues.Add(new KeyValuePair<float, float>(7, 15));
-            mainGraphValues.Add(new KeyValuePair<float, float>(8, 23));
-            mainGraphValues.Add(new KeyValuePair<float, float>(40, 50));
-            mainGraphValues.Add(new KeyValuePair<float, float>(3, 80));
-            mainGraphValues.Add(new KeyValuePair<float, float>(11, 15));
-            mainGraphValues.Add(new KeyValuePair<float, float>(5, 20));
-            mainGraphValues.Add(new KeyValuePair<float, float>(26, 31));
-            mainGraphValues.Add(new KeyValuePair<float, float>(9, 70));
-            mainGraphValues.Add(new KeyValuePair<float, float>(17, 4));
-            mainGraphValues.Add(new KeyValuePair<float, float>(6, 12));
-            mainGraphValues.Add(new KeyValuePair<float, float>(15, 19));
-            mainGraphValues.Add(new KeyValuePair<float, float>(43, 14));
-            mainGraphValues.Add(new KeyValuePair<float, float>(35, 18));
-            mainGraphValues.Add(new KeyValuePair<float, float>(24, 41));
-            mainGraphValues.Add(new KeyValuePair<float, float>(28, 60));
-            onPropertyChanged("Main_Graph_Values");
-            correlatedGraphValues = new List<KeyValuePair<float, float>>();
-            correlatedGraphValues.Add(new KeyValuePair<float, float>(1, 60));
-            correlatedGraphValues.Add(new KeyValuePair<float, float>(7, 15));
-            correlatedGraphValues.Add(new KeyValuePair<float, float>(8, 23));
-            correlatedGraphValues.Add(new KeyValuePair<float, float>(40, 50));
-            correlatedGraphValues.Add(new KeyValuePair<float, float>(3, 80));
-            correlatedGraphValues.Add(new KeyValuePair<float, float>(11, 15));
-            correlatedGraphValues.Add(new KeyValuePair<float, float>(5, 20));
-            correlatedGraphValues.Add(new KeyValuePair<float, float>(26, 31));
-            correlatedGraphValues.Add(new KeyValuePair<float, float>(9, 70));
-            correlatedGraphValues.Add(new KeyValuePair<float, float>(17, 4));
-            correlatedGraphValues.Add(new KeyValuePair<float, float>(6, 12));
-            correlatedGraphValues.Add(new KeyValuePair<float, float>(15, 19));
-            correlatedGraphValues.Add(new KeyValuePair<float, float>(43, 14));
-            correlatedGraphValues.Add(new KeyValuePair<float, float>(35, 18));
-            correlatedGraphValues.Add(new KeyValuePair<float, float>(24, 41));
-            correlatedGraphValues.Add(new KeyValuePair<float, float>(28, 60));
-            onPropertyChanged("Correlated_Graph_Values");*/
+            
 
-        }
+        }*/
 
         public void Start()
          {      
@@ -333,7 +298,7 @@ namespace ED1FlightSimulator
             List<KeyValuePair<float, float>> dataPairs = new List<KeyValuePair<float, float>>();
             foreach (float f in data)
             {
-                if (i >= imgNum - 10 && i <= imgNum)
+                if (i >= imgNum - 30 && i <= imgNum)
                 {
                     dataPairs.Add(new KeyValuePair<float, float>(i, f));
                 }
@@ -342,7 +307,7 @@ namespace ED1FlightSimulator
             Main_Graph_Values = dataPairs;
             if (correlatedCategory == " ")
             {
-                for (i = 0; i < 10; i++)
+                for (i = 0; i < 30; i++)
                 {
                     dataPairs.Add(new KeyValuePair<float, float>(0, 0));
                 }
@@ -800,14 +765,14 @@ namespace ED1FlightSimulator
             return SAttsList2;
         }
 
-        [DllImport("C:\\Users\\rayra\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
 
         public static extern IntPtr Create(String CSVfileName, String[] l, int size);
 
-        [DllImport("C:\\Users\\rayra\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
         public static extern float givesFloatTs(IntPtr obj, int line, String att);
 
-        [DllImport("C:\\Users\\rayra\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
         public static extern int getRowSize(IntPtr ts);
 
         /*[DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
@@ -818,9 +783,9 @@ namespace ED1FlightSimulator
         [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Algo1-Dll.dll")]
         public static extern IntPtr CreateSAD();*/
 
-        [DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Algo1-Dll.dll")]
+        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Algo1-Dll.dll")]
         public static extern void getTimeStepsAlgo1(IntPtr sad, [MarshalAs(UnmanagedType.LPStr)] String CSVfileName, [MarshalAs(UnmanagedType.LPArray)] String[] l, int size, [MarshalAs(UnmanagedType.LPStr)] String oneWay, [MarshalAs(UnmanagedType.LPStr)] String otherWay, StringBuilder arr);
-        */
+        
 
 
         Dictionary<String, List<float>> getDictionary(List<String> SAttsList, IntPtr ts)
