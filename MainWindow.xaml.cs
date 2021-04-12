@@ -58,7 +58,7 @@ namespace ED1FlightSimulator
 
         private void FeatureChoice_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            vm.VM_Category = (string)((ListBox)sender).SelectedItem;
+             vm.VM_Category = (string)((ListBox)sender).SelectedItem;
              main.Clear();
              List<KeyValuePair<float, float>> tmp = vm.VM_Main_Graph_Values;
              foreach (KeyValuePair<float, float> pairs in tmp)
