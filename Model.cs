@@ -78,7 +78,7 @@ namespace ED1FlightSimulator
         private Dictionary<String, List<float>> dictionary;
         private Dictionary<int, string> dictFile = new Dictionary<int, string>();
         public event PropertyChangedEventHandler PropertyChanged;
-        String AnomalyAlgorithm;
+        String AnomalyAlgorithm ;
         //AlgoString alg;
         private String AlgoPath;
         private IntPtr TimeSeries;
@@ -127,7 +127,7 @@ namespace ED1FlightSimulator
             correlatedGraphValues.Add(new KeyValuePair<float, float>(24, 41));
             correlatedGraphValues.Add(new KeyValuePair<float, float>(28, 60));
             onPropertyChanged("Correlated_Graph_Values");
-
+            
         }
 
         public void Start()
