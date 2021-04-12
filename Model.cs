@@ -50,11 +50,11 @@ namespace ED1FlightSimulator
         private string xmlPath = null;
         private string csvPath = null;
         private List<string> dataList = new List<string>();
-        private List<KeyValuePair<float, float>> mainGraphValues = null;
-        private List<KeyValuePair<float, float>> correlatedGraphValues = null;
+        private List<KeyValuePair<float, float>> mainGraphValues = new List<KeyValuePair<float, float>>();
+        private List<KeyValuePair<float, float>> correlatedGraphValues = new List<KeyValuePair<float, float>>();
         private List<KeyValuePair<float, float>> regressionGraph = null;
         private string category = "aileron";
-        private string correlatedCategory = "slats";
+        private string correlatedCategory = "aileron";
         private Dictionary<String, List<float>> dictionary;
         private Dictionary<int, string> dictFile = new Dictionary<int, string>();
         public event PropertyChangedEventHandler PropertyChanged;
@@ -69,7 +69,7 @@ namespace ED1FlightSimulator
         public Model()
         {
             AnomalyDetector = CreateSAD();
-            mainGraphValues = new List<KeyValuePair<float, float>>();
+            /*mainGraphValues = new List<KeyValuePair<float, float>>();
             mainGraphValues.Add(new KeyValuePair<float, float>(1, 60));
             mainGraphValues.Add(new KeyValuePair<float, float>(7, 15));
             mainGraphValues.Add(new KeyValuePair<float, float>(8, 23));
@@ -104,7 +104,7 @@ namespace ED1FlightSimulator
             correlatedGraphValues.Add(new KeyValuePair<float, float>(35, 18));
             correlatedGraphValues.Add(new KeyValuePair<float, float>(24, 41));
             correlatedGraphValues.Add(new KeyValuePair<float, float>(28, 60));
-            onPropertyChanged("Correlated_Graph_Values");
+            onPropertyChanged("Correlated_Graph_Values");*/
 
         }
 
@@ -153,6 +153,7 @@ namespace ED1FlightSimulator
                               UpdateYaw();
                               UpdateRoll();
                               UpdatePitch();
+                              UpdateGraphs();
                               Thread.Sleep(SleepTime());
                               t.Interval = SleepTime();
                               ImgNum++;
@@ -274,6 +275,48 @@ namespace ED1FlightSimulator
             List<float> pitchVals = dictionary["pitch-deg"];
             Pitch_Text = pitchVals[ImgNum].ToString();
 
+        }
+
+        public void UpdateGraphs()
+        {
+            if (category == " ")
+            {
+                return;
+            }
+            List<float> data = dictionary[category];
+            int i = 0;
+            List<KeyValuePair<float, float>> dataPairs = new List<KeyValuePair<float, float>>();
+            foreach (float f in data)
+            {
+                if (i >= imgNum - 10 && i <= imgNum)
+                {
+                    dataPairs.Add(new KeyValuePair<float, float>(i, f));
+                }
+                i++;
+            }
+            Main_Graph_Values = dataPairs;
+            if (correlatedCategory == " ")
+            {
+                for (i = 0; i < 10; i++)
+                {
+                    dataPairs.Add(new KeyValuePair<float, float>(0, 0));
+                }
+            }
+            else
+            {
+                data = dictionary[correlatedCategory];
+                i = 0;
+                dataPairs = new List<KeyValuePair<float, float>>();
+                foreach (float f in data)
+                {
+                    if (i >= imgNum - 10 && i <= imgNum)
+                    {
+                        dataPairs.Add(new KeyValuePair<float, float>(i, f));
+                    }
+                    i++;
+                }
+            }
+            Correlated_Graph_Values = dataPairs;
         }
 
 
@@ -555,7 +598,7 @@ namespace ED1FlightSimulator
                     dataPairs.Add(new KeyValuePair<float, float>(i, f));
                     i++;
                 }
-                Main_Graph_Values = dataPairs;
+                mainGraphValues = dataPairs;
                 StringBuilder s = new StringBuilder();
                 MostCorrelatedFeature(AnomalyDetector, csvPath, dataList.ToArray(), dataList.Count, category, s);
                 Correlated_Category = s.ToString();
@@ -582,7 +625,7 @@ namespace ED1FlightSimulator
                         i++;
                     }
                 }
-                Correlated_Graph_Values = dataPairs;
+                correlatedGraphValues = dataPairs;
                 onPropertyChanged("Correlated_Category");
             }
         }

@@ -10,8 +10,6 @@ namespace ED1FlightSimulator
     public class ViewModel : IViewModel
     {
         public Model model;
-        public ObservableCollection<KeyValuePair<float, float>> trial = new ObservableCollection<KeyValuePair<float, float>>();
-
 
         public ViewModel()
         {
@@ -168,24 +166,7 @@ namespace ED1FlightSimulator
         public List<KeyValuePair<float, float>> VM_Main_Graph_Values
         {
             get
-            {
-                Console.WriteLine("Trying to get main values from viewodel");
-                /*List<KeyValuePair<float, float>> tmp = model.Main_Graph_Values;
-                Console.WriteLine("Writing pairs now");
-                foreach (KeyValuePair<float, float> pairs in tmp)
-                {
-                     Console.WriteLine(pairs);
-                }
-                */
-                return model.Main_Graph_Values;
-                /*List<KeyValuePair<float, float>> tmp = model.Main_Graph_Values;
-               Console.WriteLine("Writing pairs now");
-               foreach (KeyValuePair<float, float> pairs in tmp)
-               {
-                    Console.WriteLine(pairs);
-               }
-               */
-            }
+            { return model.Main_Graph_Values; }
         }
 
         public string VM_Category
@@ -219,12 +200,7 @@ namespace ED1FlightSimulator
         {
             get
             {
-                Console.WriteLine("Category is " + model.Correlated_Category);
                 return model.Correlated_Category;
-            }
-            set
-            {
-                model.Correlated_Category = value;
             }
         }
 
