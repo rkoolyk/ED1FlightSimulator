@@ -23,26 +23,15 @@ namespace ED1FlightSimulator
     public partial class MainWindow
     {
         private IViewModel vm;
-        private ObservableCollection<KeyValuePair<float, float>> main;
-        private ObservableCollection<KeyValuePair<float, float>> correlated;
-
-
-
         public MainWindow()
         {
             InitializeComponent();
             vm = new ViewModel();
             DataContext = vm;
-            main = new ObservableCollection<KeyValuePair<float, float>>();
-            correlated = new ObservableCollection<KeyValuePair<float, float>>();
             this.Elevator.Text = "<- Elevator ->";
             this.Aileron.Text = "<- Aileron ->";
             this.Throttle.Text = "<- Throttle ->";
-            this.Rudder.Text = "<- Rudder ->";
-            this.MainGraph.DataContext = main;
-            this.CorrelatedGraph.DataContext = correlated;
-                    
-            
+            this.Rudder.Text = "<- Rudder ->";                 
         }
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -58,19 +47,7 @@ namespace ED1FlightSimulator
 
         private void FeatureChoice_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-             vm.VM_Category = (string)((ListBox)sender).SelectedItem;
-             main.Clear();
-             List<KeyValuePair<float, float>> tmp = vm.VM_Main_Graph_Values;
-             foreach (KeyValuePair<float, float> pairs in tmp)
-             {
-                 main.Add(pairs);
-             }
-             correlated.Clear();
-             tmp = vm.VM_Correlated_Graph_Values;
-             foreach (KeyValuePair<float, float> pairs in tmp)
-             {
-                 correlated.Add(pairs);
-             }
+            vm.VM_Category = (string)((ListBox)sender).SelectedItem;
         }
 
 	    private void LoadCsv_OnClick(object sender, RoutedEventArgs e)

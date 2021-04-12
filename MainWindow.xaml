@@ -244,24 +244,33 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Padding="15" Text="{Binding VM_Category}"/>
                         <TextBlock Padding="15" Text="{Binding VM_Correlated_Category}" Grid.Column="1"/>
-                        <DVC:Chart x:Name="MainGraph" VerticalAlignment="Top" RenderTransformOrigin="0.524,0.249" Margin="2,6,9.667,-119.333" Height="244" BorderBrush="Transparent" BorderThickness="0">
+                        <DVC:Chart x:Name="MainGraph" VerticalAlignment="Top" 
+                                   RenderTransformOrigin="0.524,0.249" Margin="2,6,9.667,-119.333" 
+                                   Height="244" BorderBrush="Transparent" BorderThickness="0">
                             <DVC:Chart.LegendStyle>
                                 <Style TargetType="Control">
                                     <Setter Property="Width" Value="0"/>
                                     <Setter Property="Height" Value="0"/>
                                 </Style>
                             </DVC:Chart.LegendStyle>
-                            <DVC:LineSeries Width="auto" Height="auto" ItemsSource = "{Binding UpdateSourceTrigger=PropertyChanged}" IndependentValuePath = "Key" DependentValuePath = "Value" IsSelectionEnabled="True" RenderTransformOrigin="0.522,-0.172" Margin="0,-28,-10,-12"/>
+                            <DVC:LineSeries Width="auto" Height="auto" 
+                                            ItemsSource = "{Binding VM_Main_Graph_Values}" 
+                                            IndependentValuePath = "Key" DependentValuePath = "Value" 
+                                            IsSelectionEnabled="True" RenderTransformOrigin="0.522,-0.172"/>
                         </DVC:Chart>
 
-                        <DVC:Chart Grid.Column="1" x:Name="CorrelatedGraph" RenderTransformOrigin="0.524,0.249" Margin="2.333,6,10.333,-119.333" BorderBrush="Transparent" BorderThickness="0">
+                        <DVC:Chart Grid.Column="1" x:Name="CorrelatedGraph" RenderTransformOrigin="0.524,0.249" 
+                                   Margin="2.333,6,10.333,-119.333" BorderBrush="Transparent" BorderThickness="0">
                             <DVC:Chart.LegendStyle>
                                 <Style TargetType="Control">
                                     <Setter Property="Width" Value="0"/>
                                     <Setter Property="Height" Value="0"/>
                                 </Style>
                             </DVC:Chart.LegendStyle>
-                            <DVC:LineSeries Width="auto" Height="auto" ItemsSource = "{Binding}" IndependentValuePath = "Key" DependentValuePath = "Value" IsSelectionEnabled="True" RenderTransformOrigin="0.522,-0.172" Margin="0,-28,-10,-12"/>
+                            <DVC:LineSeries Width="auto" Height="auto" 
+                                            ItemsSource = "{Binding VM_Correlated_Graph_Values}" 
+                                            IndependentValuePath = "Key" DependentValuePath = "Value" 
+                                            IsSelectionEnabled="True" RenderTransformOrigin="0.522,-0.172"/>
                         </DVC:Chart>
                     </Grid>
 
