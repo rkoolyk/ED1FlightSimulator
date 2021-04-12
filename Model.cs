@@ -46,6 +46,10 @@ namespace ED1FlightSimulator
              public delegate IntPtr CreateSAD();
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate IntPtr Create(String CSVfileName, String[] l, int size);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate float givesFloatTs(IntPtr obj, int line, String att);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int getRowSize(IntPtr ts);
         private bool shouldPlay = false;
         private int imgNum = 0;
 
@@ -345,11 +349,11 @@ namespace ED1FlightSimulator
 
         public void CreateTimeseries()
         {
-            String path = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
-            path = Directory.GetParent(path).FullName;
-            path = Directory.GetParent(path).FullName;
-            path += "\\Dll-fg.dll";    
-            IntPtr pDll = NativeMethods.LoadLibrary(@path);
+            timeSeriesPath = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
+            timeSeriesPath = Directory.GetParent(timeSeriesPath).FullName;
+            timeSeriesPath = Directory.GetParent(timeSeriesPath).FullName;
+            timeSeriesPath += "\\Dll-fg.dll";    
+            IntPtr pDll = NativeMethods.LoadLibrary(@timeSeriesPath);
             IntPtr pAddressOfFunctionToCall = NativeMethods.GetProcAddress(pDll, "Create");
             Create Create =(Create)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(Create));
             TimeSeries = Create(csvPath, dataList.ToArray(), Data_List.Count());
@@ -828,11 +832,11 @@ namespace ED1FlightSimulator
 
        // public static extern IntPtr Create(String CSVfileName, String[] l, int size);
 
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
+       /* [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
         public static extern float givesFloatTs(IntPtr obj, int line, String att);
 
         [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
-        public static extern int getRowSize(IntPtr ts);
+        public static extern int getRowSize(IntPtr ts);*/
 
         /*[DllImport("C:\\Users\\rayra\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Algo1-Dll.dll")]
         public static extern void findLinReg(IntPtr ts, ref float a, ref float b, String attA, String attB);*/
@@ -850,7 +854,11 @@ namespace ED1FlightSimulator
         Dictionary<String, List<float>> getDictionary(List<String> SAttsList, IntPtr ts)
         {
             Dictionary<String, List<float>> tsDic = new Dictionary<String, List<float>>();
-
+            IntPtr pDll = NativeMethods.LoadLibrary(@timeSeriesPath);
+            IntPtr pAddressOfFunctionToCall1 = NativeMethods.GetProcAddress(pDll, "getRowSize");
+            IntPtr pAddressOfFunctionToCall2 = NativeMethods.GetProcAddress(pDll, "givesFloatTs");
+            getRowSize getRowSize = (getRowSize)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall1, typeof(getRowSize));
+            givesFloatTs givesFloatTs = (givesFloatTs)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall2, typeof(givesFloatTs));
             int size = getRowSize(ts);
             for (int i = 0; i < SAttsList.Count(); i++)
             {
