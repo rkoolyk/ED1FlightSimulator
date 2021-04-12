@@ -58,8 +58,8 @@ namespace ED1FlightSimulator
         //private StreamReader s;
         private int firstTimeFlag = 1;
 
-        private Stopwatch stopwatch;
-        private System.Timers.Timer t;
+       // private Stopwatch stopwatch;
+        //private System.Timers.Timer t;
         
         private int maxVal = 1000;
         private float knobX = 50;
@@ -109,8 +109,9 @@ namespace ED1FlightSimulator
 
         private void OnTimedEvent(Object source, ElapsedEventArgs e)
         {   
-            Debug.WriteLine("GOT HERE\n");
+            //Debug.WriteLine("GOT HERE\n");
             UpdateGraphs();
+            
         }
 
         public void Start()
@@ -137,14 +138,8 @@ namespace ED1FlightSimulator
                     client.Connect("localhost", 5400);
                     //s = new StreamReader(File.OpenRead(csvPath));
 
-                    stopwatch = new Stopwatch();
-                    t = new System.Timers.Timer(SleepTime());
-                    t.Elapsed += OnTimerElapsed;
                  }
 
-                    stopwatch.Start();
-                    t.Start();
-                 
                  firstTimeFlag = 0;
                  //StreamReader s = new StreamReader(File.OpenRead(csvPath));
                  Thread thread = new Thread(
@@ -154,6 +149,8 @@ namespace ED1FlightSimulator
                      //{
                          while(shouldPlay == true && ImgNum < dictionary["throttle"].Count())
                          {    
+                              TimeSpan timeSpan = TimeSpan.FromSeconds(ImgNum / 10);
+                              Time = timeSpan.ToString();
                               //var newline = s.ReadLine();
                               string newline = dictFile[ImgNum];
                               String eol = "\r\n";
@@ -173,13 +170,11 @@ namespace ED1FlightSimulator
                               //UpdateGraphs();
                               
                               Thread.Sleep(SleepTime());
-                              t.Interval = SleepTime();
+                              //t.Interval = SleepTime();
                               ImgNum++;
 
                               } 
-                         stopwatch.Stop();
-                         t.Stop();
-                         
+                        
                      //}
 
                   } );
@@ -193,10 +188,10 @@ namespace ED1FlightSimulator
             
         }
 
-        private void OnTimerElapsed(object sender, ElapsedEventArgs e)
+       /* private void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
             //Application.Current.Dispatcher.Invoke(() => Time = stopwatch.Elapsed.ToString(@"hh\:mm\:ss"));
-        }
+        }*/
 
         public void StartSim()
         {   
@@ -478,8 +473,7 @@ namespace ED1FlightSimulator
         public void Pause()
         {
             shouldPlay = false;
-            stopwatch.Stop();
-            t.Stop();
+           
 
         }
 
@@ -498,8 +492,6 @@ namespace ED1FlightSimulator
             Throttle = 0;
             Rudder = 0;
             Time = "00:00:00";
-            stopwatch.Stop();
-            t.Stop();
             ImgNum = 0;
 
         }
@@ -718,33 +710,29 @@ namespace ED1FlightSimulator
                 Correlated_Category = s.ToString();
 
 
-            float a = 0;
-            float b = 0;
-            //IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
-            IntPtr pAddressOfFunctionToCall1 = NativeMethods.GetProcAddress(pDll, "findLinReg");
-            findLinReg findLinReg =(findLinReg)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall1, typeof( findLinReg));
-            findLinReg(TimeSeries, ref a, ref b, category, Correlated_Category);
-            List<KeyValuePair<float, float>> tempPoints = new List<KeyValuePair<float, float>>();
-            tempPoints.Add(new KeyValuePair<float, float>(0,b));
-            if (a != 0 )
-            {
-                 tempPoints.Add(new KeyValuePair<float, float>((-b)/a , 0));
-            }
-            else
-            {
-                tempPoints.Add(new KeyValuePair<float, float>(1, a + b));
-            }
-            Points = tempPoints;   
-
-
-
-
-                onPropertyChanged("Category");
+                float a = 0;
+                float b = 0;
+                //IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
+                IntPtr pAddressOfFunctionToCall1 = NativeMethods.GetProcAddress(pDll, "findLinReg");
+                findLinReg findLinReg =(findLinReg)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall1, typeof( findLinReg));
+                findLinReg(TimeSeries, ref a, ref b, category, Correlated_Category);
+                List<KeyValuePair<float, float>> tempPoints = new List<KeyValuePair<float, float>>();
+                tempPoints.Add(new KeyValuePair<float, float>(0,b));
+                if (a != 0 )
+                {
+                     tempPoints.Add(new KeyValuePair<float, float>((-b)/a , 0));
+                }
+                else
+                {
+                    tempPoints.Add(new KeyValuePair<float, float>(1, a + b));
+                }
+                Points = tempPoints;   
                 
-                
-               
-            }
+                    onPropertyChanged("Category");
+                    
+                }
         }
+
         public string Correlated_Category
         {
             get { return correlatedCategory; }
