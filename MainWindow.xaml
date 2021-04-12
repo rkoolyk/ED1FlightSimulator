@@ -401,7 +401,7 @@
                            FontSize="15"
                            ></TextBlock>
                 <TextBox Text="{Binding VM_Play_Speed}" 
-					/>
+					TextChanged="TextBox_TextChanged"/>
                 <Button Name="LoadAlgo" Click="LoadAlgo_OnClick"
                         Padding="5" Content="Load Algorithm"
                         FontWeight="UltraBold"

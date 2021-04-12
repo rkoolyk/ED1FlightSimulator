@@ -245,37 +245,15 @@ namespace ED1FlightSimulator
         public void MoveAileron()
         {
             List<float> aileronVals = dictionary["aileron"];
-            if (aileronVals[ImgNum] * 100 + 50 < 100 && aileronVals[ImgNum] * 100 + 50 > 0)
-            {
-                 KNOB_X = aileronVals[ImgNum] * 100 + 50;
-            }
-            else if (aileronVals[ImgNum] * 100 + 50 > 100)
-            {
-                KNOB_X = 100;
-            }
-            else if (aileronVals[ImgNum] * 100 + 50 < 0)
-            {
-                KNOB_X = 0;
-            }
-           
+            KNOB_X = aileronVals[ImgNum] * 50 + 50;
+            
         }
 
         public void MoveElevator()
         {
             List<float> elevatorVals = dictionary["elevator"];
-            if (elevatorVals[ImgNum] * 100 + 50 > 0 && elevatorVals[ImgNum] * 100 + 50 < 100)
-            {
-                 KNOB_Y = elevatorVals[ImgNum] * 100 + 50;
-            }
-            else if (elevatorVals[ImgNum] * 100 + 50 > 100)
-            {
-                KNOB_Y = 100;
-            }
-            else if (elevatorVals[ImgNum] * 100 + 50 < 0)
-            {
-                KNOB_Y = 0;
-            }
-           
+            KNOB_Y = elevatorVals[ImgNum] * 50 + 50;
+            
         }
 
         public void UpdateHeight()
@@ -730,7 +708,7 @@ namespace ED1FlightSimulator
                 
                     onPropertyChanged("Category");
                     
-                }
+            }
         }
 
         public string Correlated_Category
