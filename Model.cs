@@ -77,6 +77,7 @@ namespace ED1FlightSimulator
         private string xmlPath = null;
         private string csvPath = null;
         private string timeSeriesPath = null;
+        private string regFlightPath = null;
         private List<string> dataList = new List<string>();
         private List<KeyValuePair<float, float>> mainGraphValues = new List<KeyValuePair<float, float>>();
         private List<KeyValuePair<float, float>> correlatedGraphValues = new List<KeyValuePair<float, float>>();
@@ -125,6 +126,7 @@ namespace ED1FlightSimulator
              CreateSAD CreateSAD =(CreateSAD)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall4, typeof(CreateSAD));
 
              AnomalyDetector = CreateSAD();
+             GetPathRegFlight();
 
              try
              {  
@@ -380,6 +382,13 @@ namespace ED1FlightSimulator
 
         }
 
+        public void GetPathRegFlight()
+        {
+            regFlightPath = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
+            regFlightPath = Directory.GetParent(regFlightPath).FullName;
+            regFlightPath = Directory.GetParent(regFlightPath).FullName;
+            regFlightPath += "\\reg_flight.csv";
+        }
 
         public void GetPathCSV(string path)
         {
@@ -705,7 +714,7 @@ namespace ED1FlightSimulator
 
                 Main_Graph_Values = dataPairs;
                 StringBuilder s = new StringBuilder();
-                MostCorrelatedFeature(AnomalyDetector, csvPath, dataList.ToArray(), dataList.Count, category, s);
+                MostCorrelatedFeature(AnomalyDetector, regFlightPath, dataList.ToArray(), dataList.Count, category, s);
                 Correlated_Category = s.ToString();
 
 
