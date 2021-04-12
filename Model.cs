@@ -89,9 +89,27 @@ namespace ED1FlightSimulator
         String AnomalyAlgorithm = " ";
         private IntPtr TimeSeries;
         private IntPtr AnomalyDetector;
+
+        System.Timers.Timer graphTimer;
+
         private void onPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public Model()
+        {
+           graphTimer = new System.Timers.Timer(150);
+           graphTimer.Elapsed += OnTimedEvent;
+           graphTimer.AutoReset = true;
+           graphTimer.Enabled = true;
+            
+        }
+
+        private void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {   
+            Debug.WriteLine("GOT HERE\n");
+            UpdateGraphs();
         }
 
         public void Start()
@@ -150,7 +168,8 @@ namespace ED1FlightSimulator
                               UpdateYaw();
                               UpdateRoll();
                               UpdatePitch();
-                              UpdateGraphs();
+                              //UpdateGraphs();
+                              
                               Thread.Sleep(SleepTime());
                               t.Interval = SleepTime();
                               ImgNum++;
