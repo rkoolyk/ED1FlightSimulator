@@ -7,7 +7,7 @@
         xmlns:DV="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"  
         xmlns:DVC="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         mc:Ignorable="d"
-        Title="MainWindow" Height="620" Width="800">
+        Title="MainWindow" Height="620" Width="1000">
 
     <StackPanel>
         <Grid ShowGridLines="True">
@@ -207,7 +207,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <DVC:Chart x:Name="MainGraph"  Title="{Binding VM_Category}" VerticalAlignment="Top" RenderTransformOrigin="0.524,0.249" Margin="2,6,133.333,-119.333" Height="244" BorderBrush="Transparent" BorderThickness="0" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                        <DVC:Chart x:Name="MainGraph"  Title="{Binding VM_Category}" VerticalAlignment="Top" RenderTransformOrigin="0.524,0.249" Margin="2,6,9.667,-119.333" Height="244" BorderBrush="Transparent" BorderThickness="0">
                             <DVC:Chart.LegendStyle>
                                 <Style TargetType="Control">
                                     <Setter Property="Width" Value="0"/>
@@ -314,17 +314,17 @@
             </Canvas>
             <StackPanel Grid.Column="2">
                 <TextBlock Text="Play Speed :" Padding="5"></TextBlock>
-				<TextBox x:Name="PlaySpeedText" Text="{Binding VM_Play_Speed}" TextChanged ="TextBox_TextChanged" 
+                <TextBox x:Name="PlaySpeedText" Text="{Binding VM_Play_Speed}" TextChanged ="TextBox_TextChanged" 
 					/>
             </StackPanel>
 
             <TextBlock Grid.Column="3" Margin="10,3" Padding="15"
              Text ="{Binding VM_Time}" FontSize="18"/>
-          
-            
+
+
         </Grid>
         <Slider x:Name="TimeSlider" Margin="15,15" Value="{Binding VM_ImgNum, Mode=TwoWay}" Maximum="{Binding VM_Max_Val}" Minimum="0"/>
-    </StackPanel> 
-          
-  </Window>
+    </StackPanel>
+
+</Window>
 

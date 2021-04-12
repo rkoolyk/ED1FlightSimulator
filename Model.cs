@@ -80,6 +80,7 @@ namespace ED1FlightSimulator
             mainGraphValues.Add(new KeyValuePair<float, float>(24, 41));
             mainGraphValues.Add(new KeyValuePair<float, float>(28, 500));
             onPropertyChanged("Main_Graph_Values");
+            
         }
 
         public void Start()
@@ -276,6 +277,8 @@ namespace ED1FlightSimulator
                 dictionary = getDictionary(dataList, TimeSeries);
                 GetFileDictionary();
                 Max_Val = dictionary["throttle"].Count();
+                Category = "aileron";
+                Category = "slats";
 
             }
         }
@@ -287,9 +290,6 @@ namespace ED1FlightSimulator
             for (int i = 0; i < linesArray.Length; i++)
             {
                 dictFile.Add(i, linesArray[i]);
-                Category = "aileron";
-                Console.WriteLine("Changed category");
-                Category = "slats";
             }
 
         }
@@ -611,6 +611,9 @@ namespace ED1FlightSimulator
 
         [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
         public static extern void findLinReg(IntPtr ts, ref float a, ref float b, String attA, String attB);
+
+        //[DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
+        //public static extern void MostCorrelatedFeatureAlgo1(SimpleAnomalyDetector* sad, const char* CSVfileName,  char** l, int size, const char* att, char* s) 
 
         Dictionary<String, List<float>> getDictionary(List<String> SAttsList, IntPtr ts)
         {

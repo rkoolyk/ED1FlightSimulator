@@ -182,7 +182,7 @@ namespace ED1FlightSimulator
         {
             get
             {
-                //Console.WriteLine("Category is " + model.Category);
+                Console.WriteLine("Category is " + model.Category);
                 return model.Category;
             }
             set
@@ -199,11 +199,6 @@ namespace ED1FlightSimulator
         {
             model.GetPathXML(path);
         }      
-
-        public PlotModel VM_Main_Graph
-        {
-            get { return model.Main_Graph; }
-        }
 
         public int VM_ImgNum
         {
