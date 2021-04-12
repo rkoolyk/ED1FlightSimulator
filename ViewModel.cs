@@ -18,7 +18,26 @@ namespace ED1FlightSimulator
                 {
                     onPropertyChanged("VM_" + e.PropertyName);
                 };
+           
         }
+      
+
+         private OxyPlot.PlotModel plotModel;
+         public OxyPlot.PlotModel VM_PlotModel
+         {
+             get
+             {
+                return plotModel;
+             }
+             set
+             {
+                plotModel = value;
+                onPropertyChanged("VM_PlotModel");
+             }
+         }
+
+
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged([CallerMemberName] string propertyName = "")
@@ -175,6 +194,14 @@ namespace ED1FlightSimulator
                 }
                 */
                 return model.Main_Graph_Values;
+            }
+        }
+
+        public List<KeyValuePair<float,float>> VM_Points
+        {
+            get
+            {
+                return model.Points;
             }
         }
 

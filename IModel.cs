@@ -20,6 +20,9 @@ namespace ED1FlightSimulator
         List<string> Data_List { get; set; }
         string Category { get; set; }
         List<KeyValuePair<float, float>> Main_Graph_Values { get; set; }
+
+        List<KeyValuePair<float,float>> Points { get; set;}
+
         void StartSim();
     }
 }

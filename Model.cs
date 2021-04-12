@@ -23,6 +23,9 @@ namespace ED1FlightSimulator
         private bool shouldPlay = false;
         private int imgNum = 0;
 
+        private List<KeyValuePair<float,float>> points = 
+            new List<KeyValuePair<float, float>>();
+        
         private UdpClient client = new UdpClient(5400);
         //private StreamReader s;
         private int firstTimeFlag = 1;
@@ -158,6 +161,19 @@ namespace ED1FlightSimulator
             shouldPlay = true;
             Start();
         }
+
+        public void drawRegression()
+        {
+            float a, b;
+            string 
+        }
+
+
+
+
+
+
+
 
         public void MoveThrottle()
         {
@@ -515,6 +531,16 @@ namespace ED1FlightSimulator
                 }
             }
             return (int) (1000 / (10 * pSpeed));
+        }
+
+        public List<KeyValuePair<float,float>> Points
+        {
+            get { return points;}
+            set
+            {
+                points = value;
+                onPropertyChanged("Points");
+            }
         }
 
         public string Category
