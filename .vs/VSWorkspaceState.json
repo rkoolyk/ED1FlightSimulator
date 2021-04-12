@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\bin",
+    "\\Joystick",
+    "\\obj"
   ],
+  "SelectedNode": "\\Model.cs",
   "PreviewInSolutionExplorer": false
 }

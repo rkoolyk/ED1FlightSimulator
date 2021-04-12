@@ -31,6 +31,7 @@
                         <TextBlock Grid.Column="0"  
                                      x:Name="Throttle"
                                      FontSize="16"
+                                     FontStyle="italic"
                                      TextAlignment="Center"
                           >
                             <TextBlock.LayoutTransform>
@@ -51,6 +52,7 @@
 
                         <StackPanel Grid.Column="2">
                             <TextBlock Name="Aileron" FontSize="16"
+                                       FontStyle="italic"
                                          TextAlignment="Center"
                               ></TextBlock>
 
@@ -86,11 +88,13 @@
 
 
                             <TextBlock Name="Rudder" FontSize="16"
+                                       FontStyle="italic"
                                          TextAlignment="Center"
                               ></TextBlock>
                         </StackPanel>
 
                         <TextBlock Grid.Column="3" 
+                                     FontStyle="italic"
                                      x:Name="Elevator"
                                      FontSize="16"
                                      TextAlignment="Center"
@@ -118,7 +122,11 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Padding="5"
-                                         Text="Height:" FontSize="14"></TextBlock>
+                                         FontFamily="Century Gothic"
+                                         FontStretch="UltraExpanded"
+                                         FontStyle="Italic"
+                                         FontWeight="UltraBold"
+                                         Text="Height:" FontSize="16"></TextBlock>
                             <TextBlock Text="{Binding VM_Height_Text}" 
                                        FontSize="14" Grid.Column="1"  Margin="3,6" ></TextBlock>
                         </Grid>
@@ -128,7 +136,11 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Padding="5"
-                                         Text="Speed:" FontSize="14"></TextBlock>
+                                         FontFamily="Century Gothic"
+                                         FontStretch="UltraExpanded"
+                                         FontStyle="Italic"
+                                         FontWeight="UltraBold"
+                                         Text="Speed:" FontSize="16"></TextBlock>
                             <TextBlock Text="{Binding VM_Speed_Text}" 
                                        FontSize="14" Grid.Column="1"  Margin="3,6" ></TextBlock>
                         </Grid>
@@ -138,24 +150,36 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Padding="5"
-                                         Text="Direction:" FontSize="14"></TextBlock>
+                                         FontFamily="Century Gothic"
+                                         FontStretch="UltraExpanded"
+                                         FontStyle="Italic"
+                                         FontWeight="UltraBold"
+                                         Text="Direction:" FontSize="16"></TextBlock>
                             <TextBlock Text="{Binding VM_Direction_Text}" 
                                        FontSize="14" Grid.Column="1"  Margin="3,6" ></TextBlock>
-                        </Grid>
 
+                        </Grid>
 
                     </StackPanel>
                     <StackPanel Grid.Column="1">
                         <TextBlock
+                                     FontFamily="Century Gothic"
+                                     FontStretch="UltraExpanded"
+                                     FontStyle="Oblique"
+                                     FontWeight="UltraBold"
                                      Text="Flight Indices:"
-                                     Margin="5,20" FontSize="16"></TextBlock>
+                                     Margin="5,20" FontSize="20"></TextBlock>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Padding="5"
-                                         Text="Yaw:" FontSize="14"></TextBlock>
+                                         FontFamily="Century Gothic"
+                                         FontStretch="UltraExpanded"
+                                         FontStyle="Italic"
+                                         FontWeight="UltraBold"
+                                         Text="Yaw:" FontSize="16"></TextBlock>
                             <TextBlock Text="{Binding VM_Yaw_Text}"
                                        FontSize="14" Grid.Column="1"  Margin="0,6" ></TextBlock>
                         </Grid>
@@ -165,7 +189,11 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Padding="5"
-                                         Text="Roll:" FontSize="14"></TextBlock>
+                                         FontFamily="Century Gothic"
+                                         FontStretch="UltraExpanded"
+                                         FontStyle="Italic"
+                                         FontWeight="UltraBold"
+                                         Text="Roll:" FontSize="16"></TextBlock>
                             <TextBlock Text="{Binding VM_Roll_Text}"
                                        FontSize="14" Grid.Column="1"  Margin="0,6" ></TextBlock>
                         </Grid>
@@ -175,7 +203,11 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Padding="5"
-                                         Text="Pitch:" FontSize="14"></TextBlock>
+                                         FontFamily="Century Gothic"
+                                         FontStretch="UltraExpanded"
+                                         FontStyle="Italic"
+                                         FontWeight="UltraBold"
+                                         Text="Pitch:" FontSize="15"></TextBlock>
                             <TextBlock Text="{Binding VM_Pitch_Text}"
                                        FontSize="14" Grid.Column="1"  Margin="0,6" ></TextBlock>
                         </Grid>
@@ -248,19 +280,25 @@
 
                 <Button Name="LoadCsv" Click="LoadCsv_OnClick" 
                         Padding="5" Content="Load CSV File"
+                        FontWeight="UltraBold"
                         Margin="5,10"></Button>
                 <Button Name="LoadXml" Click="LoadXml_OnClick"
-                    Padding="5" Content="Load XML File"
+                        Padding="5" Content="Load XML File"
+                        FontWeight="UltraBold"
                         Margin="5,3"></Button>
-                <Button Name="StartSim" Click="StartSim_OnClick"
+
+				<Button Name="StartSim" Click="StartSim_OnClick"
 					   Padding="5" Content="Start Simulation"
+             FontWeight="UltraBold"
 					   Margin="5,10"></Button>
             </StackPanel>
 
 
+           
 
-
-            <Canvas Height="40" Grid.Column="1" Margin="29.333,33,44.333,10.333" >
+            <Canvas Height="40" Grid.Column="1" Margin="29.333,33,44.333,10.333" Background="lightSteelBlue" >
+               
+                
 
                 <Rectangle Fill="Black" Width="3" Height="15" Canvas.Top="12.5"
              Canvas.Left="10"     />
@@ -317,10 +355,33 @@
                 Canvas.Left="273"   Name="Next" MouseLeftButtonUp="Next_MouseLeftButtonUp" />
 
             </Canvas>
+  
+             
             <StackPanel Grid.Column="2">
-                <TextBlock Text="Play Speed :" Padding="5"></TextBlock>
-                <TextBox x:Name="PlaySpeedText" Text="{Binding VM_Play_Speed}" TextChanged ="TextBox_TextChanged" 
+                <TextBlock Text="Play Speed :" Padding="1"
+                           FontWeight="UltraBold"
+                           FontSize="15"
+                           ></TextBlock>
+              <TextBox Text="{Binding VM_Play_Speed}" 
 					/>
+              <TextBlock Name="LoadDll"  
+                    Background="lightSteelBlue"
+                    FontSize ="12.5"
+                    Padding="5" Text="Choose Algorithm:"
+                    FontStyle="Italic"
+                    FontWeight="UltraBold"
+                    Margin="5,8"
+                      ></TextBlock>
+              <ComboBox  >
+                <ComboBoxItem
+                  FontWeight="UltraBold"
+                  Content =" Circle Anomaly Algorithm " >
+                </ComboBoxItem>
+                <ComboBoxItem
+                  FontWeight="UltraBold"
+                  Content =" Line Anomaly Algorithm " >
+                </ComboBoxItem>
+              </ComboBox> 
             </StackPanel>
 
             <TextBlock Grid.Column="3" Margin="10,3" Padding="15"
