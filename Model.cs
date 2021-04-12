@@ -536,17 +536,17 @@ namespace ED1FlightSimulator
             return SAttsList2;
         }
 
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
 
         public static extern IntPtr Create(String CSVfileName, String[] l, int size);
 
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
         public static extern float givesFloatTs(IntPtr obj, int line, String att);
 
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
         public static extern int getRowSize(IntPtr ts);
 
-        [DllImport("C:\\Users\\doras\\Source\\Repos\\rkoolyk\\ED1FlightSimulator\\Dll-fg.dll")]
+        [DllImport("C:\\Users\\miche\\Desktop\\university\\cpp\\Dll-tzvi\\x64\\Debug\\Dll-fg.dll")]
         public static extern void findLinReg(IntPtr ts, ref float a, ref float b, String attA, String attB);
 
         Dictionary<String, List<float>> getDictionary(List<String> SAttsList, IntPtr ts)

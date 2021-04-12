@@ -122,3 +122,7 @@ C:\Users\rayra\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.xml
 C:\Users\rayra\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.WindowsForms.xml
 C:\Users\rayra\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\OxyPlot.Wpf.xml
 C:\Users\rayra\Source\Repos\rkoolyk\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.csproj.CopyComplete
+C:\Users\miche\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\System.Windows.Controls.DataVisualization.Toolkit.dll
+C:\Users\miche\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\System.Windows.Controls.Input.Toolkit.dll
+C:\Users\miche\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\System.Windows.Controls.Layout.Toolkit.dll
+C:\Users\miche\Source\Repos\rkoolyk\ED1FlightSimulator\bin\Debug\WPFToolkit.dll
