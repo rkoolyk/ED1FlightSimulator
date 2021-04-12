@@ -9,3 +9,7 @@
 /obj/Debug/*
 /bin/Debug/*
 /obj/Release/*
+/.vs/ED1FlightSimulator/v16/ipch/AutoPCH/4c1b94de407d071f/TIMESERIES.ipch
+/.vs/ED1FlightSimulator/v16/ipch/AutoPCH/5cb6374912bf27be/SIMPLEANOMALYDETECTOR.ipch
+/.vs/ED1FlightSimulator/v16/ipch/AutoPCH/919cd89bd3ec7ec7/SIMPLEANOMALYDETECTOR.ipch
+/.vs/ED1FlightSimulator/v16/Browse.VC.db

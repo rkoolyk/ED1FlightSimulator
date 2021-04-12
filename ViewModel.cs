@@ -26,6 +26,8 @@ namespace ED1FlightSimulator
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+       
+
         public void StartSim()
         {
             model.StartSim();
@@ -154,12 +156,12 @@ namespace ED1FlightSimulator
             }
         }
          public List<string> VM_Data_List
-        {
+         {
             get
             {
                 return model.Data_List;
             }
-        }
+         }
 
         public void GetPathCSV(string path)
         {
@@ -173,6 +175,26 @@ namespace ED1FlightSimulator
         public PlotModel VM_Main_Graph
         {
             get { return model.Main_Graph; }
+        }
+
+        public int VM_ImgNum
+        {
+            get
+            {
+                return model.ImgNum;
+            }
+            set
+            {
+                model.ImgNum = value;
+            }
+        }
+
+        public int VM_Max_Val
+        {
+            get
+            {
+                return model.Max_Val;
+            }
         }
     }
     

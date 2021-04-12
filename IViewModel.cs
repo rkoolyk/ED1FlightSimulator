@@ -21,6 +21,9 @@ namespace ED1FlightSimulator
         float VM_Rudder { get;}
         List<string> VM_Data_List { get;}
 
+        int VM_ImgNum { get; set; }
+        int VM_Max_Val { get; }
+
         void Previous();
         void Rewind();
         void Play();
