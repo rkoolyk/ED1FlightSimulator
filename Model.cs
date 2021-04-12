@@ -81,9 +81,9 @@ namespace ED1FlightSimulator
         private Dictionary<String, List<float>> dictionary;
         private Dictionary<int, string> dictFile = new Dictionary<int, string>();
         public event PropertyChangedEventHandler PropertyChanged;
-        String AnomalyAlgorithm;
+        String AnomalyAlgorithm = " ";
         //AlgoString alg;
-        private String AlgoPath;
+        //private String AlgoPath;
         private IntPtr TimeSeries;
         private IntPtr AnomalyDetector;
         private void onPropertyChanged([CallerMemberName] string propertyName = null)
@@ -100,6 +100,10 @@ namespace ED1FlightSimulator
 
         public void Start()
          {      
+            if (AnomalyAlgorithm == " ")
+            {
+                GetPathAlgoDefault();
+            }
              IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
 
              IntPtr pAddressOfFunctionToCall4 = NativeMethods.GetProcAddress(pDll, "CreateSAD");
@@ -371,6 +375,15 @@ namespace ED1FlightSimulator
                 Max_Val = dictionary["throttle"].Count();
             }
             }
+
+       public void GetPathAlgoDefault()
+        {
+            String path = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
+            path = Directory.GetParent(path).FullName;
+            path = Directory.GetParent(path).FullName;
+            path += "\\Algo1-Dll.dll";
+            GetPathAlgo(path);
+        }
 
         public void GetPathAlgo(string path)
         {
