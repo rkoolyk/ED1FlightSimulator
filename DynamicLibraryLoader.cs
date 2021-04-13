@@ -22,7 +22,7 @@ namespace ED1FlightSimulator
     public class DynamicLibraryLoader
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void findLinReg(IntPtr ts, ref float a, ref float b, String attA, String attB);
+        public delegate void findLinReg(IntPtr ts, [MarshalAs(UnmanagedType.LPStr)] String f1, [MarshalAs(UnmanagedType.LPStr)] String f2,StringBuilder arr);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void MostCorrelatedFeature(IntPtr sad, [MarshalAs(UnmanagedType.LPStr)] String CSVfileName, [MarshalAs(UnmanagedType.LPArray)] String[] l, int size, [MarshalAs(UnmanagedType.LPStr)] String att, StringBuilder s);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -54,7 +54,7 @@ namespace ED1FlightSimulator
         IntPtr pgivesFloatTs;
 
 
-        public IntPtr AnomalyDetectionStater(String AnomalyAlgorithm, String regFlight)
+        public IntPtr AnomalyDetectionStarter(String AnomalyAlgorithm, String regFlight)
         {
             regFlightPath = regFlight;
             algoDLL = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
@@ -73,10 +73,10 @@ namespace ED1FlightSimulator
             return AnomalyDetector;
         }
 
-        public void LineReg(ref float a, ref float b, String category, String correlatedCategory)
+        public void LineReg(String category, String correlatedCategory)
         {
             findLinReg findLinReg = (findLinReg)Marshal.GetDelegateForFunctionPointer(pFindLinReg, typeof(findLinReg));
-            findLinReg(TimeSeries, ref a, ref b, category, correlatedCategory);
+            //findLinReg(TimeSeries, category, correlatedCategory);
         }
         public void CreateCorrelations()
         {
@@ -171,6 +171,28 @@ namespace ED1FlightSimulator
                 return relevantTimeSteps[category];
             }
             return new List<float>();  //GetAllTimestepsForeAnomalies(category, correlatedCategory);
+        }
+
+        public List<float> GetAnimationPoints(String f1, String f2)
+        {
+            List<float> AnimationPoints = new List<float>();
+            StringBuilder arr = new StringBuilder(512);
+            findLinReg findLinReg = (findLinReg)Marshal.GetDelegateForFunctionPointer(pFindLinReg, typeof(findLinReg));
+            findLinReg(TimeSeries, f1, f2, arr);
+            String temper = arr.ToString();
+            Console.WriteLine(arr);
+            if (String.Equals(temper, "no timesteps"))
+            {
+                return AnimationPoints;
+            }
+
+            string[] words = temper.Split(' ');
+            for (int i = 0; i < words.Count(); i++)
+            {
+                float temp = float.Parse(words[i]);
+                AnimationPoints.Add(temp);
+            }
+            return AnimationPoints;
         }
 
 

@@ -113,7 +113,7 @@ namespace ED1FlightSimulator
             }
              
             GetPathRegFlight();
-            AnomalyDetector = loader.AnomalyDetectionStater(AnomalyAlgorithm, regFlightPath);
+            AnomalyDetector = loader.AnomalyDetectionStarter(AnomalyAlgorithm, regFlightPath);
             try
              {  
 
@@ -377,15 +377,18 @@ namespace ED1FlightSimulator
         }
 
         public void GetPathAlgo(string algoPath)
-            {
+        {
             String path = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
             path = Directory.GetParent(path).FullName;
             path = Directory.GetParent(path).FullName;
             path += algoPath;
-            
-             //alg = new StringAlgo(path);
+
+            //alg = new StringAlgo(path);
             AnomalyAlgorithm = path;
-            //AnomalyDetector = loader.AnomalyDetectionStater(AnomalyAlgorithm, regFlightPath);
+            if (AnomalyDetector == null)
+            {
+                AnomalyDetector = loader.AnomalyDetectionStarter(AnomalyAlgorithm, regFlightPath);
+            }
         }
 
         public void GetFileDictionary()
@@ -657,10 +660,13 @@ namespace ED1FlightSimulator
             set
             {
                 category = value;
-
-
                 List<float> data = dictionary[category];
                 int i = 0;
+                if (category == "engine-pump")
+                {
+                    Console.WriteLine("Found the problem!");
+                }
+
                 List<KeyValuePair<float, float>> dataPairs = new List<KeyValuePair<float, float>>();
                 foreach (float f in data)
                 {
@@ -679,13 +685,24 @@ namespace ED1FlightSimulator
                 //Correlated_Category = s.ToString();
                 Correlated_Category = loader.FindCorrelation(category);
 
-                float a = 0;
-                float b = 0;
-                loader.LineReg(ref a, ref b, Category, Correlated_Category);
+                //IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
+                /*IntPtr pAddressOfFunctionToCall1 = NativeMethods.GetProcAddress(pDll, "findLinReg");
+                findLinReg findLinReg =(findLinReg)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall1, typeof( findLinReg));
+                findLinReg(TimeSeries, ref a, ref b, category, Correlated_Category);*/
+                //loader.LineReg(ref a, ref b, Category, Correlated_Category);
+
+                List<float> animationPoints = loader.GetAnimationPoints(category, Correlated_Category);
+
                 List<KeyValuePair<float, float>> tempPoints = new List<KeyValuePair<float, float>>();
-                tempPoints.Add(new KeyValuePair<float, float>(0, b));
-                tempPoints.Add(new KeyValuePair<float, float>(1, a + b));
-                /*if (a != 0)
+                for(int f = 0; f < animationPoints.Count(); f += 2)
+                {
+                    float first = animationPoints[f];
+                    float second = animationPoints[f+1];
+                    tempPoints.Add(new KeyValuePair<float, float>(first, second));
+                }
+                Points = tempPoints;
+                /*tempPoints.Add(new KeyValuePair<float, float>(0, b));
+                if (a != 0)
                 {
                     tempPoints.Add(new KeyValuePair<float, float>((-b) / a, 0));
                 }
