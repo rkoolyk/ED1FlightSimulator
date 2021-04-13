@@ -100,7 +100,7 @@ namespace ED1FlightSimulator
             }
              
             GetPathRegFlight();
-            AnomalyDetector = loader.AnomalyDetectionStater(AnomalyAlgorithm, regFlightPath);
+            AnomalyDetector = loader.AnomalyDetectionStarter(AnomalyAlgorithm, regFlightPath);
             try
              {  
 
@@ -326,15 +326,18 @@ namespace ED1FlightSimulator
         }
 
         public void GetPathAlgo(string algoPath)
-            {
+        {
             String path = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
             path = Directory.GetParent(path).FullName;
             path = Directory.GetParent(path).FullName;
             path += algoPath;
-            
-             //alg = new StringAlgo(path);
+
+            //alg = new StringAlgo(path);
             AnomalyAlgorithm = path;
-            //AnomalyDetector = loader.AnomalyDetectionStater(AnomalyAlgorithm, regFlightPath);
+            if (AnomalyDetector == null)
+            {
+                AnomalyDetector = loader.AnomalyDetectionStarter(AnomalyAlgorithm, regFlightPath);
+            }
         }
 
         public void GetFileDictionary()
@@ -606,10 +609,13 @@ namespace ED1FlightSimulator
             set
             {
                 category = value;
-
-
                 List<float> data = dictionary[category];
                 int i = 0;
+                if (category == "engine-pump")
+                {
+                    Console.WriteLine("Found the problem!");
+                }
+
                 List<KeyValuePair<float, float>> dataPairs = new List<KeyValuePair<float, float>>();
                 foreach (float f in data)
                 {
