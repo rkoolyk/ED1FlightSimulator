@@ -54,7 +54,7 @@ namespace ED1FlightSimulator
         IntPtr pgivesFloatTs;
 
 
-        public IntPtr AnomalyDetectionStater(String AnomalyAlgorithm, String regFlight)
+        public IntPtr AnomalyDetectionStarter(String AnomalyAlgorithm, String regFlight)
         {
             regFlightPath = regFlight;
             algoDLL = NativeMethods.LoadLibrary(@AnomalyAlgorithm);

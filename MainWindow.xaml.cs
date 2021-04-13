@@ -79,19 +79,16 @@ namespace ED1FlightSimulator
             }
         }
 
-        private void LoadAlgo_OnClick(object sender, RoutedEventArgs e)
+        private void Simple_Checked(object sender, EventArgs e)
         {
-            string path = "";
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true)
-            {
-                string sFilenames = "";
-                foreach (string sFilename in openFileDialog.FileNames)
-                {
-                    path += sFilename;
-                }
-                vm.GetPathAlgo(path);
-            }
+            string path = "\\Algo1-Dll.dll";
+            vm.GetPathAlgo(path);
+        }
+
+        private void Circle_Checked(object sender, EventArgs e)
+        {
+            string path = "\\Algo2-Dll.dll";
+            vm.GetPathAlgo(path);
         }
 
         private void StartSim_OnClick(object sender, RoutedEventArgs e)
