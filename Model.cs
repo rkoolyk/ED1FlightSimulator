@@ -136,26 +136,22 @@ namespace ED1FlightSimulator
              try
              {  
 
-                 //UdpClient client = new UdpClient(5400);
                  if (firstTimeFlag == 1)
                  {
                     client.Connect("localhost", 5400);
-                    //s = new StreamReader(File.OpenRead(csvPath));
 
                  }
 
                  firstTimeFlag = 0;
-                 //StreamReader s = new StreamReader(File.OpenRead(csvPath));
                  Thread thread = new Thread(
                  delegate()
                  {
-                     //while(true)
-                     //{
+                    
+                     
                          while(shouldPlay == true && ImgNum < dictionary["throttle"].Count())
                          {    
                               TimeSpan timeSpan = TimeSpan.FromSeconds(ImgNum / 10);
                               Time = timeSpan.ToString();
-                              //var newline = s.ReadLine();
                               string newline = dictFile[ImgNum];
                               String eol = "\r\n";
                               Byte[] sendBytes = System.Text.Encoding.ASCII.GetBytes(newline + eol);
@@ -174,12 +170,10 @@ namespace ED1FlightSimulator
                               //UpdateGraphs();
                               
                               Thread.Sleep(SleepTime());
-                              //t.Interval = SleepTime();
                               ImgNum++;
 
                               } 
-                        
-                     //}
+
 
                   } );
                   thread.Start();
@@ -192,10 +186,6 @@ namespace ED1FlightSimulator
             
         }
 
-       /* private void OnTimerElapsed(object sender, ElapsedEventArgs e)
-        {
-            //Application.Current.Dispatcher.Invoke(() => Time = stopwatch.Elapsed.ToString(@"hh\:mm\:ss"));
-        }*/
 
         public void StartSim()
         {   
@@ -203,33 +193,7 @@ namespace ED1FlightSimulator
             Start();
         }
 
-        /*public void DrawRegression()
-        {
-            float a, b;
-            IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
-            IntPtr pAddressOfFunctionToCall1 = NativeMethods.GetProcAddress(pDll, "findLinReg");
-            findLinReg findLinReg =(findLinReg)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall1, typeof( findLinReg));
-            findLinReg(TimeSeries, ref a, ref b, category, correlatedCategory);
-            List<KeyValuePair<float, float>> tempPoints = new List<KeyValuePair<float, float>>;
-            tempPoints.Add(new KeyValuePair<float, float>(0,b));
-            if (a != 0 )
-            {
-                 tempPoints.Add(new KeyValuePair<float, float>((-b)/a , 0);
-            }
-            else
-            {
-                tempPoints.Add(new KeyValuePair<float, float>(1, a + b);
-            }
-            Points = tempPoints;          
-                      
-        }*/
-
-
-
-
-
-
-
+        
 
         public void MoveThrottle()
         {
