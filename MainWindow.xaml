@@ -283,20 +283,33 @@
 
                   <DVC:Chart Grid.Column="1" x:Name="Regression_Graph" VerticalAlignment="Top"
 							   RenderTransformOrigin="0.524,0.249"
-						       BorderBrush="Transparent" BorderThickness="0">
+						       BorderBrush="Transparent" BorderThickness="0" Height="200">
                     <DVC:Chart.LegendStyle>
                       <Style TargetType="Control">
                         <Setter Property="Width" Value="0"/>
                         <Setter Property="Height" Value="0"/>
                       </Style>
                     </DVC:Chart.LegendStyle>
-                    <DVC:ScatterSeries Title="Dots" ItemsSource = "{Binding VM_Points2}">
-                    </DVC:ScatterSeries>
+                    <DVC:Chart.Series>
+                      <!--all points-->
+                      <DVC:ScatterSeries Title="Dots" ItemsSource="{Binding VM_AllPoints}"
+                                         IndependentValuePath = "Key" DependentValuePath = "Value"
+                                         IsSelectionEnabled="True" RenderTransformOrigin="0.522,-0.172">
+
+                      </DVC:ScatterSeries>
+                      <!--anomaly points-->
+                      <DVC:ScatterSeries Title="anomaly points" ItemsSource="{Binding VM_AnomalyPoints}"
+                                         IndependentValuePath = "Key" DependentValuePath = "Value"
+                                         IsSelectionEnabled="True" RenderTransformOrigin="0.522,-0.172">
+                        
+                      </DVC:ScatterSeries>
+                      <!--line-->
                       <DVC:LineSeries Title="Regression Line"  Width="auto" Height="auto"
                             ItemsSource = "{Binding VM_Points}"
                             IndependentValuePath = "Key" DependentValuePath = "Value"
                             IsSelectionEnabled="True" RenderTransformOrigin="0.522,-0.172" >
                     </DVC:LineSeries>
+                   </DVC:Chart.Series>
                   </DVC:Chart>
 
 					

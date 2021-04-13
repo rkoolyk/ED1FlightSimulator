@@ -25,8 +25,8 @@ namespace ED1FlightSimulator
         List<KeyValuePair<float, float>> Correlated_Graph_Values { get; set; }
 
         List<KeyValuePair<float,float>> Points { get; set;}
-        List<KeyValuePair<float,float>> Points2 { get; set;}
-        List<KeyValuePair<float,float>> Points3 { get; set;}
+        List<KeyValuePair<float,float>> AllPoints { get; set;}
+        List<KeyValuePair<float,float>> AnomalyPoints { get; set;}
 
         void StartSim();
     }
