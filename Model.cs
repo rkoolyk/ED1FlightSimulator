@@ -658,18 +658,20 @@ namespace ED1FlightSimulator
                 //Correlated_Category = s.ToString();
                 Correlated_Category = loader.FindCorrelation(Category);
 
-                float a = 0;
-                float b = 0;
                 //IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
                 /*IntPtr pAddressOfFunctionToCall1 = NativeMethods.GetProcAddress(pDll, "findLinReg");
                 findLinReg findLinReg =(findLinReg)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall1, typeof( findLinReg));
                 findLinReg(TimeSeries, ref a, ref b, category, Correlated_Category);*/
                 //loader.LineReg(ref a, ref b, Category, Correlated_Category);
+
                 List<float> animationPoints = loader.GetAnimationPoints(category, Correlated_Category);
+
                 List<KeyValuePair<float, float>> tempPoints = new List<KeyValuePair<float, float>>();
                 for(int f = 0; f < animationPoints.Count(); f += 2)
                 {
-                    tempPoints.Add(new KeyValuePair<float, float>(animationPoints[f], animationPoints[f+1]));
+                    float first = animationPoints[f];
+                    float second = animationPoints[f+1];
+                    tempPoints.Add(new KeyValuePair<float, float>(first, second));
                 }
                 Points = tempPoints;
                 /*tempPoints.Add(new KeyValuePair<float, float>(0, b));

@@ -178,7 +178,7 @@ namespace ED1FlightSimulator
             List<float> AnimationPoints = new List<float>();
             StringBuilder arr = new StringBuilder(512);
             findLinReg findLinReg = (findLinReg)Marshal.GetDelegateForFunctionPointer(pFindLinReg, typeof(findLinReg));
-            findLinReg(timeSeriesDLL, f1, f2, arr);
+            findLinReg(TimeSeries, f1, f2, arr);
             String temper = arr.ToString();
             Console.WriteLine(arr);
             if (String.Equals(temper, "no timesteps"))
