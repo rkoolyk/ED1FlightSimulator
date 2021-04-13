@@ -18,7 +18,7 @@ using System.Windows.Controls.DataVisualization;
 using System.Windows.Controls.DataVisualization.Charting;
 using System.Collections.ObjectModel;
 
-static class NativeMethods
+/*static class NativeMethods
 {
     [DllImport("kernel32.dll")]
     public static extern IntPtr LoadLibrary(string dllToLoad);
@@ -28,13 +28,13 @@ static class NativeMethods
 
     [DllImport("kernel32.dll")]
     public static extern bool FreeLibrary(IntPtr hModule);
-}
+}*/
 
 namespace ED1FlightSimulator
 {
     public class Model : IModel 
     {   
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        /*[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
              public delegate void findLinReg(IntPtr ts,ref float a,ref float b, String attA, String attB);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
              public delegate void MostCorrelatedFeature(IntPtr sad, [MarshalAs(UnmanagedType.LPStr)] String CSVfileName, [MarshalAs(UnmanagedType.LPArray)] String[] l, int size, [MarshalAs(UnmanagedType.LPStr)] String att, StringBuilder s);
@@ -47,7 +47,7 @@ namespace ED1FlightSimulator
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate float givesFloatTs(IntPtr obj, int line, String att);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate int getRowSize(IntPtr ts);
+        public delegate int getRowSize(IntPtr ts);*/
         private bool shouldPlay = false;
         private int imgNum = 0;
 
@@ -90,6 +90,7 @@ namespace ED1FlightSimulator
         String AnomalyAlgorithm = " ";
         private IntPtr TimeSeries;
         private IntPtr AnomalyDetector;
+        private DynamicLibraryLoader loader;
 
         System.Timers.Timer graphTimer;
 
@@ -100,10 +101,11 @@ namespace ED1FlightSimulator
 
         public Model()
         {
-           graphTimer = new System.Timers.Timer(150);
-           graphTimer.Elapsed += OnTimedEvent;
-           graphTimer.AutoReset = true;
-           graphTimer.Enabled = true;
+            loader = new DynamicLibraryLoader();
+            graphTimer = new System.Timers.Timer(150);
+            graphTimer.Elapsed += OnTimedEvent;
+            graphTimer.AutoReset = true;
+            graphTimer.Enabled = true;
             
         }
 
@@ -120,16 +122,16 @@ namespace ED1FlightSimulator
             {
                 GetPathAlgoDefault();
             }
-             IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
+             /*IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
 
              IntPtr pAddressOfFunctionToCall4 = NativeMethods.GetProcAddress(pDll, "CreateSAD");
  
-             CreateSAD CreateSAD =(CreateSAD)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall4, typeof(CreateSAD));
+             CreateSAD CreateSAD =(CreateSAD)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall4, typeof(CreateSAD));*/
 
-             AnomalyDetector = CreateSAD();
-             GetPathRegFlight();
-
-             try
+             
+            GetPathRegFlight();
+            AnomalyDetector = loader.AnomalyDetectionStater(AnomalyAlgorithm, regFlightPath);
+            try
              {  
 
                  //UdpClient client = new UdpClient(5400);
@@ -367,11 +369,11 @@ namespace ED1FlightSimulator
             timeSeriesPath = Directory.GetParent(timeSeriesPath).FullName;
             timeSeriesPath = Directory.GetParent(timeSeriesPath).FullName;
             timeSeriesPath += "\\Dll-fg.dll";    
-            IntPtr pDll = NativeMethods.LoadLibrary(@timeSeriesPath);
+            /*IntPtr pDll = NativeMethods.LoadLibrary(@timeSeriesPath);
             IntPtr pAddressOfFunctionToCall = NativeMethods.GetProcAddress(pDll, "Create");
-            Create Create =(Create)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(Create));
-            TimeSeries = Create(csvPath, dataList.ToArray(), Data_List.Count());
-            dictionary = getDictionary(dataList, TimeSeries);
+            Create Create =(Create)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(Create));*/
+            TimeSeries = loader.CreateTS(timeSeriesPath,  csvPath, dataList);
+            dictionary = loader.GetDictionary();
             GetFileDictionary();
             Max_Val = dictionary["throttle"].Count();
 
@@ -418,7 +420,7 @@ namespace ED1FlightSimulator
         {
              //alg = new StringAlgo(path);
             AnomalyAlgorithm = path;
-            IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
+            /*IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
             //oh dear, error handling here
             //if (pDll == IntPtr.Zero)
 
@@ -436,7 +438,7 @@ namespace ED1FlightSimulator
             
             getTimeSteps getTimeSteps =(getTimeSteps)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall3, typeof(getTimeSteps));
 
-            CreateSAD CreateSAD =(CreateSAD)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall4, typeof(CreateSAD));
+            CreateSAD CreateSAD =(CreateSAD)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall4, typeof(CreateSAD));*/
         }
 
         public void GetFileDictionary()
@@ -698,24 +700,25 @@ namespace ED1FlightSimulator
                     dataPairs.Add(new KeyValuePair<float, float>(i, f));
                     i++;
                 }
-                IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
+                /*IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
 
                 IntPtr pAddressOfFunctionToCall2 = NativeMethods.GetProcAddress(pDll, "MostCorrelatedFeature");
  
-                MostCorrelatedFeature MostCorrelatedFeature =(MostCorrelatedFeature)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall2, typeof(MostCorrelatedFeature));
+                MostCorrelatedFeature MostCorrelatedFeature =(MostCorrelatedFeature)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall2, typeof(MostCorrelatedFeature));*/
 
                 Main_Graph_Values = dataPairs;
-                StringBuilder s = new StringBuilder();
-                MostCorrelatedFeature(AnomalyDetector, regFlightPath, dataList.ToArray(), dataList.Count, category, s);
-                Correlated_Category = s.ToString();
-
+                //StringBuilder s = new StringBuilder();
+                //MostCorrelatedFeature(AnomalyDetector, regFlightPath, dataList.ToArray(), dataList.Count, category, s);
+                //Correlated_Category = s.ToString();
+                Correlated_Category = loader.FindCorrelation(Category);
 
                 float a = 0;
                 float b = 0;
                 //IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
-                IntPtr pAddressOfFunctionToCall1 = NativeMethods.GetProcAddress(pDll, "findLinReg");
+                /*IntPtr pAddressOfFunctionToCall1 = NativeMethods.GetProcAddress(pDll, "findLinReg");
                 findLinReg findLinReg =(findLinReg)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall1, typeof( findLinReg));
-                findLinReg(TimeSeries, ref a, ref b, category, Correlated_Category);
+                findLinReg(TimeSeries, ref a, ref b, category, Correlated_Category);*/
+                loader.LineReg(ref a, ref b, Category, Correlated_Category);
                 List<KeyValuePair<float, float>> tempPoints = new List<KeyValuePair<float, float>>();
                 tempPoints.Add(new KeyValuePair<float, float>(0,b));
                 if (a != 0 )
@@ -842,7 +845,7 @@ namespace ED1FlightSimulator
             return SAttsList2;
         }
 
-        Dictionary<String, List<float>> getDictionary(List<String> SAttsList, IntPtr ts)
+        /*Dictionary<String, List<float>> getDictionary(List<String> SAttsList, IntPtr ts)
         {
             Dictionary<String, List<float>> tsDic = new Dictionary<String, List<float>>();
             IntPtr pDll = NativeMethods.LoadLibrary(@timeSeriesPath);
@@ -861,6 +864,6 @@ namespace ED1FlightSimulator
                 }
             }
             return tsDic;
-        }     
+        }     */
     }
 }
