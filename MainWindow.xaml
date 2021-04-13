@@ -402,7 +402,7 @@
 					TextChanged="TextBox_TextChanged"/>
 
              <Label Grid.ColumnSpan="2" Content="Choose an Algorithm:" Margin="0, 10" FontSize="14" FontWeight="Bold"/>
-              <RadioButton x:Name="SimpleAlgorithm" Click="Simple_Checked">
+              <RadioButton x:Name="SimpleAlgorithm" Click="Simple_Checked" IsChecked="True">
                 Simple Algorithm</RadioButton>
               <RadioButton x:Name="CircleAlgorithm" Click="Circle_Checked">
                 Minimum Circle Algorithm</RadioButton>

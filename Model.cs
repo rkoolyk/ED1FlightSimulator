@@ -355,15 +355,20 @@ namespace ED1FlightSimulator
 
        public void GetPathAlgoDefault()
         {
+            /*String path = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
+            path = Directory.GetParent(path).FullName;
+            path = Directory.GetParent(path).FullName;
+            path += "\\Algo1-Dll.dll";*/
+            GetPathAlgo("\\Algo1-Dll.dll");
+        }
+
+        public void GetPathAlgo(string algoPath)
+            {
             String path = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
             path = Directory.GetParent(path).FullName;
             path = Directory.GetParent(path).FullName;
-            path += "\\Algo1-Dll.dll";
-            GetPathAlgo(path);
-        }
-
-        public void GetPathAlgo(string path)
-        {
+            path += algoPath;
+            
              //alg = new StringAlgo(path);
             AnomalyAlgorithm = path;
             /*IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
@@ -700,7 +705,7 @@ namespace ED1FlightSimulator
                     onPropertyChanged("Category");
                     
                 }
-            float a = 0;
+            /*float a = 0;
             float b = 0;
             //IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
             IntPtr pAddressOfFunctionToCall1 = NativeMethods.GetProcAddress(pDll, "findLinReg");
@@ -738,10 +743,10 @@ namespace ED1FlightSimulator
                 
                 
                
-            }
+            }*/
         }
 
-        List<float> GetAllTimestepsForeAnomalies(String path, String f1, String f2)
+        /*List<float> GetAllTimestepsForeAnomalies(String path, String f1, String f2)
         {
             IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
             IntPtr pAddressOfFunctionToCall3 = NativeMethods.GetProcAddress(pDll, "getTimeSteps");
@@ -766,7 +771,7 @@ namespace ED1FlightSimulator
                 TimeStepList.Add(temp);
             }
             return TimeStepList;
-        }
+        }*/
 
         public string Correlated_Category
         {
