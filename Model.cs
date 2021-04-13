@@ -62,8 +62,8 @@ namespace ED1FlightSimulator
         //private StreamReader s;
         private int firstTimeFlag = 1;
 
-        private Stopwatch stopwatch;
-        private System.Timers.Timer t;
+       // private Stopwatch stopwatch;
+        //private System.Timers.Timer t;
         
         private int maxVal = 1000;
         private float knobX = 50;
@@ -113,8 +113,9 @@ namespace ED1FlightSimulator
 
         private void OnTimedEvent(Object source, ElapsedEventArgs e)
         {   
-            Debug.WriteLine("GOT HERE\n");
+            //Debug.WriteLine("GOT HERE\n");
             UpdateGraphs();
+            
         }
 
         public void Start()
@@ -141,14 +142,8 @@ namespace ED1FlightSimulator
                     client.Connect("localhost", 5400);
                     //s = new StreamReader(File.OpenRead(csvPath));
 
-                    stopwatch = new Stopwatch();
-                    t = new System.Timers.Timer(SleepTime());
-                    t.Elapsed += OnTimerElapsed;
                  }
 
-                    stopwatch.Start();
-                    t.Start();
-                 
                  firstTimeFlag = 0;
                  //StreamReader s = new StreamReader(File.OpenRead(csvPath));
                  Thread thread = new Thread(
@@ -158,6 +153,8 @@ namespace ED1FlightSimulator
                      //{
                          while(shouldPlay == true && ImgNum < dictionary["throttle"].Count())
                          {    
+                              TimeSpan timeSpan = TimeSpan.FromSeconds(ImgNum / 10);
+                              Time = timeSpan.ToString();
                               //var newline = s.ReadLine();
                               string newline = dictFile[ImgNum];
                               String eol = "\r\n";
@@ -177,13 +174,11 @@ namespace ED1FlightSimulator
                               //UpdateGraphs();
                               
                               Thread.Sleep(SleepTime());
-                              t.Interval = SleepTime();
+                              //t.Interval = SleepTime();
                               ImgNum++;
 
                               } 
-                         stopwatch.Stop();
-                         t.Stop();
-                         
+                        
                      //}
 
                   } );
@@ -197,10 +192,10 @@ namespace ED1FlightSimulator
             
         }
 
-        private void OnTimerElapsed(object sender, ElapsedEventArgs e)
+       /* private void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
             //Application.Current.Dispatcher.Invoke(() => Time = stopwatch.Elapsed.ToString(@"hh\:mm\:ss"));
-        }
+        }*/
 
         public void StartSim()
         {   
@@ -254,37 +249,15 @@ namespace ED1FlightSimulator
         public void MoveAileron()
         {
             List<float> aileronVals = dictionary["aileron"];
-            if (aileronVals[ImgNum] * 100 + 50 < 100 && aileronVals[ImgNum] * 100 + 50 > 0)
-            {
-                 KNOB_X = aileronVals[ImgNum] * 100 + 50;
-            }
-            else if (aileronVals[ImgNum] * 100 + 50 > 100)
-            {
-                KNOB_X = 100;
-            }
-            else if (aileronVals[ImgNum] * 100 + 50 < 0)
-            {
-                KNOB_X = 0;
-            }
-           
+            KNOB_X = aileronVals[ImgNum] * 50 + 50;
+            
         }
 
         public void MoveElevator()
         {
             List<float> elevatorVals = dictionary["elevator"];
-            if (elevatorVals[ImgNum] * 100 + 50 > 0 && elevatorVals[ImgNum] * 100 + 50 < 100)
-            {
-                 KNOB_Y = elevatorVals[ImgNum] * 100 + 50;
-            }
-            else if (elevatorVals[ImgNum] * 100 + 50 > 100)
-            {
-                KNOB_Y = 100;
-            }
-            else if (elevatorVals[ImgNum] * 100 + 50 < 0)
-            {
-                KNOB_Y = 0;
-            }
-           
+            KNOB_Y = elevatorVals[ImgNum] * 50 + 50;
+            
         }
 
         public void UpdateHeight()
@@ -465,8 +438,7 @@ namespace ED1FlightSimulator
         public void Pause()
         {
             shouldPlay = false;
-            stopwatch.Stop();
-            t.Stop();
+           
 
         }
 
@@ -485,8 +457,6 @@ namespace ED1FlightSimulator
             Throttle = 0;
             Rudder = 0;
             Time = "00:00:00";
-            stopwatch.Stop();
-            t.Stop();
             ImgNum = 0;
 
         }
