@@ -173,6 +173,22 @@ namespace ED1FlightSimulator
             }
         }
 
+        public List<KeyValuePair<float,float>> VM_Points2
+        {
+            get
+            {
+                return model.Points2;
+            }
+        }
+
+        public List<KeyValuePair<float,float>> VM_Points3
+        {
+            get
+            {
+                return model.Points3;
+            }
+        }
+
         public string VM_Category
         {
             get

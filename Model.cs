@@ -50,8 +50,12 @@ namespace ED1FlightSimulator
         public delegate int getRowSize(IntPtr ts);
         private bool shouldPlay = false;
         private int imgNum = 0;
-
+        IntPtr pDll;
         private List<KeyValuePair<float,float>> points = 
+            new List<KeyValuePair<float, float>>();
+         private List<KeyValuePair<float,float>> points2 = 
+            new List<KeyValuePair<float, float>>();
+         private List<KeyValuePair<float,float>> points3 = 
             new List<KeyValuePair<float, float>>();
         
         private UdpClient client = new UdpClient(5400);
@@ -119,7 +123,7 @@ namespace ED1FlightSimulator
             {
                 GetPathAlgoDefault();
             }
-             IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
+             //IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
 
              IntPtr pAddressOfFunctionToCall4 = NativeMethods.GetProcAddress(pDll, "CreateSAD");
  
@@ -423,25 +427,8 @@ namespace ED1FlightSimulator
         {
              //alg = new StringAlgo(path);
             AnomalyAlgorithm = path;
-            IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
-            //oh dear, error handling here
-            //if (pDll == IntPtr.Zero)
+            pDll= NativeMethods.LoadLibrary(@AnomalyAlgorithm);
 
-            IntPtr pAddressOfFunctionToCall1 = NativeMethods.GetProcAddress(pDll, "findLinReg");
-            IntPtr pAddressOfFunctionToCall2 = NativeMethods.GetProcAddress(pDll, "MostCorrelatedFeature");
-            IntPtr pAddressOfFunctionToCall3 = NativeMethods.GetProcAddress(pDll, "getTimeSteps");
-            IntPtr pAddressOfFunctionToCall4 = NativeMethods.GetProcAddress(pDll, "CreateSAD");
-            //oh dear, error handling here
-            //if(pAddressOfFunctionToCall == IntPtr.Zero)
-
-
-            findLinReg findLinReg =(findLinReg)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall1, typeof(findLinReg));
-           
-            MostCorrelatedFeature MostCorrelatedFeature =(MostCorrelatedFeature)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall2, typeof(MostCorrelatedFeature));
-            
-            getTimeSteps getTimeSteps =(getTimeSteps)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall3, typeof(getTimeSteps));
-
-            CreateSAD CreateSAD =(CreateSAD)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall4, typeof(CreateSAD));
         }
 
         public void GetFileDictionary()
@@ -690,6 +677,26 @@ namespace ED1FlightSimulator
             }
         }
 
+        public List<KeyValuePair<float,float>> Points2
+        {
+            get { return points2;}
+            set
+            {
+                points2 = value;
+                onPropertyChanged("Points2");
+            }
+        }
+
+        public List<KeyValuePair<float,float>> Points3
+        {
+            get { return points3;}
+            set
+            {
+                points3 = value;
+                onPropertyChanged("Points3");
+            }
+        }
+
         public string Category
         {
             get { return category; }
@@ -706,7 +713,7 @@ namespace ED1FlightSimulator
                     dataPairs.Add(new KeyValuePair<float, float>(i, f));
                     i++;
                 }
-                IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
+                //IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
 
                 IntPtr pAddressOfFunctionToCall2 = NativeMethods.GetProcAddress(pDll, "MostCorrelatedFeature");
  
@@ -724,7 +731,9 @@ namespace ED1FlightSimulator
             IntPtr pAddressOfFunctionToCall1 = NativeMethods.GetProcAddress(pDll, "findLinReg");
             findLinReg findLinReg =(findLinReg)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall1, typeof( findLinReg));
             findLinReg(TimeSeries, ref a, ref b, category, Correlated_Category);
+            List<float> TimeStepList = GetAllTimestepsForeAnomalies(csvPath, category, Correlated_Category);
             List<KeyValuePair<float, float>> tempPoints = new List<KeyValuePair<float, float>>();
+
             tempPoints.Add(new KeyValuePair<float, float>(0,b));
             if (a != 0 )
             {
@@ -735,8 +744,19 @@ namespace ED1FlightSimulator
                 tempPoints.Add(new KeyValuePair<float, float>(1, a + b));
             }
             Points = tempPoints;   
-
-
+            List<KeyValuePair<float, float>> tempPoints2 = new List<KeyValuePair<float, float>>();
+            List<KeyValuePair<float, float>> tempPoints3 = new List<KeyValuePair<float, float>>();
+            int size = dictionary[category].Count();
+            for(int j = 0;i < size; i++)
+                { 
+                    tempPoints2.Add(new KeyValuePair<float, float>(dictionary[category].ElementAt(i),dictionary[Correlated_Category].ElementAt(i)));
+                }
+            int size2 = TimeStepList.Count();
+            for(int j = 0;i < size2; i++)
+                {
+                    int index = (int)TimeStepList[i];
+                    tempPoints3.Add(new KeyValuePair<float, float>(dictionary[category].ElementAt(index),dictionary[Correlated_Category].ElementAt(index)));
+                }
 
 
                 onPropertyChanged("Category");
@@ -745,6 +765,34 @@ namespace ED1FlightSimulator
                
             }
         }
+
+        List<float> GetAllTimestepsForeAnomalies(String path, String f1, String f2)
+        {
+            IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
+            IntPtr pAddressOfFunctionToCall3 = NativeMethods.GetProcAddress(pDll, "getTimeSteps");
+            getTimeSteps getTimeSteps =(getTimeSteps)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall3, typeof(getTimeSteps)); 
+            List<float> TimeStepList = new List<float>();
+            String oneWay = f1 + "-" + f2;
+            String otherWay = f2 + "-" + f1;
+            StringBuilder arr = new StringBuilder(512);
+            int lenOfSattslist = dataList.Count();
+            getTimeSteps(AnomalyDetector, path, dataList.ToArray(), lenOfSattslist, oneWay, otherWay, arr);
+            String temper = arr.ToString();
+            if (String.Equals(temper, "no timesteps"))
+            {
+                return TimeStepList;
+            }
+
+            string[] words = temper.Split(' ');
+            
+            for (int i = 0; i < words.Count(); i++)
+            {
+                float temp = float.Parse(words[i]);
+                TimeStepList.Add(temp);
+            }
+            return TimeStepList;
+        }
+
         public string Correlated_Category
         {
             get { return correlatedCategory; }
