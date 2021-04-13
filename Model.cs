@@ -349,6 +349,7 @@ namespace ED1FlightSimulator
             Data_List = Parser(path);
             if (csvPath != null)
             {
+                
                 CreateTimeseries();
             }
         }
@@ -661,9 +662,9 @@ namespace ED1FlightSimulator
             set
             {
                 category = value;
-                
-                
-               List<float> data = dictionary[category];
+
+
+                List<float> data = dictionary[category];
                 int i = 0;
                 List<KeyValuePair<float, float>> dataPairs = new List<KeyValuePair<float, float>>();
                 foreach (float f in data)
@@ -691,87 +692,34 @@ namespace ED1FlightSimulator
                 findLinReg(TimeSeries, ref a, ref b, category, Correlated_Category);*/
                 loader.LineReg(ref a, ref b, Category, Correlated_Category);
                 List<KeyValuePair<float, float>> tempPoints = new List<KeyValuePair<float, float>>();
-                tempPoints.Add(new KeyValuePair<float, float>(0,b));
-                if (a != 0 )
+                tempPoints.Add(new KeyValuePair<float, float>(0, b));
+                if (a != 0)
                 {
-                     tempPoints.Add(new KeyValuePair<float, float>((-b)/a , 0));
+                    tempPoints.Add(new KeyValuePair<float, float>((-b) / a, 0));
                 }
                 else
                 {
                     tempPoints.Add(new KeyValuePair<float, float>(1, a + b));
                 }
-                Points = tempPoints;   
-                
-                    onPropertyChanged("Category");
-                    
+                Points = tempPoints;
+                /**List<float> TimeStepList = loader.GetRelevantTimesteps(category, correlatedCategory);
+                List<KeyValuePair<float, float>> tempPoints2 = new List<KeyValuePair<float, float>>();
+                List<KeyValuePair<float, float>> tempPoints3 = new List<KeyValuePair<float, float>>();
+                int size = dictionary[category].Count();
+                for (int j = 0; i < size; i++)
+                {
+                    tempPoints2.Add(new KeyValuePair<float, float>(dictionary[category].ElementAt(i), dictionary[Correlated_Category].ElementAt(i)));
                 }
-            /*float a = 0;
-            float b = 0;
-            //IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
-            IntPtr pAddressOfFunctionToCall1 = NativeMethods.GetProcAddress(pDll, "findLinReg");
-            findLinReg findLinReg =(findLinReg)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall1, typeof( findLinReg));
-            findLinReg(TimeSeries, ref a, ref b, category, Correlated_Category);
-            List<float> TimeStepList = GetAllTimestepsForeAnomalies(csvPath, category, Correlated_Category);
-            List<KeyValuePair<float, float>> tempPoints = new List<KeyValuePair<float, float>>();
-
-            tempPoints.Add(new KeyValuePair<float, float>(0,b));
-            if (a != 0 )
-            {
-                 tempPoints.Add(new KeyValuePair<float, float>((-b)/a , 0));
-            }
-            else
-            {
-                tempPoints.Add(new KeyValuePair<float, float>(1, a + b));
-            }
-            Points = tempPoints;   
-            List<KeyValuePair<float, float>> tempPoints2 = new List<KeyValuePair<float, float>>();
-            List<KeyValuePair<float, float>> tempPoints3 = new List<KeyValuePair<float, float>>();
-            int size = dictionary[category].Count();
-            for(int j = 0;i < size; i++)
-                { 
-                    tempPoints2.Add(new KeyValuePair<float, float>(dictionary[category].ElementAt(i),dictionary[Correlated_Category].ElementAt(i)));
-                }
-            int size2 = TimeStepList.Count();
-            for(int j = 0;i < size2; i++)
+                int size2 = TimeStepList.Count();
+                for (int j = 0; i < size2; i++)
                 {
                     int index = (int)TimeStepList[i];
-                    tempPoints3.Add(new KeyValuePair<float, float>(dictionary[category].ElementAt(index),dictionary[Correlated_Category].ElementAt(index)));
-                }
-
+                    tempPoints3.Add(new KeyValuePair<float, float>(dictionary[category].ElementAt(index), dictionary[Correlated_Category].ElementAt(index)));
+                }*/
 
                 onPropertyChanged("Category");
-                
-                
-               
-            }*/
+            }
         }
-
-        /*List<float> GetAllTimestepsForeAnomalies(String path, String f1, String f2)
-        {
-            IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
-            IntPtr pAddressOfFunctionToCall3 = NativeMethods.GetProcAddress(pDll, "getTimeSteps");
-            getTimeSteps getTimeSteps =(getTimeSteps)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall3, typeof(getTimeSteps)); 
-            List<float> TimeStepList = new List<float>();
-            String oneWay = f1 + "-" + f2;
-            String otherWay = f2 + "-" + f1;
-            StringBuilder arr = new StringBuilder(512);
-            int lenOfSattslist = dataList.Count();
-            getTimeSteps(AnomalyDetector, path, dataList.ToArray(), lenOfSattslist, oneWay, otherWay, arr);
-            String temper = arr.ToString();
-            if (String.Equals(temper, "no timesteps"))
-            {
-                return TimeStepList;
-            }
-
-            string[] words = temper.Split(' ');
-            
-            for (int i = 0; i < words.Count(); i++)
-            {
-                float temp = float.Parse(words[i]);
-                TimeStepList.Add(temp);
-            }
-            return TimeStepList;
-        }*/
 
         public string Correlated_Category
         {
