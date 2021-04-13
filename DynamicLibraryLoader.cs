@@ -84,10 +84,13 @@ namespace ED1FlightSimulator
             StringBuilder tmp = new StringBuilder();
             foreach (String category in dataList)
             {
-                MostCorrelatedFeature(AnomalyDetector, regFlightPath, dataList.ToArray(), dataList.Count(), category, tmp);
-                String tmpString = tmp.ToString();
-                correlations.Add(category, tmpString);
-                //relevantTimeSteps.Add(category, GetAllTimestepsForeAnomalies(category, tmpString));
+                if (!correlations.ContainsKey(category))
+                {
+                    MostCorrelatedFeature(AnomalyDetector, regFlightPath, dataList.ToArray(), dataList.Count(), category, tmp);
+                    String tmpString = tmp.ToString();
+                    correlations.Add(category, tmpString);
+                    //relevantTimeSteps.Add(category, GetAllTimestepsForeAnomalies(category, tmpString));
+                }
             }
         }
 

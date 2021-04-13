@@ -18,48 +18,20 @@ using System.Windows.Controls.DataVisualization;
 using System.Windows.Controls.DataVisualization.Charting;
 using System.Collections.ObjectModel;
 
-/*static class NativeMethods
-{
-    [DllImport("kernel32.dll")]
-    public static extern IntPtr LoadLibrary(string dllToLoad);
-
-    [DllImport("kernel32.dll")]
-    public static extern IntPtr GetProcAddress(IntPtr hModule, string procedureName);
-
-    [DllImport("kernel32.dll")]
-    public static extern bool FreeLibrary(IntPtr hModule);
-}*/
-
 namespace ED1FlightSimulator
 {
     public class Model : IModel 
     {   
-        /*[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-             public delegate void findLinReg(IntPtr ts,ref float a,ref float b, String attA, String attB);
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-             public delegate void MostCorrelatedFeature(IntPtr sad, [MarshalAs(UnmanagedType.LPStr)] String CSVfileName, [MarshalAs(UnmanagedType.LPArray)] String[] l, int size, [MarshalAs(UnmanagedType.LPStr)] String att, StringBuilder s);
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-             public delegate void getTimeSteps(IntPtr sad, [MarshalAs(UnmanagedType.LPStr)] String CSVfileName, [MarshalAs(UnmanagedType.LPArray)] String[] l, int size, [MarshalAs(UnmanagedType.LPStr)]  String oneWay, [MarshalAs(UnmanagedType.LPStr)] String otherWay, StringBuilder arr);
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-             public delegate IntPtr CreateSAD();
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate IntPtr Create(String CSVfileName, String[] l, int size);
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate float givesFloatTs(IntPtr obj, int line, String att);
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate int getRowSize(IntPtr ts);*/
         private bool shouldPlay = false;
         private int imgNum = 0;
-        IntPtr pDll;
         private List<KeyValuePair<float,float>> points = 
             new List<KeyValuePair<float, float>>();
          private List<KeyValuePair<float,float>> points2 = 
             new List<KeyValuePair<float, float>>();
          private List<KeyValuePair<float,float>> points3 = 
             new List<KeyValuePair<float, float>>();
-        
+  
         private UdpClient client = new UdpClient(5400);
-        //private StreamReader s;
         private int firstTimeFlag = 1;
 
        // private Stopwatch stopwatch;
@@ -126,12 +98,6 @@ namespace ED1FlightSimulator
             {
                 GetPathAlgoDefault();
             }
-             /*IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
-
-             IntPtr pAddressOfFunctionToCall4 = NativeMethods.GetProcAddress(pDll, "CreateSAD");
- 
-             CreateSAD CreateSAD =(CreateSAD)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall4, typeof(CreateSAD));*/
-
              
             GetPathRegFlight();
             AnomalyDetector = loader.AnomalyDetectionStater(AnomalyAlgorithm, regFlightPath);
@@ -351,9 +317,6 @@ namespace ED1FlightSimulator
             timeSeriesPath = Directory.GetParent(timeSeriesPath).FullName;
             timeSeriesPath = Directory.GetParent(timeSeriesPath).FullName;
             timeSeriesPath += "\\Dll-fg.dll";    
-            /*IntPtr pDll = NativeMethods.LoadLibrary(@timeSeriesPath);
-            IntPtr pAddressOfFunctionToCall = NativeMethods.GetProcAddress(pDll, "Create");
-            Create Create =(Create)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(Create));*/
             TimeSeries = loader.CreateTS(timeSeriesPath,  csvPath, dataList);
             dictionary = loader.GetDictionary();
             GetFileDictionary();
@@ -385,7 +348,6 @@ namespace ED1FlightSimulator
             Data_List = Parser(path);
             if (csvPath != null)
             {
-                
                 CreateTimeseries();
             }
         }
@@ -401,27 +363,8 @@ namespace ED1FlightSimulator
 
         public void GetPathAlgo(string path)
         {
-             //alg = new StringAlgo(path);
             AnomalyAlgorithm = path;
-            /*IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
-            //oh dear, error handling here
-            //if (pDll == IntPtr.Zero)
-
-            IntPtr pAddressOfFunctionToCall1 = NativeMethods.GetProcAddress(pDll, "findLinReg");
-            IntPtr pAddressOfFunctionToCall2 = NativeMethods.GetProcAddress(pDll, "MostCorrelatedFeature");
-            IntPtr pAddressOfFunctionToCall3 = NativeMethods.GetProcAddress(pDll, "getTimeSteps");
-            IntPtr pAddressOfFunctionToCall4 = NativeMethods.GetProcAddress(pDll, "CreateSAD");
-            //oh dear, error handling here
-            //if(pAddressOfFunctionToCall == IntPtr.Zero)
-
-
-            findLinReg findLinReg =(findLinReg)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall1, typeof(findLinReg));
-           
-            MostCorrelatedFeature MostCorrelatedFeature =(MostCorrelatedFeature)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall2, typeof(MostCorrelatedFeature));
-            
-            getTimeSteps getTimeSteps =(getTimeSteps)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall3, typeof(getTimeSteps));
-
-            CreateSAD CreateSAD =(CreateSAD)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall4, typeof(CreateSAD));*/
+            //AnomalyDetector = loader.AnomalyDetectionStater(AnomalyAlgorithm, regFlightPath);
         }
 
         public void GetFileDictionary()
@@ -867,26 +810,5 @@ namespace ED1FlightSimulator
             }
             return SAttsList2;
         }
-
-        /*Dictionary<String, List<float>> getDictionary(List<String> SAttsList, IntPtr ts)
-        {
-            Dictionary<String, List<float>> tsDic = new Dictionary<String, List<float>>();
-            IntPtr pDll = NativeMethods.LoadLibrary(@timeSeriesPath);
-            IntPtr pAddressOfFunctionToCall1 = NativeMethods.GetProcAddress(pDll, "getRowSize");
-            IntPtr pAddressOfFunctionToCall2 = NativeMethods.GetProcAddress(pDll, "givesFloatTs");
-            getRowSize getRowSize = (getRowSize)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall1, typeof(getRowSize));
-            givesFloatTs givesFloatTs = (givesFloatTs)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall2, typeof(givesFloatTs));
-            int size = getRowSize(ts);
-            for (int i = 0; i < SAttsList.Count(); i++)
-            {
-                List<float> f = new List<float>();
-                tsDic.Add(SAttsList[i], f);
-                for (int j = 0; j < size; j++)
-                {
-                    tsDic[SAttsList[i]].Add(givesFloatTs(ts, j, SAttsList[i]));
-                }
-            }
-            return tsDic;
-        }     */
     }
 }
