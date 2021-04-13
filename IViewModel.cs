@@ -23,6 +23,8 @@ namespace ED1FlightSimulator
         List<string> VM_Data_List { get;}
 
         List<KeyValuePair<float,float>> VM_Points { get;}
+        List<KeyValuePair<float,float>> VM_Points2 { get;}
+        List<KeyValuePair<float,float>> VM_Points3 { get;}
 
         int VM_ImgNum { get; set; }
         int VM_Max_Val { get; }
