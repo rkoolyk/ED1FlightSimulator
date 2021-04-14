@@ -12,6 +12,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="620" Width="850">
     <Window.Resources>
+		<!--Setting the colors for the points on regression line graph-->
         <Style x:Key="RedPoint" TargetType="{x:Type DVC:ScatterDataPoint}">
             <Setter Property="Template">
                 <Setter.Value>
@@ -44,8 +45,6 @@
             <StackPanel>
                 <StackPanel>
 
-
-
                     <Grid >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.7*"/>
@@ -53,6 +52,7 @@
                             <ColumnDefinition Width="4.9*"/>
                             <ColumnDefinition Width="0.7*"/>
                         </Grid.ColumnDefinitions>
+						<!--Throttle text-->
                         <TextBlock Grid.Column="0"  
                                      x:Name="Throttle"
                                      FontSize="16"
@@ -64,6 +64,7 @@
                             </TextBlock.LayoutTransform>
                         </TextBlock>
                         <Canvas Height="170" Width="35"  Grid.Column="1">
+							<!--Throttle with black square slider inside it-->
                             <Rectangle Name="ThrottleRec" Fill="Silver"
                                      Height="170"
                                      Stroke="Black" StrokeThickness="3" Width="30"
@@ -74,7 +75,7 @@
 										 Width="30"
                           ></Rectangle>
                         </Canvas>
-
+                         <!--Aileron text-->
                         <StackPanel Grid.Column="2">
                             <TextBlock Name="Aileron" FontSize="16"
                                        FontStyle="italic"
@@ -82,21 +83,15 @@
                               ></TextBlock>
 
                             <Canvas Height="150" Width="150">
-
-
+								<!--Knob of joystick-->
                                 <Ellipse Height="150" Width="150" Fill="Black"/>
-
-
                                 <Ellipse Height="50" Width="50" Fill="Gray"
                                          Canvas.Left="{Binding VM_KNOB_X}"
                                          Canvas.Top="{Binding VM_KNOB_Y}"/>
-
-
                             </Canvas>
 
-
-
                             <Canvas Height="35" Width="170" Margin="0,10">
+								<!--Rudder with black square slider inside it-->
                                 <Rectangle Name="RudderRec" Fill="LightSteelBlue"
                                              Height="30"
                                              Stroke="Black" StrokeThickness="3" Width="170"
@@ -107,17 +102,13 @@
 											 Canvas.Left="{Binding VM_Rudder}"
                                   ></Rectangle>
                             </Canvas>
-
-
-
-
-
+                            <!--Rudder Text-->
                             <TextBlock Name="Rudder" FontSize="16"
                                        FontStyle="italic"
                                          TextAlignment="Center"
                               ></TextBlock>
                         </StackPanel>
-
+                           <!--Elevator Text-->
                         <TextBlock Grid.Column="3" 
                                      FontStyle="italic"
                                      x:Name="Elevator"
@@ -129,10 +120,6 @@
                             </TextBlock.LayoutTransform>
                         </TextBlock>
                     </Grid>
-
-
-
-
                 </StackPanel>
 
                 <Grid >
@@ -146,6 +133,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
+							<!--Texts with flight information which update in real time, height speed and direction-->
                             <TextBlock Padding="5"
                                          FontFamily="Century Gothic"
                                          FontStretch="UltraExpanded"
@@ -187,6 +175,7 @@
 
                     </StackPanel>
                     <StackPanel Grid.Column="1">
+						<!--Flight Indices update in real time-->
                         <TextBlock
                                      FontFamily="Century Gothic"
                                      FontStretch="UltraExpanded"
@@ -199,6 +188,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
+							<!--Yaw, Pitch and Roll information -->
                             <TextBlock Padding="5"
                                          FontFamily="Century Gothic"
                                          FontStretch="UltraExpanded"
@@ -236,10 +226,6 @@
                             <TextBlock Text="{Binding VM_Pitch_Text}"
                                        FontSize="14" Grid.Column="1"  Margin="0,6" ></TextBlock>
                         </Grid>
-
-
-
-
                     </StackPanel>
 
                 </Grid>
@@ -253,11 +239,10 @@
                 <TextBlock Text="Data List:" Padding="5"
 							 ></TextBlock>
                 <ScrollViewer Height="350">
+					<!--List of Attributes loaded with XML-->
                     <ListBox ItemsSource="{Binding VM_Data_List}"
 							  SelectionChanged="FeatureChoice_SelectionChanged" >
-
                     </ListBox>
-
                 </ScrollViewer>
 
                 <StackPanel Grid.Column="1">
@@ -267,6 +252,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
+						<!--Graph of Category-->
                         <TextBlock Padding="15" Text="{Binding VM_Category}"/>
                         <TextBlock Padding="15" Text="{Binding VM_Correlated_Category}" Grid.Column="1"/>
                         <DVC:Chart x:Name="MainGraph" VerticalAlignment="Top" 
@@ -293,7 +279,7 @@
 								
 							</DVC:LineSeries>
                         </DVC:Chart>
-
+						<!--Graph of most correlated category-->
                         <DVC:Chart Grid.Column="1" x:Name="CorrelatedGraph" RenderTransformOrigin="0.524,0.249" 
                                    Margin="2.333,6,10.333,-119.333" BorderBrush="Transparent" BorderThickness="0">
                             <DVC:Chart.LegendStyle>
@@ -316,21 +302,10 @@
 						</DVC:Chart>
                     </Grid>
 
-
-					<!--REGRESSION LINE TRIAL-->
 					<Canvas Width="30" Height="65">
-						
 					</Canvas>
 					
-					<!--
-					<ResourceDictionary>
-						<Style x:Key="AllPointsStyle"
-						   TargetType="{x:Type DVC: ScatterDataPoint}">
-							<Setter Property="Background" Value="Red"></Setter>
-						</Style>
-					</ResourceDictionary>  -->
-					
-
+                    <!--Regression Line graph-->
                   <DVC:Chart Grid.Column="1" x:Name="Regression_Graph" VerticalAlignment="Top"
 							   RenderTransformOrigin="0.524,0.249"
 						       BorderBrush="Transparent" BorderThickness="0" Height="200">
@@ -381,29 +356,25 @@
                 <ColumnDefinition Width="0.7*"/>
             </Grid.ColumnDefinitions>
             <StackPanel>
-
+                   <!--for user to upload a csv file-->
                 <Button Name="LoadCsv" Click="LoadCsv_OnClick" 
                         Padding="5" Content="Load CSV File"
                         FontWeight="UltraBold"
                         Margin="5,10"></Button>
+				<!--for user to upload an xml file-->
                 <Button Name="LoadXml" Click="LoadXml_OnClick"
                         Padding="5" Content="Load XML File"
                         FontWeight="UltraBold"
                         Margin="5,3"></Button>
-
+                 <!--Button for user to start the flight simulation-->
                 <Button Name="StartSim" Click="StartSim_OnClick"
 					   Padding="5" Content="Start Simulation"
              FontWeight="UltraBold"
 					   Margin="5,10"></Button>
             </StackPanel>
 
-
-
-
             <Canvas Height="40" Grid.Column="1" >
-
-
-
+				<!-- Makes up the Previous Button-->
                 <Rectangle Fill="Black" Width="3" Height="15" Canvas.Top="12.5"
              Canvas.Left="10"     />
                 <Polygon Fill="Black"
@@ -413,9 +384,7 @@
                 <Rectangle Fill="Transparent" Width="29" Height="15" Canvas.Top="12.5"
                 Canvas.Left="10"   Name="Previous"  MouseLeftButtonUp="Previous_MouseLeftButtonUp"/>
 
-
-
-
+				<!-- Makes up the Rewind Button-->
                 <Polygon Fill="Black"
                 Points="53,20 66,27.5 66,12.5"></Polygon>
                 <Polygon Fill="Black"
@@ -423,13 +392,13 @@
                 <Rectangle Fill="Transparent" Width="26" Height="15" Canvas.Top="12.5"
                 Canvas.Left="53" Name="Rewind"   MouseLeftButtonUp="Rewind_MouseLeftButtonUp" />
 
-
+				<!-- Makes up the Play Button-->
                 <Polygon Fill="Black"
                      Points="119,20 106,27.5 106,12.5"></Polygon>
                 <Rectangle Fill="Transparent" Width="13" Height="15" Canvas.Top="12.5"
                 Canvas.Left="106"   Name="Play"  MouseLeftButtonUp="Play_MouseLeftButtonUp"/>
 
-
+				<!-- Makes up the Pause Button-->
                 <Rectangle Fill="Black" Width="5" Height="15" Canvas.Top="12.5"
                  Canvas.Left="146"     />
                 <Rectangle Fill="Black" Width="5" Height="15" Canvas.Top="12.5"
@@ -437,10 +406,11 @@
                 <Rectangle Fill="Transparent" Width="12" Height="15" Canvas.Top="12.5"
                 Canvas.Left="146" Name="Pause" MouseLeftButtonUp="Pause_MouseLeftButtonUp"/>
 
+				<!-- Makes up the Stop Button-->
                 <Rectangle Fill="Black" Width="15" Height="15" Canvas.Top="12.5"
                  Canvas.Left="193"   Name="Stop"  MouseLeftButtonUp="Stop_MouseLeftButtonUp"/>
 
-
+				<!-- Makes up the Fast Forward Button-->
                 <Polygon Fill="Black"
                      Points="246,20 233,27.5 233,12.5"></Polygon>
                 <Polygon Fill="Black"
@@ -448,7 +418,7 @@
                 <Rectangle Fill="Transparent" Width="26" Height="15" Canvas.Top="12.5"
                 Canvas.Left="233" Name="FastForward" MouseLeftButtonUp="FastForward_MouseLeftButtonUp"/>
 
-
+				<!-- Makes up the Next Button-->
                 <Polygon Fill="Black"
                      Points="286,20 273,27.5 273,12.5"></Polygon>
                 <Polygon Fill="Black"
@@ -466,21 +436,25 @@
                            FontWeight="UltraBold"
                            FontSize="15"
                            ></TextBlock>
+				<!--for user to change play speed of simulation-->
                 <TextBox Text="{Binding VM_Play_Speed}" 
 					TextChanged="TextBox_TextChanged"/>
 
+				<!--Buttons for choosing between two algorithms -->
              <Label Grid.ColumnSpan="2" Content="Choose an Algorithm:" Margin="0, 10" FontSize="14" FontWeight="Bold"/>
               <RadioButton x:Name="SimpleAlgorithm" Click="Simple_Checked" IsChecked="True">
                 Simple Algorithm</RadioButton>
               <RadioButton x:Name="CircleAlgorithm" Click="Circle_Checked">
                 Minimum Circle Algorithm</RadioButton>
             </StackPanel>
-
+            
+			<!--Timer-->
             <TextBlock Grid.Column="3" Margin="10,3" Padding="15"
              Text ="{Binding VM_Time}" FontSize="18"/>
 
 
         </Grid>
+		<!--Slider to skip ahead and go back in simulation and see how far we are-->
         <Slider x:Name="TimeSlider" Margin="15,15" Value="{Binding VM_ImgNum, Mode=TwoWay}" Maximum="{Binding VM_Max_Val}" Minimum="0"/>
     </StackPanel>
 
