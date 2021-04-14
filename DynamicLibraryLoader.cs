@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 static class NativeMethods
 {
+    //functions enabling import of DLL and its functions
     [DllImport("kernel32.dll")]
     public static extern IntPtr LoadLibrary(string dllToLoad);
 
@@ -21,6 +22,7 @@ namespace ED1FlightSimulator
 {
     public class DynamicLibraryLoader
     {
+        //delegates for the DLL functions so that we will be able to use them in the program
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void findLinReg(IntPtr ts, [MarshalAs(UnmanagedType.LPStr)] String f1, [MarshalAs(UnmanagedType.LPStr)] String f2,StringBuilder arr);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -60,11 +62,13 @@ namespace ED1FlightSimulator
         IntPtr pgetAPointsSize;
         IntPtr pgetTimeStepsSize;
 
+        //Function to initiate the anomaly detector and all necessary fields
         public IntPtr AnomalyDetectionStarter(String AnomalyAlgorithm, String regFlight)
         {
             regFlightPath = regFlight;
             correlations = new Dictionary<String, String>();
             relevantTimeSteps = new Dictionary<string, List<float>>();
+            //creating pointers to call to the algorithm DLL functions
             algoDLL = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
             pCreateSAD = NativeMethods.GetProcAddress(algoDLL, "CreateSAD");
             pMostCorrelatedFeature = NativeMethods.GetProcAddress(algoDLL, "MostCorrelatedFeature");
@@ -72,8 +76,10 @@ namespace ED1FlightSimulator
             pGetTimeSteps = NativeMethods.GetProcAddress(algoDLL, "getTimeSteps");
             pgetAPointsSize = NativeMethods.GetProcAddress(algoDLL, "getAPointsSize");
             pgetTimeStepsSize = NativeMethods.GetProcAddress(algoDLL, "getTimeStepsSize");
+            //delegating the function to create an anomaly detector
             CreateSAD CreateSAD = (CreateSAD)Marshal.GetDelegateForFunctionPointer(pCreateSAD, typeof(CreateSAD));
             AnomalyDetector = CreateSAD();
+            //thread to create the correlations dictionary without impacting runtime of the flight
             thread = new Thread(
                 delegate ()
                 {
@@ -83,17 +89,18 @@ namespace ED1FlightSimulator
             return AnomalyDetector;
         }
 
-        public void LineReg(String category, String correlatedCategory)
+        /*public void LineReg(String category, String correlatedCategory)
         {
             findLinReg findLinReg = (findLinReg)Marshal.GetDelegateForFunctionPointer(pFindLinReg, typeof(findLinReg));
             //findLinReg(TimeSeries, category, correlatedCategory);
-        }
+        }*/
         public void CreateCorrelations()
         {
             MostCorrelatedFeature MostCorrelatedFeature = (MostCorrelatedFeature)Marshal.GetDelegateForFunctionPointer(pMostCorrelatedFeature, typeof(MostCorrelatedFeature));
             StringBuilder tmp = new StringBuilder();
             foreach (String category in dataList)
             {
+                //finding the most correlated feature for each of the categories, according to the algorithm
                 if (!correlations.ContainsKey(category))
                 {
                     MostCorrelatedFeature(AnomalyDetector, regFlightPath, dataList.ToArray(), dataList.Count(), category, tmp);
@@ -101,7 +108,7 @@ namespace ED1FlightSimulator
                     if (!correlations.ContainsKey(category))
                     {
                         correlations.Add(category, tmpString);
-
+                        //adding the anomaly time steps for the dictionary for this category so we can upload them at any time without calling for the DLL function
                         relevantTimeSteps.Add(category, GetAllTimestepsForeAnomalies(category, tmpString));
                     }
                 }
@@ -110,12 +117,14 @@ namespace ED1FlightSimulator
 
         public String FindCorrelation(String category)
         {
+            //if correlation is already logged in the dictionary, return it
             if (correlations.ContainsKey(category))
             {
                 return correlations[category];
             }
             else
             {
+                //else search for it in the DLL
                 MostCorrelatedFeature MostCorrelatedFeature = (MostCorrelatedFeature)Marshal.GetDelegateForFunctionPointer(pMostCorrelatedFeature, typeof(MostCorrelatedFeature));
                 StringBuilder tmp = new StringBuilder();
                 MostCorrelatedFeature(AnomalyDetector, regFlightPath, dataList.ToArray(), dataList.Count(), category, tmp);
@@ -127,16 +136,19 @@ namespace ED1FlightSimulator
         {
             this.csvPath = csvPath;
             timeSeriesDLL = NativeMethods.LoadLibrary(@timeSeriesPath);
+            //saving all the pointers to the relevant timeSeries functions that will be needed
             pCreate = NativeMethods.GetProcAddress(timeSeriesDLL, "Create");
             pgetRowSize = NativeMethods.GetProcAddress(timeSeriesDLL, "getRowSize");
             pgivesFloatTs = NativeMethods.GetProcAddress(timeSeriesDLL, "givesFloatTs");
             Create Create = (Create)Marshal.GetDelegateForFunctionPointer(pCreate, typeof(Create));
+            //creating a timeseries based on the csv that was uploaded
             TimeSeries = Create(csvPath, data.ToArray(), data.Count());
-            dataList = data;
+            dataList = data; //categories (attributes)
             return TimeSeries;
         }
         public Dictionary<String, List<float>> GetDictionary()
         {
+            //function to create a dictionary version of the timeseries
             Dictionary<String, List<float>> tsDic = new Dictionary<String, List<float>>();
             getRowSize getRowSize = (getRowSize)Marshal.GetDelegateForFunctionPointer(pgetRowSize, typeof(getRowSize));
             givesFloatTs givesFloatTs = (givesFloatTs)Marshal.GetDelegateForFunctionPointer(pgivesFloatTs, typeof(givesFloatTs));
@@ -155,12 +167,14 @@ namespace ED1FlightSimulator
 
         public List<float> GetAllTimestepsForeAnomalies(String category, String correlatedCategory)
         {
+            //function to receive a list of timesteps containing an anomaly based on two categories that correlate highly with each other
             List<float> TimeStepList = new List<float>();
             String oneWay = category + "-" + correlatedCategory;
             getTimeStepsSize getTimeStepsSize = (getTimeStepsSize)Marshal.GetDelegateForFunctionPointer(pgetTimeStepsSize, typeof(getTimeStepsSize));
             int idk = dataList.Count();
             int suggestedSize = getTimeStepsSize(AnomalyDetector, csvPath, dataList.ToArray(), idk, oneWay);
             int minSize = "no timesteps".Length + 1;
+            //creating a string builder based on the size of the values
             StringBuilder arr = new StringBuilder(Math.Max(suggestedSize, minSize));
             if (minSize>suggestedSize)
             {
@@ -178,42 +192,22 @@ namespace ED1FlightSimulator
             }
             return TimeStepList;
         }
-        /*public List<float> GetAllTimestepsForeAnomalies(String category, String correlatedCategory)
-        {
-            getTimeSteps getTimeSteps = (getTimeSteps)Marshal.GetDelegateForFunctionPointer(pGetTimeSteps, typeof(getTimeSteps));
-            List<float> TimeStepList = new List<float>();
-            String oneWay = category + "-" + correlatedCategory;
-            String otherWay = correlatedCategory + "-" + category;
-            StringBuilder arr = new StringBuilder(512);
-            int lenOfSattslist = dataList.Count();
-            getTimeSteps(AnomalyDetector, csvPath, dataList.ToArray(), lenOfSattslist, oneWay, otherWay, arr);
-            String temper = arr.ToString();
-            if (String.Equals(temper, "no timesteps"))
-            {
-                return TimeStepList;
-            }
-
-            string[] words = temper.Split(' ');
-
-            for (int i = 0; i < words.Count(); i++)
-            {
-                float temp = float.Parse(words[i]);
-                TimeStepList.Add(temp);
-            }
-            return TimeStepList;
-        }*/
 
         public List<float> GetRelevantTimesteps(String category, String correlatedCategory)
         {
+            //get relevant time for categories given
+            //if category is in dictionary, pull from there
             if (relevantTimeSteps.ContainsKey(category))
             {
                 return relevantTimeSteps[category];
             }
-            return GetAllTimestepsForeAnomalies(category, correlatedCategory);  //GetAllTimestepsForeAnomalies(category, correlatedCategory);
+            //else call the function for the category
+            return GetAllTimestepsForeAnomalies(category, correlatedCategory);
         }
 
         public List<float> GetAnimationPoints(String f1, String f2)
         {
+            //function to return the points needed for the anomalies graph
             List<float> AnimationPoints = new List<float>();
             getAPointsSize getAPointsSize = (getAPointsSize)Marshal.GetDelegateForFunctionPointer(pgetAPointsSize, typeof(getAPointsSize));
             int suggestedSize = getAPointsSize(TimeSeries, f1, f2);
@@ -223,6 +217,7 @@ namespace ED1FlightSimulator
             String temper = arr.ToString();
             if (String.Equals(temper, "no timesteps"))
             {
+                //if no anomalies, return empty list
                 return AnimationPoints;
             }
 
@@ -234,30 +229,6 @@ namespace ED1FlightSimulator
             }
             return AnimationPoints;
         }
-
-        /*public List<float> GetAnimationPoints(String f1, String f2)
-        {
-            List<float> AnimationPoints = new List<float>();
-            StringBuilder arr = new StringBuilder(512);
-            findLinReg findLinReg = (findLinReg)Marshal.GetDelegateForFunctionPointer(pFindLinReg, typeof(findLinReg));
-            findLinReg(TimeSeries, f1, f2, arr);
-            String temper = arr.ToString();
-            Console.WriteLine(arr);
-            if (String.Equals(temper, "no timesteps"))
-            {
-                return AnimationPoints;
-            }
-
-            string[] words = temper.Split(' ');
-            for (int i = 0; i < words.Count(); i++)
-            {
-                float temp = float.Parse(words[i]);
-                AnimationPoints.Add(temp);
-            }
-            return AnimationPoints;
-        }*/
-
-
     }
 }
 

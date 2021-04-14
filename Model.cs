@@ -739,6 +739,11 @@ namespace ED1FlightSimulator
                 {
                     return;
                 }
+                //if simulation hasn't started, nothing to show
+                if (!started)
+                {
+                    return;
+                }
                 category = value;
                 List<float> data = dictionary[category];
                 int i = 0;
