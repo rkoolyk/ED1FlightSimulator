@@ -26,9 +26,9 @@ namespace ED1FlightSimulator
         private int imgNum = 0;
         private List<KeyValuePair<float,float>> points = 
             new List<KeyValuePair<float, float>>();
-         private List<KeyValuePair<float,float>> points2 = 
+         private List<KeyValuePair<float,float>> allPoints = 
             new List<KeyValuePair<float, float>>();
-         private List<KeyValuePair<float,float>> points3 = 
+         private List<KeyValuePair<float,float>> anomalyPoints = 
             new List<KeyValuePair<float, float>>();
   
         private UdpClient client = new UdpClient(5400);
@@ -57,7 +57,6 @@ namespace ED1FlightSimulator
         private List<string> dataList = new List<string>();
         private List<KeyValuePair<float, float>> mainGraphValues = new List<KeyValuePair<float, float>>();
         private List<KeyValuePair<float, float>> correlatedGraphValues = new List<KeyValuePair<float, float>>();
-        private List<KeyValuePair<float, float>> regressionGraph = null;
         private string category = " ";
         private string correlatedCategory = " ";
         private Dictionary<String, List<float>> dictionary;
@@ -77,6 +76,19 @@ namespace ED1FlightSimulator
 
         public Model()
         {
+            /*List<KeyValuePair<float,float>> temp = new List<KeyValuePair<float,float>>();
+            temp.Add(new KeyValuePair<float,float>(1,1));
+            temp.Add(new KeyValuePair<float,float>(3,3));
+            temp.Add(new KeyValuePair<float,float>(5,5));
+            AnomalyPoints = temp;
+
+            List<KeyValuePair<float,float>> temp2 = new List<KeyValuePair<float,float>>();
+            temp2.Add(new KeyValuePair<float,float>(2,2));
+            temp2.Add(new KeyValuePair<float,float>(4,4));
+            temp2.Add(new KeyValuePair<float,float>(6,6));
+            AllPoints = temp2;*/
+
+
             loader = new DynamicLibraryLoader();
             graphTimer = new System.Timers.Timer(150);
             graphTimer.Elapsed += OnTimedEvent;
@@ -87,8 +99,8 @@ namespace ED1FlightSimulator
 
         private void OnTimedEvent(Object source, ElapsedEventArgs e)
         {   
-            //Debug.WriteLine("GOT HERE\n");
             UpdateGraphs();
+            UpdatePoints();
             
         }
 
@@ -98,7 +110,6 @@ namespace ED1FlightSimulator
             {
                 GetPathAlgoDefault();
             }
-             
             GetPathRegFlight();
             AnomalyDetector = loader.AnomalyDetectionStarter(AnomalyAlgorithm, regFlightPath);
             try
@@ -232,6 +243,29 @@ namespace ED1FlightSimulator
 
         }
 
+        public void UpdatePoints()
+        {
+            if (category == " " || correlatedCategory == " ")
+            {
+                return;
+            }
+            //List<float> TimeStepList = loader.GetRelevantTimesteps(category, correlatedCategory);
+            List<KeyValuePair<float, float>> tempAllPoints = new List<KeyValuePair<float, float>>();
+            int j = 0;
+            if (imgNum - 30 >= 0)
+            {
+                j = imgNum - 30;
+            }
+            //Debug.WriteLine(category+"\n");
+            //Debug.WriteLine(correlatedCategory+"\n");
+            for (; j < imgNum; j++)
+            {
+                tempAllPoints.Add(new KeyValuePair<float, float>(dictionary[Category].ElementAt(j), dictionary[Correlated_Category].ElementAt(j)));
+            }
+            AllPoints = tempAllPoints;
+
+        }
+
         public void UpdateGraphs()
         {
             if (category == " ")
@@ -318,10 +352,6 @@ namespace ED1FlightSimulator
 
        public void GetPathAlgoDefault()
         {
-            /*String path = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
-            path = Directory.GetParent(path).FullName;
-            path = Directory.GetParent(path).FullName;
-            path += "\\Algo1-Dll.dll";*/
             GetPathAlgo("\\Algo1-Dll.dll");
         }
 
@@ -331,13 +361,7 @@ namespace ED1FlightSimulator
             path = Directory.GetParent(path).FullName;
             path = Directory.GetParent(path).FullName;
             path += algoPath;
-
-            //alg = new StringAlgo(path);
-            AnomalyAlgorithm = path;
-            if (AnomalyDetector == null)
-            {
-                AnomalyDetector = loader.AnomalyDetectionStarter(AnomalyAlgorithm, regFlightPath);
-            }
+            AnomalyAlgorithm = path;            
         }
 
         public void GetFileDictionary()
@@ -583,23 +607,23 @@ namespace ED1FlightSimulator
             }
         }
 
-        public List<KeyValuePair<float,float>> Points2
+        public List<KeyValuePair<float,float>> AllPoints
         {
-            get { return points2;}
+            get { return allPoints;}
             set
             {
-                points2 = value;
-                onPropertyChanged("Points2");
+                allPoints = value;
+                onPropertyChanged("AllPoints");
             }
         }
 
-        public List<KeyValuePair<float,float>> Points3
+        public List<KeyValuePair<float,float>> AnomalyPoints
         {
-            get { return points3;}
+            get { return anomalyPoints;}
             set
             {
-                points3 = value;
-                onPropertyChanged("Points3");
+                anomalyPoints = value;
+                onPropertyChanged("AnomalyPoints");
             }
         }
 
@@ -622,16 +646,7 @@ namespace ED1FlightSimulator
                     dataPairs.Add(new KeyValuePair<float, float>(i, f));
                     i++;
                 }
-                /*IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
-
-                IntPtr pAddressOfFunctionToCall2 = NativeMethods.GetProcAddress(pDll, "MostCorrelatedFeature");
- 
-                MostCorrelatedFeature MostCorrelatedFeature =(MostCorrelatedFeature)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall2, typeof(MostCorrelatedFeature));*/
-
                 Main_Graph_Values = dataPairs;
-                //StringBuilder s = new StringBuilder();
-                //MostCorrelatedFeature(AnomalyDetector, regFlightPath, dataList.ToArray(), dataList.Count, category, s);
-                //Correlated_Category = s.ToString();
                 Correlated_Category = loader.FindCorrelation(Category);
 
                 //IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
@@ -660,21 +675,25 @@ namespace ED1FlightSimulator
                     tempPoints.Add(new KeyValuePair<float, float>(1, a + b));
                 }*/
 
-                //Points = tempPoints;
-                /**List<float> TimeStepList = loader.GetRelevantTimesteps(category, correlatedCategory);
-                List<KeyValuePair<float, float>> tempPoints2 = new List<KeyValuePair<float, float>>();
-                List<KeyValuePair<float, float>> tempPoints3 = new List<KeyValuePair<float, float>>();
-                int size = dictionary[category].Count();
-                for (int j = 0; i < size; i++)
+                List<float> TimeStepList = loader.GetRelevantTimesteps(category, correlatedCategory);
+                /*int size = dictionary[category].Count();
+                for (int j = 0; j < size; j++)
                 {
-                    tempPoints2.Add(new KeyValuePair<float, float>(dictionary[category].ElementAt(i), dictionary[Correlated_Category].ElementAt(i)));
+                    tempAllPoints.Add(new KeyValuePair<float, float>(dictionary[category].ElementAt(j), dictionary[Correlated_Category].ElementAt(j)));
+                    //Debug.WriteLine(tempAllPoints[])
                 }
-                int size2 = TimeStepList.Count();
-                for (int j = 0; i < size2; i++)
-                {
-                    int index = (int)TimeStepList[i];
-                    tempPoints3.Add(new KeyValuePair<float, float>(dictionary[category].ElementAt(index), dictionary[Correlated_Category].ElementAt(index)));
-                }*/
+                AllPoints = tempAllPoints;*/
+                UpdatePoints();
+                List<KeyValuePair<float, float>> tempAnomalyPoints = new List<KeyValuePair<float, float>>();
+                int size = TimeStepList.Count();
+                //Debug.WriteLine("size: "+size+"\n");
+                    for (int k = 0; k < size; k++)
+                    {
+                        int index = (int)TimeStepList[k];
+                        tempAnomalyPoints.Add(new KeyValuePair<float, float>(dictionary[category].ElementAt(index), dictionary[Correlated_Category].ElementAt(index)));
+                    }
+                AnomalyPoints = tempAnomalyPoints;
+
 
                 onPropertyChanged("Category");
             }
