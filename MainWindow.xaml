@@ -18,23 +18,17 @@
                     <ControlTemplate TargetType="DVC:ScatterDataPoint">
                         <Grid>
                             <Ellipse Fill="Red"/>
-                            <Canvas >
-                                <TextBlock FontWeight="Bold" Text="{Binding Value}" Margin="15,-3,0,0"  />
-                            </Canvas>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="BluePoint" TargetType="{x:Type DVC:ScatterDataPoint}">
+        <Style x:Key="BlackPoint" TargetType="{x:Type DVC:ScatterDataPoint}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="DVC:ScatterDataPoint">
                         <Grid>
-                            <Ellipse Fill="Blue"/>
-                            <Canvas >
-                                <TextBlock FontWeight="Bold" Text="{Binding Value}" Margin="15,-3,0,0"  />
-                            </Canvas>
+                            <Ellipse Fill="Black"/>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
@@ -349,12 +343,13 @@
                     <DVC:Chart.Series>
                       <!--all points-->
                             <DVC:ScatterSeries Title="Dots" ItemsSource="{Binding VM_AllPoints}"
-                                         IndependentValuePath = "Key" DependentValuePath = "Value" BorderBrush="Black"
+                                         IndependentValuePath = "Key" DependentValuePath = "Value" DataPointStyle="{StaticResource BlackPoint}"
                                          IsSelectionEnabled="True" RenderTransformOrigin="0.522,-0.172">
+                                
                             </DVC:ScatterSeries>
                       <!--anomaly points-->
-                      <DVC:ScatterSeries Title="anomaly points" ItemsSource="{Binding VM_AnomalyPoints}"
-                                         IndependentValuePath = "Key" DependentValuePath = "Value" BorderBrush="Red"
+                            <DVC:ScatterSeries Title="anomaly points" ItemsSource="{Binding VM_AnomalyPoints}"
+                                         IndependentValuePath = "Key" DependentValuePath = "Value" DataPointStyle="{StaticResource RedPoint}"
                                          IsSelectionEnabled="True" RenderTransformOrigin="0.522,-0.172">
                         
                       </DVC:ScatterSeries>
