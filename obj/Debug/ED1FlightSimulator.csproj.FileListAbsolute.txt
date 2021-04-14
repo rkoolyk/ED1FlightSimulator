@@ -133,3 +133,4 @@ C:\Users\miche\Source\Repos\rkoolyk\ED1FlightSimulator\obj\Debug\ED1FlightSimula
 C:\Users\miche\Source\Repos\rkoolyk\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.csproj.CopyComplete
 C:\Users\miche\Source\Repos\rkoolyk\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.exe
 C:\Users\miche\Source\Repos\rkoolyk\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.pdb
+C:\Users\miche\source\repos\rkoolyk\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.csprojAssemblyReference.cache
