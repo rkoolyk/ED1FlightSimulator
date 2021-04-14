@@ -258,28 +258,13 @@ namespace ED1FlightSimulator
             {
                 j = imgNum - 30;
             }
-            Debug.WriteLine(category+"\n");
-            Debug.WriteLine(correlatedCategory+"\n");
+            //Debug.WriteLine(category+"\n");
+            //Debug.WriteLine(correlatedCategory+"\n");
             for (; j < imgNum; j++)
             {
                 tempAllPoints.Add(new KeyValuePair<float, float>(dictionary[Category].ElementAt(j), dictionary[Correlated_Category].ElementAt(j)));
             }
             AllPoints = tempAllPoints;
-
-            /*List<KeyValuePair<float, float>> tempAnomalyPoints = new List<KeyValuePair<float, float>>();
-            int k = 0;
-            if (imgNum - 30 >= 0)
-            {
-                k = imgNum - 30;
-            }
-            for (; k < imgNum; k++)
-            {
-                int index = (int)TimeStepList[k];
-                tempAnomalyPoints.Add(new KeyValuePair<float, float>(dictionary[category].ElementAt(index),
-                        dictionary[Correlated_Category].ElementAt(index)));
-            }
-            AnomalyPoints = tempAnomalyPoints;*/
-
 
         }
 
@@ -710,11 +695,8 @@ namespace ED1FlightSimulator
                 {
                     tempPoints.Add(new KeyValuePair<float, float>(1, a + b));
                 }*/
-                Points = tempPoints;
 
                 List<float> TimeStepList = loader.GetRelevantTimesteps(category, correlatedCategory);
-                List<KeyValuePair<float, float>> tempAllPoints = new List<KeyValuePair<float, float>>();
-                List<KeyValuePair<float, float>> tempAnomalyPoints = new List<KeyValuePair<float, float>>();
                 /*int size = dictionary[category].Count();
                 for (int j = 0; j < size; j++)
                 {
@@ -723,12 +705,14 @@ namespace ED1FlightSimulator
                 }
                 AllPoints = tempAllPoints;*/
                 UpdatePoints();
-                int size2 = TimeStepList.Count();
-                for (int j = 0; j < size2; j++)
-                {
-                    int index = (int)TimeStepList[j];
-                    tempAnomalyPoints.Add(new KeyValuePair<float, float>(dictionary[category].ElementAt(index), dictionary[Correlated_Category].ElementAt(index)));
-                }
+                List<KeyValuePair<float, float>> tempAnomalyPoints = new List<KeyValuePair<float, float>>();
+                int size = TimeStepList.Count();
+                //Debug.WriteLine("size: "+size+"\n");
+                    for (int k = 0; k < size; k++)
+                    {
+                        int index = (int)TimeStepList[k];
+                        tempAnomalyPoints.Add(new KeyValuePair<float, float>(dictionary[category].ElementAt(index), dictionary[Correlated_Category].ElementAt(index)));
+                    }
                 AnomalyPoints = tempAnomalyPoints;
 
 
