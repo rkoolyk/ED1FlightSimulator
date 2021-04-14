@@ -23,23 +23,18 @@ namespace ED1FlightSimulator
     public class Model : IModel 
     {   
         private bool shouldPlay = false;
-        private int imgNum = 0;
+        private int imgNum = 0; //current place of simulation (number of frames passed)
         private List<KeyValuePair<float,float>> points = 
-            new List<KeyValuePair<float, float>>();
+            new List<KeyValuePair<float, float>>(); //points to form the regression line graph
          private List<KeyValuePair<float,float>> allPoints = 
-            new List<KeyValuePair<float, float>>();
+            new List<KeyValuePair<float, float>>(); //points of category/correlated category in last 30 timesteps 
          private List<KeyValuePair<float,float>> anomalyPoints = 
-            new List<KeyValuePair<float, float>>();
-  
+            new List<KeyValuePair<float, float>>(); 
         private UdpClient client = new UdpClient(5400);
-        private int firstTimeFlag = 1;
-
-       // private Stopwatch stopwatch;
-        //private System.Timers.Timer t;
-        
-        private int maxVal = 1000;
-        private float knobX = 50;
-        private float knobY = 50;
+        private int firstTimeFlag = 1; //first time pressing play/running simulation 
+        private int maxVal = 1000; //number of lines in csv file (just initialized at arbitrary 1000)
+        private float knobX = 50; //joystick--aileron
+        private float knobY = 50; //joystick--elevator 
         private string heightText = "0";
         private string speedText = "0";
         private string directionText = "0";
@@ -54,20 +49,20 @@ namespace ED1FlightSimulator
         private string csvPath = null;
         private string timeSeriesPath = null;
         private string regFlightPath = null;
-        private List<string> dataList = new List<string>();
+        private List<string> dataList = new List<string>(); //list of attributes to choose from (xml)
         private List<KeyValuePair<float, float>> mainGraphValues = new List<KeyValuePair<float, float>>();
         private List<KeyValuePair<float, float>> correlatedGraphValues = new List<KeyValuePair<float, float>>();
         private string category = " ";
         private string correlatedCategory = " ";
-        private Dictionary<String, List<float>> dictionary;
-        private Dictionary<int, string> dictFile = new Dictionary<int, string>();
+        private Dictionary<String, List<float>> dictionary; //keys--from xml, values--corresponding columns from csv
+        private Dictionary<int, string> dictFile = new Dictionary<int, string>(); //key--line num, values--line in csv
         public event PropertyChangedEventHandler PropertyChanged;
         String AnomalyAlgorithm = " ";
         private IntPtr TimeSeries;
         private IntPtr AnomalyDetector;
         private DynamicLibraryLoader loader;
 
-        System.Timers.Timer graphTimer;
+        System.Timers.Timer graphTimer; //how often to update graphs 
 
         private void onPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -76,36 +71,24 @@ namespace ED1FlightSimulator
 
         public Model()
         {
-            /*List<KeyValuePair<float,float>> temp = new List<KeyValuePair<float,float>>();
-            temp.Add(new KeyValuePair<float,float>(1,1));
-            temp.Add(new KeyValuePair<float,float>(3,3));
-            temp.Add(new KeyValuePair<float,float>(5,5));
-            AnomalyPoints = temp;
-
-            List<KeyValuePair<float,float>> temp2 = new List<KeyValuePair<float,float>>();
-            temp2.Add(new KeyValuePair<float,float>(2,2));
-            temp2.Add(new KeyValuePair<float,float>(4,4));
-            temp2.Add(new KeyValuePair<float,float>(6,6));
-            AllPoints = temp2;*/
-
-
             loader = new DynamicLibraryLoader();
             graphTimer = new System.Timers.Timer(150);
             graphTimer.Elapsed += OnTimedEvent;
             graphTimer.AutoReset = true;
             graphTimer.Enabled = true;
-            
         }
 
+        //update graphs on timer, makes it run faster 
         private void OnTimedEvent(Object source, ElapsedEventArgs e)
         {   
             UpdateGraphs();
             UpdatePoints();
             
         }
-
+        //main loop to run the entire simulation 
         public void Start()
-         {      
+         {     
+            //algorithm not chosen by user 
             if (AnomalyAlgorithm == " ")
             {
                 GetPathAlgoDefault();
@@ -114,7 +97,7 @@ namespace ED1FlightSimulator
             AnomalyDetector = loader.AnomalyDetectionStarter(AnomalyAlgorithm, regFlightPath);
             try
              {  
-
+                 //only connect to fg one time at the beginning 
                  if (firstTimeFlag == 1)
                  {
                     client.Connect("localhost", 5400);
@@ -125,8 +108,6 @@ namespace ED1FlightSimulator
                  Thread thread = new Thread(
                  delegate()
                  {
-                    
-                     
                          while(shouldPlay == true && ImgNum < dictionary["throttle"].Count())
                          {    
                               TimeSpan timeSpan = TimeSpan.FromSeconds(ImgNum / 10);
@@ -152,8 +133,6 @@ namespace ED1FlightSimulator
                               ImgNum++;
 
                               } 
-
-
                   } );
                   thread.Start();
                 }
@@ -176,14 +155,14 @@ namespace ED1FlightSimulator
 
         public void MoveThrottle()
         {
-            
+            //range of throttle is between 0 and 1 
             List<float> throttleVals = dictionary["throttle"];
-            Throttle = throttleVals[ImgNum] * 140;
-                                                              
+            Throttle = throttleVals[ImgNum] * 140;                                                
         }
 
         public void MoveRudder()
         {
+            //range of rudder is between -1 and 1 
             List<float> rudderVals = dictionary["rudder"];
             Rudder = rudderVals[ImgNum] * 70 + 70;
             
@@ -249,15 +228,13 @@ namespace ED1FlightSimulator
             {
                 return;
             }
-            //List<float> TimeStepList = loader.GetRelevantTimesteps(category, correlatedCategory);
+            //creating a list of all points in last 30 frames for regression graph 
             List<KeyValuePair<float, float>> tempAllPoints = new List<KeyValuePair<float, float>>();
             int j = 0;
             if (imgNum - 30 >= 0)
             {
                 j = imgNum - 30;
             }
-            //Debug.WriteLine(category+"\n");
-            //Debug.WriteLine(correlatedCategory+"\n");
             for (; j < imgNum; j++)
             {
                 tempAllPoints.Add(new KeyValuePair<float, float>(dictionary[Category].ElementAt(j), dictionary[Correlated_Category].ElementAt(j)));
@@ -331,7 +308,9 @@ namespace ED1FlightSimulator
         }
 
         public void GetPathCSV(string path)
-        {
+        {   
+            //get the csv file path according to what the user uploads, if we've already
+            //gotten the xml path, create a timeseries to be used 
             csvPath = path;
             if (xmlPath != null)
             {
@@ -341,7 +320,9 @@ namespace ED1FlightSimulator
         }
 
         public void GetPathXML(string path)
-        {
+        {   
+            //get the xml file path according to what the user uploads, if we've already
+            //gotten the csv path, create a timeseries to be used 
             xmlPath = path;
             Data_List = Parser(path);
             if (csvPath != null)
@@ -351,12 +332,14 @@ namespace ED1FlightSimulator
         }
 
        public void GetPathAlgoDefault()
-        {
+        {   
+            //use simple anomaly detector algorithm as the default 
             GetPathAlgo("\\Algo1-Dll.dll");
         }
 
         public void GetPathAlgo(string algoPath)
-        {
+        {   
+            //adding the beginning of the path to create the full path to be sent 
             String path = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
             path = Directory.GetParent(path).FullName;
             path = Directory.GetParent(path).FullName;
@@ -366,21 +349,23 @@ namespace ED1FlightSimulator
 
         public void GetFileDictionary()
         {
-         
+            //each spot in array has one line of csv file 
             string[] linesArray = System.IO.File.ReadAllLines(csvPath);
+            //add each line as value to dictionary where key is the line number 
             for (int i = 0; i < linesArray.Length; i++)
             {
                 dictFile.Add(i, linesArray[i]);
             }
-
         }
 
         public void Previous()
-        {
+        {   
+            //sets back to beginning of simulation
             ImgNum = 0;
         }
         public void Rewind()
         {
+            //rewind 100 frames or back to beginning if we're at less than 100
             if (ImgNum > 100)
             {
                 ImgNum -= 100;
@@ -390,7 +375,7 @@ namespace ED1FlightSimulator
             }
         }
         public void Play()
-        {
+        {   
             shouldPlay = true;
             Start();
         }
@@ -404,6 +389,7 @@ namespace ED1FlightSimulator
 
         public void Stop()
         {   
+            //reinitialize everything to their starting points 
             firstTimeFlag = 1;
             shouldPlay = false;
             Height_Text = "0";
@@ -423,7 +409,7 @@ namespace ED1FlightSimulator
 
         public void FastForward()
         {
-            
+            //skip ahead 100 frames or to the end if we have less than 100 left 
             if (ImgNum < Max_Val + 100)
             {
                 ImgNum += 100;
@@ -435,7 +421,7 @@ namespace ED1FlightSimulator
         }
 
         public void Next()
-        {
+        {   //bring to end of simulation
             ImgNum = Max_Val;
         }
 
@@ -588,12 +574,13 @@ namespace ED1FlightSimulator
             }
             else{
                 pSpeed = float.Parse(Play_Speed);
-                
+                //lowest possible speed--0.25
                 if (float.Parse(Play_Speed) < 0.25)
                 {
                     pSpeed = 0.25F;
                 }
             }
+            //formula based on: regular speed is 10 images per second 
             return (int) (1000 / (10 * pSpeed));
         }
 
@@ -635,28 +622,19 @@ namespace ED1FlightSimulator
                 category = value;
                 List<float> data = dictionary[category];
                 int i = 0;
-                if (category == "engine-pump")
-                {
-                    Console.WriteLine("Found the problem!");
-                }
-
+                //temporary list to store points for graph 
                 List<KeyValuePair<float, float>> dataPairs = new List<KeyValuePair<float, float>>();
                 foreach (float f in data)
-                {
+                {   
+                    //x coordinate increases by 1 each time (time- current line in file),
+                    //y value is the category's value in the file 
                     dataPairs.Add(new KeyValuePair<float, float>(i, f));
                     i++;
                 }
                 Main_Graph_Values = dataPairs;
                 Correlated_Category = loader.FindCorrelation(Category);
-
-                //IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
-                /*IntPtr pAddressOfFunctionToCall1 = NativeMethods.GetProcAddress(pDll, "findLinReg");
-                findLinReg findLinReg =(findLinReg)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall1, typeof( findLinReg));
-                findLinReg(TimeSeries, ref a, ref b, category, Correlated_Category);*/
-                //loader.LineReg(ref a, ref b, Category, Correlated_Category);
-
                 List<float> animationPoints = loader.GetAnimationPoints(category, Correlated_Category);
-
+                //drawing the regression line 
                 List<KeyValuePair<float, float>> tempPoints = new List<KeyValuePair<float, float>>();
                 for(int f = 0; f < animationPoints.Count(); f += 2)
                 {
@@ -665,25 +643,9 @@ namespace ED1FlightSimulator
                     tempPoints.Add(new KeyValuePair<float, float>(first, second));
                 }
                 Points = tempPoints;
-                /*tempPoints.Add(new KeyValuePair<float, float>(0, b));
-                if (a != 0)
-                {
-                    tempPoints.Add(new KeyValuePair<float, float>((-b) / a, 0));
-                }
-                else
-                {
-                    tempPoints.Add(new KeyValuePair<float, float>(1, a + b));
-                }*/
-
                 List<float> TimeStepList = loader.GetRelevantTimesteps(category, correlatedCategory);
-                /*int size = dictionary[category].Count();
-                for (int j = 0; j < size; j++)
-                {
-                    tempAllPoints.Add(new KeyValuePair<float, float>(dictionary[category].ElementAt(j), dictionary[Correlated_Category].ElementAt(j)));
-                    //Debug.WriteLine(tempAllPoints[])
-                }
-                AllPoints = tempAllPoints;*/
-                UpdatePoints();
+                UpdatePoints(); //draws the points as they update in real 
+                //drawing the anomaly points 
                 List<KeyValuePair<float, float>> tempAnomalyPoints = new List<KeyValuePair<float, float>>();
                 int size = TimeStepList.Count();
                 //Debug.WriteLine("size: "+size+"\n");
@@ -705,9 +667,7 @@ namespace ED1FlightSimulator
             set
             {
                 correlatedCategory = value;
-                
-
-                
+                //stores points to make graph of correlated feature 
                 List<KeyValuePair<float, float>> dataPairs = new List<KeyValuePair<float, float>>();
                 if (correlatedCategory != " ")
                 {
