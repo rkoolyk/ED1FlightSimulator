@@ -285,10 +285,19 @@
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                 </Style>
                             </DVC:Chart.LegendStyle>
-                            <DVC:LineSeries Width="auto" Height="auto"
-                                            ItemsSource = "{Binding VM_Main_Graph_Values}" 
-                                            IndependentValuePath = "Key" DependentValuePath = "Value" 
-                                            IsSelectionEnabled="True" RenderTransformOrigin="0.522,-0.172"/>
+							<DVC:LineSeries Width="auto" Height="auto"
+                                            ItemsSource = "{Binding VM_Main_Graph_Values}"
+                                            IndependentValuePath = "Key" DependentValuePath = "Value"
+                                            IsSelectionEnabled="True" RenderTransformOrigin="0.522,-0.172">
+
+								<DVC:LineSeries.DataPointStyle>
+									<Style TargetType="DVC:LineDataPoint">
+										<Setter Property="Opacity" Value="0"/>
+									</Style>
+								</DVC:LineSeries.DataPointStyle>
+								
+								
+							</DVC:LineSeries>
                         </DVC:Chart>
 
                         <DVC:Chart Grid.Column="1" x:Name="CorrelatedGraph" RenderTransformOrigin="0.524,0.249" 
@@ -302,8 +311,15 @@
                             <DVC:LineSeries Width="auto" Height="auto" 
                                             ItemsSource = "{Binding VM_Correlated_Graph_Values}" 
                                             IndependentValuePath = "Key" DependentValuePath = "Value" 
-                                            IsSelectionEnabled="True" RenderTransformOrigin="0.522,-0.172"/>
-                        </DVC:Chart>
+                                            IsSelectionEnabled="True" RenderTransformOrigin="0.522,-0.172">
+								<DVC:LineSeries.DataPointStyle>
+									<Style TargetType="DVC:LineDataPoint">
+										<Setter Property="Opacity" Value="0"/>
+									</Style>
+								</DVC:LineSeries.DataPointStyle>
+							</DVC:LineSeries>
+
+						</DVC:Chart>
                     </Grid>
 
 
@@ -311,6 +327,15 @@
 					<Canvas Width="30" Height="65">
 						
 					</Canvas>
+					
+					<!--
+					<ResourceDictionary>
+						<Style x:Key="AllPointsStyle"
+						   TargetType="{x:Type DVC: ScatterDataPoint}">
+							<Setter Property="Background" Value="Red"></Setter>
+						</Style>
+					</ResourceDictionary>  -->
+					
 
                   <DVC:Chart Grid.Column="1" x:Name="Regression_Graph" VerticalAlignment="Top"
 							   RenderTransformOrigin="0.524,0.249"
@@ -338,6 +363,11 @@
                             ItemsSource = "{Binding VM_Points}"
                             IndependentValuePath = "Key" DependentValuePath = "Value"
                             IsSelectionEnabled="True" RenderTransformOrigin="0.522,-0.172" >
+						  <DVC:LineSeries.DataPointStyle>
+							  <Style TargetType="DVC:LineDataPoint">
+								  <Setter Property="Opacity" Value="0"/>
+							  </Style>
+						  </DVC:LineSeries.DataPointStyle>
                     </DVC:LineSeries>
                    </DVC:Chart.Series>
                   </DVC:Chart>
