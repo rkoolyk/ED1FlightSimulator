@@ -64,7 +64,8 @@
 * Press "Start Simulation"
 
 **Additional Links:**
-* https://github.com/dinathequeen?tab=repositories Repository with DLLs
+* https://github.com/dinathequeen?tab=repositories Repository with DLL plugins
+* https://github.com/rkoolyk/ED1FlightSimulator/blob/master/UML.png UML layout
 
 
 **Ongoing Issues:**
