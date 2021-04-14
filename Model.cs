@@ -57,7 +57,6 @@ namespace ED1FlightSimulator
         private List<string> dataList = new List<string>();
         private List<KeyValuePair<float, float>> mainGraphValues = new List<KeyValuePair<float, float>>();
         private List<KeyValuePair<float, float>> correlatedGraphValues = new List<KeyValuePair<float, float>>();
-        private List<KeyValuePair<float, float>> regressionGraph = null;
         private string category = " ";
         private string correlatedCategory = " ";
         private Dictionary<String, List<float>> dictionary;
@@ -98,7 +97,6 @@ namespace ED1FlightSimulator
             {
                 GetPathAlgoDefault();
             }
-             
             GetPathRegFlight();
             AnomalyDetector = loader.AnomalyDetectionStarter(AnomalyAlgorithm, regFlightPath);
             try
@@ -318,10 +316,6 @@ namespace ED1FlightSimulator
 
        public void GetPathAlgoDefault()
         {
-            /*String path = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
-            path = Directory.GetParent(path).FullName;
-            path = Directory.GetParent(path).FullName;
-            path += "\\Algo1-Dll.dll";*/
             GetPathAlgo("\\Algo1-Dll.dll");
         }
 
@@ -331,13 +325,7 @@ namespace ED1FlightSimulator
             path = Directory.GetParent(path).FullName;
             path = Directory.GetParent(path).FullName;
             path += algoPath;
-
-            //alg = new StringAlgo(path);
-            AnomalyAlgorithm = path;
-            if (AnomalyDetector == null)
-            {
-                AnomalyDetector = loader.AnomalyDetectionStarter(AnomalyAlgorithm, regFlightPath);
-            }
+            AnomalyAlgorithm = path;            
         }
 
         public void GetFileDictionary()
@@ -622,16 +610,7 @@ namespace ED1FlightSimulator
                     dataPairs.Add(new KeyValuePair<float, float>(i, f));
                     i++;
                 }
-                /*IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
-
-                IntPtr pAddressOfFunctionToCall2 = NativeMethods.GetProcAddress(pDll, "MostCorrelatedFeature");
- 
-                MostCorrelatedFeature MostCorrelatedFeature =(MostCorrelatedFeature)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall2, typeof(MostCorrelatedFeature));*/
-
                 Main_Graph_Values = dataPairs;
-                //StringBuilder s = new StringBuilder();
-                //MostCorrelatedFeature(AnomalyDetector, regFlightPath, dataList.ToArray(), dataList.Count, category, s);
-                //Correlated_Category = s.ToString();
                 Correlated_Category = loader.FindCorrelation(Category);
 
                 float a = 0;
