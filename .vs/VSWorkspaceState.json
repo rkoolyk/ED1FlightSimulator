@@ -4,8 +4,9 @@
     "\\bin",
     "\\Joystick",
     "\\obj",
-    "\\packages"
+    "\\packages",
+    "\\Properties"
   ],
-  "SelectedNode": "\\Model.cs",
+  "SelectedNode": "\\anomaly_flight.csv",
   "PreviewInSolutionExplorer": false
 }

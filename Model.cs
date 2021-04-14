@@ -613,11 +613,23 @@ namespace ED1FlightSimulator
                 Main_Graph_Values = dataPairs;
                 Correlated_Category = loader.FindCorrelation(Category);
 
-                float a = 0;
-                float b = 0;
-                loader.LineReg(ref a, ref b, Category, Correlated_Category);
+                //IntPtr pDll = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
+                /*IntPtr pAddressOfFunctionToCall1 = NativeMethods.GetProcAddress(pDll, "findLinReg");
+                findLinReg findLinReg =(findLinReg)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall1, typeof( findLinReg));
+                findLinReg(TimeSeries, ref a, ref b, category, Correlated_Category);*/
+                //loader.LineReg(ref a, ref b, Category, Correlated_Category);
+
+                List<float> animationPoints = loader.GetAnimationPoints(category, Correlated_Category);
+
                 List<KeyValuePair<float, float>> tempPoints = new List<KeyValuePair<float, float>>();
-                tempPoints.Add(new KeyValuePair<float, float>(0, b));
+                for(int f = 0; f < animationPoints.Count(); f += 2)
+                {
+                    float first = animationPoints[f];
+                    float second = animationPoints[f+1];
+                    tempPoints.Add(new KeyValuePair<float, float>(first, second));
+                }
+                Points = tempPoints;
+                /*tempPoints.Add(new KeyValuePair<float, float>(0, b));
                 if (a != 0)
                 {
                     tempPoints.Add(new KeyValuePair<float, float>((-b) / a, 0));
@@ -625,8 +637,9 @@ namespace ED1FlightSimulator
                 else
                 {
                     tempPoints.Add(new KeyValuePair<float, float>(1, a + b));
-                }
-                Points = tempPoints;
+                }*/
+
+                //Points = tempPoints;
                 /**List<float> TimeStepList = loader.GetRelevantTimesteps(category, correlatedCategory);
                 List<KeyValuePair<float, float>> tempPoints2 = new List<KeyValuePair<float, float>>();
                 List<KeyValuePair<float, float>> tempPoints3 = new List<KeyValuePair<float, float>>();
