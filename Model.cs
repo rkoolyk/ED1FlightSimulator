@@ -93,10 +93,10 @@ namespace ED1FlightSimulator
             if (AnomalyAlgorithm == " ")
             {
                 GetPathAlgoDefault();
-            }
-            started = true;
+            } 
             GetPathRegFlight();
             AnomalyDetector = loader.AnomalyDetectionStarter(AnomalyAlgorithm, regFlightPath);
+            started = true;
             try
              {  
                  //only connect to fg one time at the beginning 
