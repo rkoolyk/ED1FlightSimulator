@@ -354,7 +354,9 @@ namespace ED1FlightSimulator
             //add each line as value to dictionary where key is the line number 
             for (int i = 0; i < linesArray.Length; i++)
             {
-                dictFile.Add(i, linesArray[i]);
+                if (!dictFile.ContainsKey(i)) { 
+                    dictFile.Add(i, linesArray[i]);
+                 }
             }
         }
 

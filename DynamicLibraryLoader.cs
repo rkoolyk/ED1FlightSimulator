@@ -226,7 +226,7 @@ namespace ED1FlightSimulator
             string[] words = temper.Split(' ');
             for (int i = 0; i < words.Count(); i++)
             {
-                int temp = int.Parse(words[i]);
+                float temp = float.Parse(words[i]);
                 AnimationPoints.Add(temp);
             }
             return AnimationPoints;

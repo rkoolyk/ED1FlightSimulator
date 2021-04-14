@@ -132,3 +132,4 @@ C:\Users\miche\Source\Repos\rkoolyk\ED1FlightSimulator\obj\Debug\ED1FlightSimula
 C:\Users\miche\Source\Repos\rkoolyk\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.exe
 C:\Users\miche\Source\Repos\rkoolyk\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.pdb
 C:\Users\rayra\Source\Repos\rkoolyk\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.csprojAssemblyReference.cache
+C:\Users\miche\source\repos\rkoolyk\ED1FlightSimulator\obj\Debug\ED1FlightSimulator.csprojAssemblyReference.cache
