@@ -33,6 +33,7 @@
       
 
 **Project Structure:**
+
  The application is built using the MVVM structure 
  * View
    *  MainWindow.xaml is responsible for the visual presentation of the application 
@@ -53,8 +54,8 @@
 **Instruction to Run Application:**
 * Download and install the FlightGear application at https://flightgear.org/
 * Right click on the application icon -> open file location -> leave the bin folder -> enter data folder -> enter protocol folder -> put xml file (playback_small.xml) into the folder 
-* Upon opening the application, go to settings -> additional settings and write: --generic=socket,in,10,127.0.0.1,5400,udp,playback_small
---fdm=null
+* Upon opening the application, go to settings -> additional settings and write: `<--generic=socket,in,10,127.0.0.1,5400,udp,playback_small
+--fdm=null>`
 * To use the flight simulator, press "Fly" in the FlightGear application 
 * When the application window pops up after running, press LoadCSV and LoadXML buttons to upload relevant files 
 * Select an algorithm if wanted or the simple default algorithm will be used, this can be done at any stage of the simulation
