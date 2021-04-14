@@ -15,7 +15,7 @@
         <Style x:Key="RedPoint" TargetType="{x:Type DVC:ScatterDataPoint}">
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="DVC:LineDataPoint">
+                    <ControlTemplate TargetType="DVC:ScatterDataPoint">
                         <Grid>
                             <Ellipse Fill="Red"/>
                             <Canvas >
@@ -29,7 +29,7 @@
         <Style x:Key="BluePoint" TargetType="{x:Type DVC:ScatterDataPoint}">
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="DVC:LineDataPoint">
+                    <ControlTemplate TargetType="DVC:ScatterDataPoint">
                         <Grid>
                             <Ellipse Fill="Blue"/>
                             <Canvas >
@@ -324,7 +324,7 @@
                     <DVC:Chart.Series>
                       <!--all points-->
                             <DVC:ScatterSeries Title="Dots" ItemsSource="{Binding VM_AllPoints}"
-                                         IndependentValuePath = "Key" DependentValuePath = "Value" BorderBrush="Aqua"
+                                         IndependentValuePath = "Key" DependentValuePath = "Value" BorderBrush="Black"
                                          IsSelectionEnabled="True" RenderTransformOrigin="0.522,-0.172">
                             </DVC:ScatterSeries>
                       <!--anomaly points-->
