@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace ED1FlightSimulator
 {
+    //implements the ViewModel interface (who implements INotifyPropertyChanged)
     public class ViewModel : IViewModel
     {
         public Model model;
@@ -20,11 +21,15 @@ namespace ED1FlightSimulator
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        //So we can alert the view when there is a change 
         private void onPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /*
+         * The ViewModel is used as a pipe from View to Model so calls functions in Model 
+         */
         public void StartSim()
         {
             model.StartSim();
@@ -65,7 +70,24 @@ namespace ED1FlightSimulator
             model.Next();
         }
 
+        public void GetPathCSV(string path)
+        {
+            model.GetPathCSV(path);
+        }
+        public void GetPathXML(string path)
+        {
+            model.GetPathXML(path);
+        } 
+        
+        public void GetPathAlgo(string path)
+        {
+            model.GetPathAlgo(path);
+        }
 
+
+        /*
+         * Characteristics are bound to the Model ones, return the ones from Model 
+         */
         public float VM_KNOB_X
         {
             get { return model.KNOB_X; }
@@ -213,20 +235,7 @@ namespace ED1FlightSimulator
             }
         }
 
-        public void GetPathCSV(string path)
-        {
-            model.GetPathCSV(path);
-        }
-        public void GetPathXML(string path)
-        {
-            model.GetPathXML(path);
-        } 
         
-        public void GetPathAlgo(string path)
-        {
-            model.GetPathAlgo(path);
-        }
-
         public int VM_ImgNum
         {
             get
