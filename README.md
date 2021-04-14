@@ -35,16 +35,16 @@
 **Project Structure:**
 * The application is built using the MVVM structure 
  * View
-  * MainWindow.xaml is responsible for the visual presentation of the application 
-  * MainWindow.xaml.cs, the code behind of the xaml
+  *  MainWindow.xaml is responsible for the visual presentation of the application 
+  *  MainWindow.xaml.cs, the code behind of the xaml
  * ViewModel
-  * IViewModel.cs, an interface which implements INotifyPropertyChanged and is implemented by the ViewModel class
-  * ViewModel.cs is responsible for the connection between the MainWindow and the Model  
+  *  IViewModel.cs, an interface which implements INotifyPropertyChanged and is implemented by the ViewModel class
+  *  ViewModel.cs is responsible for the connection between the MainWindow and the Model  
  * Model
-  * IModel.cs, an interface which implements INotifyPropertyChanged and is implemented by the Model class
-  * Model.cs is responsible for the back end logic of the program 
-  * DynamicLibraryLoader.cs 
-   * Loads the functions of the DLLs in a separate class to be used without loading the DLL multiple times unnecessarily 
+  *  IModel.cs, an interface which implements INotifyPropertyChanged and is implemented by the Model class
+  *  Model.cs is responsible for the back end logic of the program 
+  *  DynamicLibraryLoader.cs 
+   *  Loads the functions of the DLLs in a separate class to be used without loading the DLL multiple times unnecessarily 
 
 **Necessary Installations:**
 
