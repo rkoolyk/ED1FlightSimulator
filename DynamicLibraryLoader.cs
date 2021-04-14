@@ -43,8 +43,8 @@ namespace ED1FlightSimulator
         private IntPtr AnomalyDetector;
         private IntPtr TimeSeries;
         private List<string> dataList;
-        private Dictionary<String, String> correlations = new Dictionary<String, String>();
-        private Dictionary<String, List<float>> relevantTimeSteps = new Dictionary<string, List<float>>();
+        private Dictionary<String, String> correlations;// = new Dictionary<String, String>();
+        private Dictionary<String, List<float>> relevantTimeSteps;// = new Dictionary<string, List<float>>();
         private String csvPath;
         private String regFlightPath;
         IntPtr algoDLL;
@@ -62,6 +62,8 @@ namespace ED1FlightSimulator
         public IntPtr AnomalyDetectionStarter(String AnomalyAlgorithm, String regFlight)
         {
             regFlightPath = regFlight;
+            correlations = new Dictionary<String, String>();
+            relevantTimeSteps = new Dictionary<string, List<float>>();
             algoDLL = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
             pCreateSAD = NativeMethods.GetProcAddress(algoDLL, "CreateSAD");
             pMostCorrelatedFeature = NativeMethods.GetProcAddress(algoDLL, "MostCorrelatedFeature");
