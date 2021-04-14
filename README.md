@@ -47,9 +47,11 @@
      *  Loads the functions of the DLLs in a separate class to be used without loading the DLL multiple times unnecessarily 
 
 **Necessary Installations:**
+* VisualStudio IDE Version 16.9.3
+* FlightGear
 
 **Instruction to Run Application:**
-* Download the FlightGear application at https://flightgear.org/
+* Download and install the FlightGear application at https://flightgear.org/
 * Right click on the application icon -> open file location -> leave the bin folder -> enter data folder -> enter protocol folder -> put xml file (playback_small.xml) into the folder 
 * Upon opening the application, go to settings -> additional settings and write: --generic=socket,in,10,127.0.0.1,5400,udp,playback_small
 --fdm=null
