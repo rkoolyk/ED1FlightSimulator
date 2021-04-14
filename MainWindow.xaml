@@ -17,7 +17,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="DVC:ScatterDataPoint">
                         <Grid>
-                            <Ellipse Fill="Red"/>
+                            <Ellipse Fill="Red" Width="3" Height="3"/>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
@@ -28,7 +28,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="DVC:ScatterDataPoint">
                         <Grid>
-                            <Ellipse Fill="Black"/>
+                            <Ellipse Fill="Black" Width="3" Height="3"/>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>

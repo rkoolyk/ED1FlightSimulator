@@ -43,10 +43,11 @@ namespace ED1FlightSimulator
         private IntPtr AnomalyDetector;
         private IntPtr TimeSeries;
         private List<string> dataList;
-        private Dictionary<String, String> correlations = new Dictionary<String, String>();
-        private Dictionary<String, List<float>> relevantTimeSteps = new Dictionary<string, List<float>>();
+        private Dictionary<String, String> correlations;
+        private Dictionary<String, List<float>> relevantTimeSteps;
         private String csvPath;
         private String regFlightPath;
+        Thread thread = null;
         IntPtr algoDLL;
         IntPtr pCreateSAD;
         IntPtr pMostCorrelatedFeature;
@@ -62,6 +63,8 @@ namespace ED1FlightSimulator
         public IntPtr AnomalyDetectionStarter(String AnomalyAlgorithm, String regFlight)
         {
             regFlightPath = regFlight;
+            correlations = new Dictionary<String, String>();
+            relevantTimeSteps = new Dictionary<string, List<float>>();
             algoDLL = NativeMethods.LoadLibrary(@AnomalyAlgorithm);
             pCreateSAD = NativeMethods.GetProcAddress(algoDLL, "CreateSAD");
             pMostCorrelatedFeature = NativeMethods.GetProcAddress(algoDLL, "MostCorrelatedFeature");
@@ -71,7 +74,7 @@ namespace ED1FlightSimulator
             pgetTimeStepsSize = NativeMethods.GetProcAddress(algoDLL, "getTimeStepsSize");
             CreateSAD CreateSAD = (CreateSAD)Marshal.GetDelegateForFunctionPointer(pCreateSAD, typeof(CreateSAD));
             AnomalyDetector = CreateSAD();
-            Thread thread = new Thread(
+            thread = new Thread(
                 delegate ()
                 {
                     CreateCorrelations();

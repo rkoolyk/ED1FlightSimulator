@@ -21,7 +21,8 @@ using System.Collections.ObjectModel;
 namespace ED1FlightSimulator
 {
     public class Model : IModel 
-    {   
+    {
+        private bool started = false;
         private bool shouldPlay = false;
         private int imgNum = 0; //current place of simulation (number of frames passed)
         private List<KeyValuePair<float,float>> points = 
@@ -92,9 +93,10 @@ namespace ED1FlightSimulator
             if (AnomalyAlgorithm == " ")
             {
                 GetPathAlgoDefault();
-            }
+            } 
             GetPathRegFlight();
             AnomalyDetector = loader.AnomalyDetectionStarter(AnomalyAlgorithm, regFlightPath);
+            started = true;
             try
              {  
                  //only connect to fg one time at the beginning 
@@ -344,7 +346,21 @@ namespace ED1FlightSimulator
             path = Directory.GetParent(path).FullName;
             path = Directory.GetParent(path).FullName;
             path += algoPath;
-            AnomalyAlgorithm = path;            
+            AnomalyAlgorithm = path;
+            if (started)
+            {
+                SwitchAlgorithm();
+            }
+        }
+
+        public void SwitchAlgorithm()
+        {
+            //switching the algorithm means we need to recreate the anomaly detector and update the anomalies accordingly
+            AnomalyDetector = loader.AnomalyDetectionStarter(AnomalyAlgorithm, regFlightPath);
+            if (started)
+            {
+                UpdateAnomalyGraph();
+            }
         }
 
         public void GetFileDictionary()
@@ -616,6 +632,32 @@ namespace ED1FlightSimulator
             }
         }
 
+        public void UpdateAnomalyGraph()
+        {
+            List<float> animationPoints = loader.GetAnimationPoints(category, Correlated_Category);
+            //drawing the regression line 
+            List<KeyValuePair<float, float>> tempPoints = new List<KeyValuePair<float, float>>();
+            for (int f = 0; f < animationPoints.Count(); f += 2)
+            {
+                float first = animationPoints[f];
+                float second = animationPoints[f + 1];
+                tempPoints.Add(new KeyValuePair<float, float>(first, second));
+            }
+            Points = tempPoints;
+            List<float> TimeStepList = loader.GetRelevantTimesteps(category, correlatedCategory);
+            UpdatePoints(); //draws the points as they update in real 
+                            //drawing the anomaly points 
+            List<KeyValuePair<float, float>> tempAnomalyPoints = new List<KeyValuePair<float, float>>();
+            int size = TimeStepList.Count();
+            //Debug.WriteLine("size: "+size+"\n");
+            for (int k = 0; k < size; k++)
+            {
+                int index = (int)TimeStepList[k];
+                tempAnomalyPoints.Add(new KeyValuePair<float, float>(dictionary[category].ElementAt(index), dictionary[Correlated_Category].ElementAt(index)));
+            }
+            AnomalyPoints = tempAnomalyPoints;
+        }
+
         public string Category
         {
             get { return category; }
@@ -635,30 +677,7 @@ namespace ED1FlightSimulator
                 }
                 Main_Graph_Values = dataPairs;
                 Correlated_Category = loader.FindCorrelation(Category);
-                List<float> animationPoints = loader.GetAnimationPoints(category, Correlated_Category);
-                //drawing the regression line 
-                List<KeyValuePair<float, float>> tempPoints = new List<KeyValuePair<float, float>>();
-                for(int f = 0; f < animationPoints.Count(); f += 2)
-                {
-                    float first = animationPoints[f];
-                    float second = animationPoints[f+1];
-                    tempPoints.Add(new KeyValuePair<float, float>(first, second));
-                }
-                Points = tempPoints;
-                List<float> TimeStepList = loader.GetRelevantTimesteps(category, correlatedCategory);
-                UpdatePoints(); //draws the points as they update in real 
-                //drawing the anomaly points 
-                List<KeyValuePair<float, float>> tempAnomalyPoints = new List<KeyValuePair<float, float>>();
-                int size = TimeStepList.Count();
-                //Debug.WriteLine("size: "+size+"\n");
-                    for (int k = 0; k < size; k++)
-                    {
-                        int index = (int)TimeStepList[k];
-                        tempAnomalyPoints.Add(new KeyValuePair<float, float>(dictionary[category].ElementAt(index), dictionary[Correlated_Category].ElementAt(index)));
-                    }
-                AnomalyPoints = tempAnomalyPoints;
-
-
+                UpdateAnomalyGraph();
                 onPropertyChanged("Category");
             }
         }
