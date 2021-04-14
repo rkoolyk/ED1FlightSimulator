@@ -64,7 +64,7 @@
 * Press "Start Simulation"
 
 **Additional Links:**
-*https://github.com/dinathequeen?tab=repositories Repository with DLLs
+* https://github.com/dinathequeen?tab=repositories Repository with DLLs
 
 
 **Ongoing Issues:**
