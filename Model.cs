@@ -249,7 +249,7 @@ namespace ED1FlightSimulator
             {
                 return;
             }
-            List<float> TimeStepList = loader.GetRelevantTimesteps(category, correlatedCategory);
+            //List<float> TimeStepList = loader.GetRelevantTimesteps(category, correlatedCategory);
             List<KeyValuePair<float, float>> tempAllPoints = new List<KeyValuePair<float, float>>();
             int j = 0;
             if (imgNum - 30 >= 0)
