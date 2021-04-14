@@ -345,7 +345,7 @@ namespace ED1FlightSimulator
             String path = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
             path = Directory.GetParent(path).FullName;
             path = Directory.GetParent(path).FullName;
-            path += algoPath;
+            path += "\\plugins" + algoPath;
             AnomalyAlgorithm = path;
             if (started)
             {
