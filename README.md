@@ -65,9 +65,11 @@
 
 **Additional Links:**
 * https://github.com/dinathequeen?tab=repositories Repository with DLL plugins
-* https://github.com/rkoolyk/ED1FlightSimulator/blob/master/UML.png UML layout
-* https://github.com/rkoolyk/ED1FlightSimulator/blob/master/zoom_5.mp4 Video demo of app
-
+  * Simple Anomaly Detector Library - https://github.com/dinathequeen/Algo1-Dll
+  * Minimum Circle Anamoly Detector Library https://github.com/dinathequeen/Algo2-Dll
+  * TimeSeries Library
+* UML layout https://github.com/rkoolyk/ED1FlightSimulator/blob/master/UML.png 
+* Video demo of app https://github.com/rkoolyk/ED1FlightSimulator/blob/master/zoom_5.mp4 
 
 **Ongoing Issues:**
 * `GetAllTimestepsForeAnomalies` function in `DynamicLibraryLoader` class from the algorithm DLLs
