@@ -109,7 +109,7 @@ namespace ED1FlightSimulator
                     {
                         correlations.Add(category, tmpString);
                         //adding the anomaly time steps for the dictionary for this category so we can upload them at any time without calling for the DLL function
-                        relevantTimeSteps.Add(category, GetAllTimestepsForeAnomalies(category, tmpString));
+                        //relevantTimeSteps.Add(category, GetAllTimestepsForeAnomalies(category, tmpString));
                     }
                 }
             }
@@ -165,7 +165,7 @@ namespace ED1FlightSimulator
             return tsDic;
         }
 
-        public List<float> GetAllTimestepsForeAnomalies(String category, String correlatedCategory)
+        /**public List<float> GetAllTimestepsForeAnomalies(String category, String correlatedCategory)
         {
             //function to receive a list of timesteps containing an anomaly based on two categories that correlate highly with each other
             List<float> TimeStepList = new List<float>();
@@ -203,7 +203,7 @@ namespace ED1FlightSimulator
             }
             //else call the function for the category
             return GetAllTimestepsForeAnomalies(category, correlatedCategory);
-        }
+        }*/
 
         public List<float> GetAnimationPoints(String f1, String f2)
         {

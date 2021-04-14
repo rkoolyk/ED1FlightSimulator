@@ -644,10 +644,10 @@ namespace ED1FlightSimulator
                 tempPoints.Add(new KeyValuePair<float, float>(first, second));
             }
             Points = tempPoints;
-            List<float> TimeStepList = loader.GetRelevantTimesteps(category, correlatedCategory);
+            //List<float> TimeStepList = loader.GetRelevantTimesteps(category, correlatedCategory);
             UpdatePoints(); //draws the points as they update in real 
                             //drawing the anomaly points 
-            List<KeyValuePair<float, float>> tempAnomalyPoints = new List<KeyValuePair<float, float>>();
+           /* List<KeyValuePair<float, float>> tempAnomalyPoints = new List<KeyValuePair<float, float>>();
             int size = TimeStepList.Count();
             //Debug.WriteLine("size: "+size+"\n");
             for (int k = 0; k < size; k++)
@@ -655,7 +655,7 @@ namespace ED1FlightSimulator
                 int index = (int)TimeStepList[k];
                 tempAnomalyPoints.Add(new KeyValuePair<float, float>(dictionary[category].ElementAt(index), dictionary[Correlated_Category].ElementAt(index)));
             }
-            AnomalyPoints = tempAnomalyPoints;
+            AnomalyPoints = tempAnomalyPoints;*/
         }
 
         public string Category
