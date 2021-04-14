@@ -447,7 +447,11 @@ namespace ED1FlightSimulator
         {
             get { return maxVal; }
             set
-            {
+            {   
+                if(maxVal == value)
+                {
+                    return;
+                }
                 maxVal = value;
                 onPropertyChanged("Max_Val");
             }
@@ -458,6 +462,10 @@ namespace ED1FlightSimulator
             get { return imgNum; }
             set
             {
+                 if(imgNum == value)
+                {
+                    return;
+                }
                 imgNum = value;
                 onPropertyChanged("ImgNum");
             }
@@ -467,7 +475,11 @@ namespace ED1FlightSimulator
         {
             get { return knobX; }
             set
-            {
+            {   
+                 if(knobX == value)
+                {
+                    return;
+                }
                 knobX = value;
                 onPropertyChanged("KNOB_X");
             }
@@ -478,6 +490,10 @@ namespace ED1FlightSimulator
             get { return knobY; }
             set
             {
+                 if(knobY == value)
+                {
+                    return;
+                }
                 knobY = value;
                 onPropertyChanged("KNOB_Y");
             }
@@ -486,7 +502,11 @@ namespace ED1FlightSimulator
         {
             get { return heightText; }
             set
-            {
+            {   
+                 if(heightText == value)
+                {
+                    return;
+                }
                 heightText = value;
                 onPropertyChanged("Height_Text");
             }
@@ -495,7 +515,11 @@ namespace ED1FlightSimulator
         {
             get { return speedText; }
             set
-            {
+            {   
+                if(speedText == value)
+                {
+                    return;
+                }
                 speedText = value;
                 onPropertyChanged("Speed_Text");
             }
@@ -505,6 +529,10 @@ namespace ED1FlightSimulator
             get { return directionText; }
             set
             {
+                if(directionText == value)
+                {
+                    return;
+                }
                 directionText = value;
                 onPropertyChanged("Direction_Text");
             }
@@ -515,6 +543,10 @@ namespace ED1FlightSimulator
             get { return yawText; }
             set
             {
+                if (yawText == value)
+                {
+                    return;
+                }
                 yawText = value;
                 onPropertyChanged("Yaw_Text");
             }
@@ -524,6 +556,10 @@ namespace ED1FlightSimulator
             get { return rollText; }
             set
             {
+                if (rollText == value)
+                {
+                    return;
+                }
                 rollText = value;
                 onPropertyChanged("Roll_Text");
             }
@@ -533,6 +569,10 @@ namespace ED1FlightSimulator
             get { return pitchText; }
             set
             {
+                if (pitchText == value)
+                {
+                    return;
+                }
                 pitchText = value;
                 onPropertyChanged("Pitch_Text");
             }
@@ -542,6 +582,10 @@ namespace ED1FlightSimulator
             get { return playSpeed; }
             set
             {   
+                if (playSpeed == value)
+                {
+                    return;
+                }
                 playSpeed = value;
                 onPropertyChanged("Play_Speed");
             }
@@ -551,6 +595,10 @@ namespace ED1FlightSimulator
             get { return time; }
             set
             {
+                if (time == value)
+                {
+                    return;
+                }
                 time = value;
                 onPropertyChanged("Time");
             }
@@ -560,6 +608,10 @@ namespace ED1FlightSimulator
             get { return throttle; }
             set
             {
+                if (throttle == value)
+                {
+                    return;
+                }
                 throttle = value;
                 onPropertyChanged("Throttle");
             }
@@ -569,6 +621,10 @@ namespace ED1FlightSimulator
             get { return rudder; }
             set
             {
+                if (rudder == value)
+                {
+                    return;
+                }
                 rudder = value;
                 onPropertyChanged("Rudder");
             }
@@ -578,6 +634,10 @@ namespace ED1FlightSimulator
             get { return dataList; }
             set
             {
+                if (dataList == value)
+                {
+                    return;
+                }
                 dataList = value;
                 onPropertyChanged("Data_List");
             }
@@ -607,6 +667,10 @@ namespace ED1FlightSimulator
             get { return points;}
             set
             {
+                if (points == value)
+                {
+                    return;
+                }
                 points = value;
                 onPropertyChanged("Points");
             }
@@ -617,6 +681,10 @@ namespace ED1FlightSimulator
             get { return allPoints;}
             set
             {
+                if (allPoints == value)
+                {
+                    return;
+                }
                 allPoints = value;
                 onPropertyChanged("AllPoints");
             }
@@ -627,6 +695,10 @@ namespace ED1FlightSimulator
             get { return anomalyPoints;}
             set
             {
+                if (anomalyPoints == value)
+                {
+                    return;
+                }
                 anomalyPoints = value;
                 onPropertyChanged("AnomalyPoints");
             }
@@ -663,6 +735,10 @@ namespace ED1FlightSimulator
             get { return category; }
             set
             {
+                if (category == value)
+                {
+                    return;
+                }
                 category = value;
                 List<float> data = dictionary[category];
                 int i = 0;
@@ -687,6 +763,10 @@ namespace ED1FlightSimulator
             get { return correlatedCategory; }
             set
             {
+                if (correlatedCategory == value)
+                {
+                    return;
+                }
                 correlatedCategory = value;
                 //stores points to make graph of correlated feature 
                 List<KeyValuePair<float, float>> dataPairs = new List<KeyValuePair<float, float>>();
@@ -713,6 +793,10 @@ namespace ED1FlightSimulator
             }
             set
             {
+                if (mainGraphValues == value)
+                {
+                    return;
+                }
                 mainGraphValues = value;
                 onPropertyChanged("Main_Graph_Values");
             }
@@ -726,6 +810,10 @@ namespace ED1FlightSimulator
             }
             set
             {
+                if (correlatedGraphValues == value)
+                {
+                    return;
+                }
                 correlatedGraphValues = value;
                 onPropertyChanged("Correlated_Graph_Values");
             }
