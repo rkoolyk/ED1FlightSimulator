@@ -26,7 +26,7 @@ namespace ED1FlightSimulator
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void MostCorrelatedFeature(IntPtr sad, [MarshalAs(UnmanagedType.LPStr)] String CSVfileName, [MarshalAs(UnmanagedType.LPArray)] String[] l, int size, [MarshalAs(UnmanagedType.LPStr)] String att, StringBuilder s);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void getTimeSteps(IntPtr sad, [MarshalAs(UnmanagedType.LPStr)] String CSVfileName, [MarshalAs(UnmanagedType.LPArray)] String[] l, int size, [MarshalAs(UnmanagedType.LPStr)] String oneWay, [MarshalAs(UnmanagedType.LPStr)] String otherWay, StringBuilder arr);
+        public delegate void getTimeSteps(IntPtr sad, [MarshalAs(UnmanagedType.LPStr)] String CSVfileName, [MarshalAs(UnmanagedType.LPArray)] String[] l, int size, [MarshalAs(UnmanagedType.LPStr)] String oneWay, StringBuilder arr);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate IntPtr CreateSAD();
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -35,6 +35,10 @@ namespace ED1FlightSimulator
         public delegate float givesFloatTs(IntPtr obj, int line, String att);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int getRowSize(IntPtr ts);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int getAPointsSize(IntPtr ts, [MarshalAs(UnmanagedType.LPStr)] String attA, [MarshalAs(UnmanagedType.LPStr)] String attB);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int getTimeStepsSize(IntPtr sad, [MarshalAs(UnmanagedType.LPStr)] String CSVfileName, [MarshalAs(UnmanagedType.LPArray)] String[] l,int numAtts ,[MarshalAs(UnmanagedType.LPStr)] String atts);
 
         private IntPtr AnomalyDetector;
         private IntPtr TimeSeries;
@@ -52,7 +56,8 @@ namespace ED1FlightSimulator
         IntPtr pCreate;
         IntPtr pgetRowSize;
         IntPtr pgivesFloatTs;
-
+        IntPtr pgetAPointsSize;
+        IntPtr pgetTimeStepsSize;
 
         public IntPtr AnomalyDetectionStarter(String AnomalyAlgorithm, String regFlight)
         {
@@ -62,6 +67,8 @@ namespace ED1FlightSimulator
             pMostCorrelatedFeature = NativeMethods.GetProcAddress(algoDLL, "MostCorrelatedFeature");
             pFindLinReg = NativeMethods.GetProcAddress(algoDLL, "findLinReg");
             pGetTimeSteps = NativeMethods.GetProcAddress(algoDLL, "getTimeSteps");
+            pgetAPointsSize = NativeMethods.GetProcAddress(algoDLL, "getAPointsSize");
+            pgetTimeStepsSize = NativeMethods.GetProcAddress(algoDLL, "getTimeStepsSize");
             CreateSAD CreateSAD = (CreateSAD)Marshal.GetDelegateForFunctionPointer(pCreateSAD, typeof(CreateSAD));
             AnomalyDetector = CreateSAD();
             Thread thread = new Thread(
@@ -88,8 +95,12 @@ namespace ED1FlightSimulator
                 {
                     MostCorrelatedFeature(AnomalyDetector, regFlightPath, dataList.ToArray(), dataList.Count(), category, tmp);
                     String tmpString = tmp.ToString();
-                    correlations.Add(category, tmpString);
-                    //relevantTimeSteps.Add(category, GetAllTimestepsForeAnomalies(category, tmpString));
+                    if (!correlations.ContainsKey(category))
+                    {
+                        correlations.Add(category, tmpString);
+
+                        relevantTimeSteps.Add(category, GetAllTimestepsForeAnomalies(category, tmpString));
+                    }
                 }
             }
         }
@@ -141,6 +152,31 @@ namespace ED1FlightSimulator
 
         public List<float> GetAllTimestepsForeAnomalies(String category, String correlatedCategory)
         {
+            List<float> TimeStepList = new List<float>();
+            String oneWay = category + "-" + correlatedCategory;
+            getTimeStepsSize getTimeStepsSize = (getTimeStepsSize)Marshal.GetDelegateForFunctionPointer(pgetTimeStepsSize, typeof(getTimeStepsSize));
+            int idk = dataList.Count();
+            int suggestedSize = getTimeStepsSize(AnomalyDetector, csvPath, dataList.ToArray(), idk, oneWay);
+            int minSize = "no timesteps".Length + 1;
+            StringBuilder arr = new StringBuilder(Math.Max(suggestedSize, minSize));
+            if (minSize>suggestedSize)
+            {
+                return TimeStepList;
+            }
+            getTimeSteps getTimeSteps = (getTimeSteps)Marshal.GetDelegateForFunctionPointer(pGetTimeSteps, typeof(getTimeSteps));
+            getTimeSteps(AnomalyDetector, csvPath, dataList.ToArray(), idk, oneWay, arr);
+            String temper = arr.ToString();
+
+            string[] words = temper.Split(' ');
+            for (int i = 0; i < words.Count(); i++)
+            {
+                int temp = int.Parse(words[i]);
+                TimeStepList.Add((float)temp);
+            }
+            return TimeStepList;
+        }
+        /*public List<float> GetAllTimestepsForeAnomalies(String category, String correlatedCategory)
+        {
             getTimeSteps getTimeSteps = (getTimeSteps)Marshal.GetDelegateForFunctionPointer(pGetTimeSteps, typeof(getTimeSteps));
             List<float> TimeStepList = new List<float>();
             String oneWay = category + "-" + correlatedCategory;
@@ -162,7 +198,7 @@ namespace ED1FlightSimulator
                 TimeStepList.Add(temp);
             }
             return TimeStepList;
-        }
+        }*/
 
         public List<float> GetRelevantTimesteps(String category, String correlatedCategory)
         {
@@ -170,10 +206,33 @@ namespace ED1FlightSimulator
             {
                 return relevantTimeSteps[category];
             }
-            return new List<float>();  //GetAllTimestepsForeAnomalies(category, correlatedCategory);
+            return GetAllTimestepsForeAnomalies(category, correlatedCategory);  //GetAllTimestepsForeAnomalies(category, correlatedCategory);
         }
 
         public List<float> GetAnimationPoints(String f1, String f2)
+        {
+            List<float> AnimationPoints = new List<float>();
+            getAPointsSize getAPointsSize = (getAPointsSize)Marshal.GetDelegateForFunctionPointer(pgetAPointsSize, typeof(getAPointsSize));
+            int suggestedSize = getAPointsSize(TimeSeries, f1, f2);
+            StringBuilder arr = new StringBuilder(suggestedSize);
+            findLinReg findLinReg = (findLinReg)Marshal.GetDelegateForFunctionPointer(pFindLinReg, typeof(findLinReg));
+            findLinReg(TimeSeries, f1, f2, arr);
+            String temper = arr.ToString();
+            if (String.Equals(temper, "no timesteps"))
+            {
+                return AnimationPoints;
+            }
+
+            string[] words = temper.Split(' ');
+            for (int i = 0; i < words.Count(); i++)
+            {
+                int temp = int.Parse(words[i]);
+                AnimationPoints.Add(temp);
+            }
+            return AnimationPoints;
+        }
+
+        /*public List<float> GetAnimationPoints(String f1, String f2)
         {
             List<float> AnimationPoints = new List<float>();
             StringBuilder arr = new StringBuilder(512);
@@ -193,7 +252,7 @@ namespace ED1FlightSimulator
                 AnimationPoints.Add(temp);
             }
             return AnimationPoints;
-        }
+        }*/
 
 
     }
