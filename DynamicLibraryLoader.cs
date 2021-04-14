@@ -95,8 +95,12 @@ namespace ED1FlightSimulator
                 {
                     MostCorrelatedFeature(AnomalyDetector, regFlightPath, dataList.ToArray(), dataList.Count(), category, tmp);
                     String tmpString = tmp.ToString();
-                    correlations.Add(category, tmpString);
-                    //relevantTimeSteps.Add(category, GetAllTimestepsForeAnomalies(category, tmpString));
+                    if (!correlations.ContainsKey(category))
+                    {
+                        correlations.Add(category, tmpString);
+
+                        relevantTimeSteps.Add(category, GetAllTimestepsForeAnomalies(category, tmpString));
+                    }
                 }
             }
         }
@@ -146,26 +150,28 @@ namespace ED1FlightSimulator
             return tsDic;
         }
 
-        public List<int> GetAllTimestepsForeAnomalies(String category, String correlatedCategory)
+        public List<float> GetAllTimestepsForeAnomalies(String category, String correlatedCategory)
         {
-            List<int> TimeStepList = new List<int>();
+            List<float> TimeStepList = new List<float>();
             String oneWay = category + "-" + correlatedCategory;
             getTimeStepsSize getTimeStepsSize = (getTimeStepsSize)Marshal.GetDelegateForFunctionPointer(pgetTimeStepsSize, typeof(getTimeStepsSize));
-            int suggestedSize = getTimeStepsSize(AnomalyDetector, csvPath, dataList.ToArray(), dataList.Count(), oneWay);
+            int idk = dataList.Count();
+            int suggestedSize = getTimeStepsSize(AnomalyDetector, csvPath, dataList.ToArray(), idk, oneWay);
             int minSize = "no timesteps".Length + 1;
             StringBuilder arr = new StringBuilder(Math.Max(suggestedSize, minSize));
-            getTimeSteps getTimeSteps = (getTimeSteps)Marshal.GetDelegateForFunctionPointer(pGetTimeSteps, typeof(getTimeSteps));
-            getTimeSteps(AnomalyDetector, csvPath, dataList.ToArray(), dataList.Count(), oneWay, arr);
-            String temper = arr.ToString();
-            if (String.Equals(temper, "no timesteps"))
+            if (minSize>suggestedSize)
             {
                 return TimeStepList;
             }
+            getTimeSteps getTimeSteps = (getTimeSteps)Marshal.GetDelegateForFunctionPointer(pGetTimeSteps, typeof(getTimeSteps));
+            getTimeSteps(AnomalyDetector, csvPath, dataList.ToArray(), idk, oneWay, arr);
+            String temper = arr.ToString();
+
             string[] words = temper.Split(' ');
             for (int i = 0; i < words.Count(); i++)
             {
                 int temp = int.Parse(words[i]);
-                TimeStepList.Add(temp);
+                TimeStepList.Add((float)temp);
             }
             return TimeStepList;
         }
@@ -200,7 +206,7 @@ namespace ED1FlightSimulator
             {
                 return relevantTimeSteps[category];
             }
-            return new List<float>();  //GetAllTimestepsForeAnomalies(category, correlatedCategory);
+            return GetAllTimestepsForeAnomalies(category, correlatedCategory);  //GetAllTimestepsForeAnomalies(category, correlatedCategory);
         }
 
         public List<float> GetAnimationPoints(String f1, String f2)
