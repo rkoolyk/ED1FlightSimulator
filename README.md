@@ -66,6 +66,7 @@
 **Additional Links:**
 * https://github.com/dinathequeen?tab=repositories Repository with DLL plugins
 * https://github.com/rkoolyk/ED1FlightSimulator/blob/master/UML.png UML layout
+* https://github.com/rkoolyk/ED1FlightSimulator/blob/master/zoom_5.mp4 Video demo of app
 
 
 **Ongoing Issues:**
