@@ -21,14 +21,11 @@ namespace ED1FlightSimulator
         float VM_Throttle { get;}
         float VM_Rudder { get;}
         List<string> VM_Data_List { get;}
-
         List<KeyValuePair<float,float>> VM_Points { get;}
         List<KeyValuePair<float,float>> VM_AllPoints { get;}
         List<KeyValuePair<float,float>> VM_AnomalyPoints { get;}
-
         int VM_ImgNum { get; set; }
         int VM_Max_Val { get; }
-
         List<KeyValuePair<float, float>> VM_Main_Graph_Values { get; }
         string VM_Category { get; set; }
         List<KeyValuePair<float, float>> VM_Correlated_Graph_Values { get; }
@@ -41,7 +38,6 @@ namespace ED1FlightSimulator
         void Stop();
         void FastForward();
         void Next();
-
         void GetPathCSV(string path);
         void GetPathXML(string path);
         void GetPathAlgo(string path);
