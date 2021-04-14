@@ -62,3 +62,9 @@
 
 **Additional Links:**
 
+
+
+**Ongoing Issues**
+* <GetAllTimestepsForeAnomalies> function in <DynamicLibraryLoader> class from the algorithm DLLs
+  * uses too much RAM, crashes program - needs to be optimized
+  * currently commented out until fixed -- result in lack of red anomaly points on scatter plot
