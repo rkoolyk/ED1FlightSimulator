@@ -64,10 +64,10 @@
 * Press "Start Simulation"
 
 **Additional Links:**
-* https://github.com/dinathequeen?tab=repositories Repository with DLL plugins
+* Repository with DLL plugins
   * Simple Anomaly Detector Library - https://github.com/dinathequeen/Algo1-Dll
   * Minimum Circle Anamoly Detector Library https://github.com/dinathequeen/Algo2-Dll
-  * TimeSeries Library
+  * TimeSeries Library https://github.com/dinathequeen/DLL---Timeseries
 * UML layout https://github.com/rkoolyk/ED1FlightSimulator/blob/master/UML.png 
 * Video demo of app https://github.com/rkoolyk/ED1FlightSimulator/blob/master/zoom_5.mp4 
 
